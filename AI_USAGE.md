@@ -17,4 +17,7 @@ One entry per session with the AI coding assistant (Claude Code). Newest at the 
 
 **What it got wrong:**
 - The template .gitignore rule `.env*` also hid .env.example. Caught before the first commit and fixed with an exception line.
-- The assignment PDF was not in the folder, so docs/assignment.pdf is still missing.
+- Its search did not find the assignment PDF. I gave it the path in Downloads, and it moved the file to docs/assignment.pdf and added the brief's must-cover items to CLAUDE.md.
+- It committed the assignment PDF to the public repo. I caught it. It removed the PDF from git and from history, git-ignored it and force-pushed.
+
+**Spec changes I made:** handle-only input goes to the clarify question, slow LLM gets a timeout plus an honest loading state, deadline confirmed as Sun 22 Nov 2026, 5 PM IST.

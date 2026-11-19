@@ -12,6 +12,15 @@
 8. At the end of each session, append an entry to AI_USAGE.md: date, what was asked, what was built, what was changed or rejected, and what the AI got wrong.
 9. Models come from env vars (MODEL_GENERATE, MODEL_REGEN). Do not hardcode model names.
 
+## The brief
+
+docs/assignment.pdf is the original brief from SuperProfile. It stays on the laptop only and is git-ignored. Never commit it. The spec wins on product decisions, but these brief items must be covered:
+- A handle-only entry must never dead-end. The handle is not read (no scraping), so a handle with no description goes to the clarify step, not an error.
+- Edge cases to handle and demo: empty input, gibberish, one-word description, handle-only, slow LLM (timeout + clear loading state), failed LLM (friendly fallback).
+- Places where the spec departs from the brief need a "why" in the decision doc: no Instagram reading, no Hindi in Devanagari, no community format, no themes.
+- Deliverables: live URL, public repo with README, 2-3 page decision doc (with flow diagram and one rejected alternative for the main screen), 5-10 min Loom showing at least one edge case.
+- The live app must stay up for 2 weeks after submission, and every link must open without an access request.
+
 ## Stack
 
 Next.js (App Router) + TypeScript + Tailwind, Zod, @anthropic-ai/sdk, Upstash Redis (+ @upstash/ratelimit), deployed on Vercel.
