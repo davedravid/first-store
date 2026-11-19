@@ -50,6 +50,7 @@ One entry per session with the AI coding assistant (Claude Code). Newest at the 
 
 **What I changed or rejected:**
 - Made Groq primary instead of Gemini, based on the test results.
+- Switched the Gemini fallback for full generation from gemini-3.8-flash to gemini-3.5-flash-lite, since Flash kept failing.
 
 **What it got wrong:**
 - Its first model pick for generation (gemini-3.8-flash) was the newest model on paper, but was unavailable on the free tier during testing.
