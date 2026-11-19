@@ -21,8 +21,9 @@ DECISIONS
 9. Public product button = "I want this". Follower leaves name + WhatsApp number or email (one-line consent note, used only to tell them when it launches). Count shown to the creator on their edit link ("7 people want your Starter guide"). Interest data visible only to the creator via the edit token.
 10. Creator's post-publish screen has a prominent "Make this a real store on SuperProfile" button (tracked). This is the north-star click.
 11. Language: English and Hinglish only (natural Roman-script mix). Devanagari is out of scope.
-12. Logging: funnel events (generate, needs_more_info, edit, regenerate, publish, share_click, page_view, want_this_submit, superprofile_click), tokens and latency per generation.
-13. Guardrails: per-IP rate limit, global daily cap, max input length, spend limit on the API key, rate limit on "I want this" submissions.
+12. Logging: funnel events (generate, needs_more_info, edit, regenerate, publish, share_click, page_view, want_this_submit, superprofile_click), tokens, latency and which provider + model served each generation (and whether it was a fallback).
+13. Guardrails: per-IP rate limit, global daily cap (kept low, because free-tier quotas are small), max input length, rate limit on "I want this" submissions. No paid API keys, so there is no spend to cap; the risk is running out of free quota.
+14. LLM providers, free tiers only: Google Gemini (primary) and Groq (fallback). No Anthropic or other paid providers. The provider is switchable by env vars (LLM_PRIMARY, LLM_FALLBACK) and models are set by env vars (MODEL_GENERATE, MODEL_REGEN, GROQ_MODEL), never hardcoded. Both use JSON-schema structured output and the same Zod validation. The fallback takes over on timeout, 429 (quota or rate limit) or failed validation after the retry. If GROQ_API_KEY is empty, the app runs on Gemini alone and goes straight to the friendly fallback screen when Gemini fails. Note for the decision doc: on the Gemini free tier, Google may use inputs to improve its products, so the input screen must not invite sensitive personal data.
 
 QUALITY RULES FOR GENERATED COPY
 - Simple, warm, specific. First-person bio. No hype words ("ultimate", "game-changing", "unlock", "secret").
