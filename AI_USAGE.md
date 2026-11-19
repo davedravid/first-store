@@ -54,3 +54,25 @@ One entry per session with the AI coding assistant (Claude Code). Newest at the 
 
 **What it got wrong:**
 - Its first model pick for generation (gemini-3.8-flash) was the newest model on paper, but was unavailable on the free tier during testing.
+
+## 2026-11-19: AI engine and evals (no UI)
+
+**What I asked:** Build the generation engine only: Zod schemas, a validator layer for meaning ("the model writes, code enforces"), prompts as files, the Groq -> retry -> Gemini -> typed error flow, the clarify gate, per-block regenerate, token and latency logging, a ?simulate= flag, and a 25-case eval run twice (v1 prompt only with report-only rules, v2 improved prompt with code enforcement). My changes to the plan: the price rationale must contain no number, the Groq timeout drops to 10 s so the worst case fits 55 s, and the evals must stop with 30K Groq tokens left for the day.
+
+**What it built:**
+- src/lib/ai: schema.ts, validators.ts (all rules in one file), precheck.ts, prompts.ts, engine.ts, providers/groq.ts and gemini.ts, errors.ts, log.ts. API routes /api/generate and /api/regenerate (maxDuration 60).
+- prompts/: system.md, generate.md, regenerate.md. The v1 copy is frozen in evals/prompts_v1/.
+- evals/: 25 cases, a paced runner with a token ledger, a report builder and results.md with 10 stores for me to rate.
+- docs/AI_DESIGN.md: the "model vs code" table, the flow, timeouts and free-tier capacity.
+- 16 validator unit tests (npm test), all passing.
+
+**Results (real runs, Groq gpt-oss-120b):** v1: 2/25 pass all checks. v2: 22/25.
+
+**What I changed or rejected:** the three plan changes above.
+
+**What it got wrong:**
+- Its first number checker flagged "30 quick recipes" and then a Unicode hyphen in "30-minute"; it then loosened the rule too far before settling on a strict, consistent one (only time and session counts allowed). v1 was re-scored with the final rule so both runs are judged the same.
+- The gate parser crashed when the model left out the suggestions, instead of asking for a retry.
+- Failed calls logged the timeout limit as their latency instead of the real time.
+- An eval import accidentally started a run, and a test server kept running after its task was stopped.
+- Gemini Flash-Lite, the backup, returned 503 "overloaded" during the final API tests, so the backup path is proven to start but not to succeed tonight.

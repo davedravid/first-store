@@ -43,3 +43,6 @@ next-env.d.ts
 
 # assignment brief (private, keep local only)
 docs/assignment.pdf
+
+# eval token ledger (local quota tracking)
+evals/ledger.json

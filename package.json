@@ -6,9 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "vitest run",
+    "evals:v1": "node --env-file=.env.local --import tsx evals/run.mts v1",
+    "evals:v2": "node --env-file=.env.local --import tsx evals/run.mts v2",
+    "evals:report": "node --import tsx evals/report.mts"
   },
   "dependencies": {
+    "@google/genai": "^3.6.1",
     "@upstash/ratelimit": "^2.2.1",
     "@upstash/redis": "^1.41.0",
     "next": "16.4.6",
@@ -18,12 +23,14 @@
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "4.3.3",
-    "@types/node": "^20",
+    "@types/node": "^24.19.2",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.4.6",
     "tailwindcss": "4.3.3",
-    "typescript": "^5"
+    "tsx": "^4.23.15",
+    "typescript": "^5",
+    "vitest": "^5.1.1"
   }
 }

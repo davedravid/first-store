@@ -1,0 +1,1990 @@
+{
+ "R01-fitness-moms": {
+  "id": "R01-fitness-moms",
+  "label": "Fitness, home workouts for moms, English, 5-25K",
+  "group": "realistic",
+  "expect": "ready",
+  "calls": 1,
+  "retried": false,
+  "inputTokens": 1960,
+  "outputTokens": 651,
+  "latencyMs": 2569,
+  "issues": [],
+  "fixes": [],
+  "ranAt": "2026-11-19T16:40:52.217Z",
+  "outcome": "ready",
+  "statusOk": true,
+  "checks": {
+   "invented_facts": true,
+   "hype_words": true,
+   "price_in_band": true,
+   "tier_order": true,
+   "distinct_formats": true,
+   "safe_claims": true
+  },
+  "modelPriceInBand": true,
+  "otherRules": {
+   "ladder": true,
+   "lengths": true,
+   "script": true,
+   "rationale": true
+  },
+  "caseSpecificOk": true,
+  "passAll": true,
+  "storefront": {
+   "creator": {
+    "display_name": "Priya",
+    "niche": "Yoga for new moms",
+    "niche_type": "lifestyle",
+    "tagline": "15‑minute home yoga for busy moms",
+    "bio": "Hi, I’m Priya, a certified yoga teacher based in Bangalore. I create short, gentle home workouts especially for new moms who can’t make it to the gym. My videos are designed to fit into a busy day and help you stay active and relaxed.",
+    "language": "en"
+   },
+   "products": [
+    {
+     "id": "p1",
+     "format": "checklist",
+     "tier": "starter",
+     "title": "New‑Mom Yoga Checklist",
+     "description": "A quick checklist for new moms to set up a safe, calming yoga space at home.",
+     "whats_inside": [
+      "Essential props and where to find them",
+      "Safety tips for post‑partum practice",
+      "Daily 15‑minute routine outline"
+     ],
+     "price_inr": 99,
+     "price_rationale": "a low entry price so followers can try a simple tool",
+     "effort_to_create": "weekend"
+    },
+    {
+     "id": "p2",
+     "format": "ebook_guide",
+     "tier": "core",
+     "title": "15‑Minute Yoga Guide for New Moms",
+     "description": "An ebook with step‑by‑step yoga sequences that fit into a busy mom’s day.",
+     "whats_inside": [
+      "Three complete 15‑minute sessions",
+      "Modifications for different post‑partum stages",
+      "Tips for breathing and relaxation"
+     ],
+     "price_inr": 399,
+     "price_rationale": "a mid‑range price reflecting the value of a full guide",
+     "effort_to_create": "one_week"
+    },
+    {
+     "id": "p3",
+     "format": "call_package",
+     "tier": "premium",
+     "title": "Personal Yoga Support Package (3 Calls)",
+     "description": "Three 30‑minute one‑on‑one calls to tailor yoga practice to your schedule and needs.",
+     "whats_inside": [
+      "Initial assessment of your routine",
+      "Customised session plan",
+      "Follow‑up feedback and adjustments"
+     ],
+     "price_inr": 1499,
+     "price_rationale": "a premium price for personalized coaching sessions",
+     "effort_to_create": "two_weeks"
+    }
+   ]
+  }
+ },
+ "R02-fitness-hinglish-bio": {
+  "id": "R02-fitness-hinglish-bio",
+  "label": "Fitness, gym beginners, Hinglish, with Instagram bio, 25-100K",
+  "group": "realistic",
+  "expect": "ready",
+  "calls": 1,
+  "retried": false,
+  "inputTokens": 1994,
+  "outputTokens": 706,
+  "latencyMs": 1946,
+  "issues": [],
+  "fixes": [],
+  "ranAt": "2026-11-19T16:41:02.167Z",
+  "outcome": "ready",
+  "statusOk": true,
+  "checks": {
+   "invented_facts": true,
+   "hype_words": true,
+   "price_in_band": true,
+   "tier_order": true,
+   "distinct_formats": true,
+   "safe_claims": true
+  },
+  "modelPriceInBand": true,
+  "otherRules": {
+   "ladder": true,
+   "lengths": true,
+   "script": true,
+   "rationale": true
+  },
+  "caseSpecificOk": true,
+  "passAll": true,
+  "storefront": {
+   "creator": {
+    "display_name": "Rahul",
+    "niche": "Gym trainer for beginners",
+    "niche_type": "lifestyle",
+    "tagline": "Strong body, desi diet, no supplements",
+    "bio": "Main Delhi ka gym trainer hoon. Main beginners ko bina supplements ke strong banane ka tarika sikhata hoon, sirf desi diet ke saath. Agar aapko simple workout aur diet plan chahiye, DM karo aur shuru karte hain.",
+    "language": "hinglish"
+   },
+   "products": [
+    {
+     "id": "p1",
+     "format": "priority_dm",
+     "tier": "starter",
+     "title": "Priority DM Workout Tips",
+     "description": "Beginners ke liye quick personalised workout advice via DM. Aapke questions ka direct jawab aur aapke routine ke liye suggestions.",
+     "whats_inside": [
+      "Fast reply to your workout queries",
+      "Simple exercise recommendations",
+      "Basic diet tweak suggestions"
+     ],
+     "price_inr": 199,
+     "price_rationale": "a low first price so followers can try you out",
+     "effort_to_create": "weekend"
+    },
+    {
+     "id": "p2",
+     "format": "ebook_guide",
+     "tier": "core",
+     "title": "Beginner Friendly Desi Diet & Workout Ebook",
+     "description": "Aapke liye ek detailed guide jo simple gym exercises aur desi diet plan ko combine karta hai, bina supplements ke.",
+     "whats_inside": [
+      "7‑day workout schedule",
+      "Desi meal plan with easy recipes",
+      "Tips to track progress"
+     ],
+     "price_inr": 799,
+     "price_rationale": "mid‑range price reflecting a comprehensive guide for beginners",
+     "effort_to_create": "one_week"
+    },
+    {
+     "id": "p3",
+     "format": "call_package",
+     "tier": "premium",
+     "title": "3‑Month Coaching Call Package",
+     "description": "Teen weeks ke liye 3 one‑on‑one calls, jahan aapke progress ko review karenge, diet aur workout adjust karenge, aur motivation boost denge.",
+     "whats_inside": [
+      "Three 30‑minute video calls",
+      "Personalised plan updates each call",
+      "WhatsApp support between calls"
+     ],
+     "price_inr": 2999,
+     "price_rationale": "premium package price for in‑depth, ongoing personal coaching",
+     "effort_to_create": "two_weeks"
+    }
+   ]
+  }
+ },
+ "R03-finance-salaried": {
+  "id": "R03-finance-salaried",
+  "label": "Finance, budgeting for first-jobbers, English, 25-100K",
+  "group": "realistic",
+  "expect": "ready",
+  "calls": 1,
+  "retried": false,
+  "inputTokens": 1969,
+  "outputTokens": 735,
+  "latencyMs": 2585,
+  "issues": [],
+  "fixes": [
+   "products[0].price_inr: 149 -> 249 (band 249-499)"
+  ],
+  "ranAt": "2026-11-19T16:41:35.105Z",
+  "outcome": "ready",
+  "statusOk": true,
+  "checks": {
+   "invented_facts": true,
+   "hype_words": true,
+   "price_in_band": true,
+   "tier_order": true,
+   "distinct_formats": true,
+   "safe_claims": true
+  },
+  "modelPriceInBand": false,
+  "otherRules": {
+   "ladder": true,
+   "lengths": true,
+   "script": true,
+   "rationale": true
+  },
+  "caseSpecificOk": true,
+  "passAll": true,
+  "storefront": {
+   "creator": {
+    "display_name": "Finance Buddy",
+    "niche": "Personal finance for first‑job professionals",
+    "niche_type": "expert",
+    "tagline": "Simple money tips for your first salary",
+    "bio": "I help people fresh out of college understand budgeting, build an emergency fund, read their salary slip and get started with SIPs. My aim is to make personal finance clear and doable, without any regulatory claims. All advice is educational and meant for everyday earners.",
+    "language": "en"
+   },
+   "products": [
+    {
+     "id": "p1",
+     "format": "checklist",
+     "tier": "starter",
+     "title": "First‑Job Budget Checklist",
+     "description": "A quick, printable checklist for anyone starting their first job, covering essential budgeting steps and salary‑slip basics.",
+     "whats_inside": [
+      "Key income and expense categories",
+      "Monthly budgeting template",
+      "Salary‑slip decoding guide"
+     ],
+     "price_inr": 249,
+     "price_rationale": "a low entry price so followers can try you out",
+     "effort_to_create": "weekend"
+    },
+    {
+     "id": "p2",
+     "format": "ebook_guide",
+     "tier": "core",
+     "title": "Starter Guide to SIPs & Emergency Funds",
+     "description": "An easy‑to‑read ebook for first‑job earners that explains SIP basics, building an emergency fund, and smart saving habits.",
+     "whats_inside": [
+      "Step‑by‑step SIP explanation",
+      "Emergency fund calculator",
+      "Simple saving habits checklist"
+     ],
+     "price_inr": 699,
+     "price_rationale": "reflects the value of a comprehensive guide for new earners",
+     "effort_to_create": "one_week"
+    },
+    {
+     "id": "p3",
+     "format": "call_package",
+     "tier": "premium",
+     "title": "3‑Session Personal Finance Coaching",
+     "description": "Three 30‑minute one‑on‑one calls to review your budget, set up your SIP, and answer any salary‑slip questions.",
+     "whats_inside": [
+      "Personal budget review",
+      "SIP setup assistance",
+      "Live Q&A on salary slip"
+     ],
+     "price_inr": 2999,
+     "price_rationale": "premium package for tailored, hands‑on support",
+     "effort_to_create": "two_weeks"
+    }
+   ]
+  }
+ },
+ "R04-finance-hinglish": {
+  "id": "R04-finance-hinglish",
+  "label": "Finance, credit cards and tax basics, Hinglish, 5-25K",
+  "group": "realistic",
+  "expect": "ready",
+  "calls": 2,
+  "retried": true,
+  "inputTokens": 4005,
+  "outputTokens": 1472,
+  "latencyMs": 4088,
+  "issues": [],
+  "fixes": [],
+  "ranAt": "2026-11-19T16:41:47.191Z",
+  "outcome": "ready",
+  "statusOk": true,
+  "checks": {
+   "invented_facts": true,
+   "hype_words": true,
+   "price_in_band": true,
+   "tier_order": true,
+   "distinct_formats": true,
+   "safe_claims": true
+  },
+  "modelPriceInBand": true,
+  "otherRules": {
+   "ladder": true,
+   "lengths": true,
+   "script": true,
+   "rationale": true
+  },
+  "caseSpecificOk": true,
+  "passAll": true,
+  "storefront": {
+   "creator": {
+    "display_name": "Paisa Simplified",
+    "niche": "Finance basics in simple Hinglish",
+    "niche_type": "expert",
+    "tagline": "Credit card, CIBIL aur tax ki baatein asaan Hindi‑English mix mein",
+    "bio": "Main credit card, CIBIL score aur income tax ke basics simple Hinglish mein samjhaata hoon, khas taur pe middle class families ke liye. Mere reels aapko confusing finance terms ko seedhe shabdon mein samjhaate hain. Follow karke aap apni financial health ko aasan tarike se improve kar sakte hain.",
+    "language": "hinglish"
+   },
+   "products": [
+    {
+     "id": "p1",
+     "format": "checklist",
+     "tier": "starter",
+     "title": "Quick Finance Checklist",
+     "description": "Unke liye jo apni credit card usage aur CIBIL score ko theek se track karna chahte hain. Ek simple checklist jo aapke daily finance habits ko organise karti hai.",
+     "whats_inside": [
+      "Daily credit card usage tracking points",
+      "CIBIL score monitoring steps",
+      "Income tax filing reminders"
+     ],
+     "price_inr": 99,
+     "price_rationale": "a low entry price so followers can try a quick, useful tool",
+     "effort_to_create": "weekend"
+    },
+    {
+     "id": "p2",
+     "format": "ebook_guide",
+     "tier": "core",
+     "title": "Finance Basics eBook Guide",
+     "description": "Unke liye jo credit card, CIBIL score aur tax ki poori jankari ek jagah chahte hain. Hinglish mein likha ek detailed guide with examples.",
+     "whats_inside": [
+      "Credit card ke types aur kaise use karein",
+      "CIBIL score ko improve karne ke practical tips",
+      "Income tax ke basic forms aur filing steps"
+     ],
+     "price_inr": 399,
+     "price_rationale": "mid‑range price reflecting the value of a comprehensive guide",
+     "effort_to_create": "one_week"
+    },
+    {
+     "id": "p3",
+     "format": "call_package",
+     "tier": "premium",
+     "title": "3‑Session Finance Mentorship",
+     "description": "Unke liye jo personalised help chahte hain apni credit card strategy, CIBIL score aur tax planning pe. Teen 30‑minute calls mein aapke specific questions ka jawab.",
+     "whats_inside": [
+      "One‑on‑one call on credit card usage",
+      "CIBIL score review and action plan",
+      "Tax filing checklist and Q&A"
+     ],
+     "price_inr": 1999,
+     "price_rationale": "premium package for personalized guidance and deeper support",
+     "effort_to_create": "two_weeks"
+    }
+   ]
+  }
+ },
+ "R05-cooking-tiffin": {
+  "id": "R05-cooking-tiffin",
+  "label": "Cooking, tiffin recipes, English, under 5K, with bio",
+  "group": "realistic",
+  "expect": "ready",
+  "calls": 1,
+  "retried": false,
+  "inputTokens": 1972,
+  "outputTokens": 792,
+  "latencyMs": 2483,
+  "issues": [],
+  "fixes": [],
+  "ranAt": "2026-11-19T16:42:34.801Z",
+  "outcome": "ready",
+  "statusOk": true,
+  "checks": {
+   "invented_facts": true,
+   "hype_words": true,
+   "price_in_band": true,
+   "tier_order": true,
+   "distinct_formats": true,
+   "safe_claims": true
+  },
+  "modelPriceInBand": true,
+  "otherRules": {
+   "ladder": true,
+   "lengths": true,
+   "script": true,
+   "rationale": true
+  },
+  "caseSpecificOk": true,
+  "passAll": true,
+  "storefront": {
+   "creator": {
+    "display_name": "South Indian Tiffin Chef",
+    "niche": "South Indian tiffin recipes",
+    "niche_type": "lifestyle",
+    "tagline": "Quick, tasty tiffin ideas for office and school mornings",
+    "bio": "I love sharing simple South Indian breakfast and tiffin recipes that you can pack and take to work or school. From fluffy idlis to crisp dosas and comforting upma, I keep it easy and delicious. Join me for fresh morning ideas that fit your busy schedule.",
+    "language": "en"
+   },
+   "products": [
+    {
+     "id": "p1",
+     "format": "priority_dm",
+     "tier": "starter",
+     "title": "Quick DM Recipe Pack",
+     "description": "For followers who want instant tiffin ideas, I’ll send a short list of ready‑to‑make recipes via priority DM.",
+     "whats_inside": [
+      "5 easy-to‑prepare tiffin recipes",
+      "Ingredient shortcuts for busy mornings",
+      "Step‑by‑step prep checklist"
+     ],
+     "price_inr": 99,
+     "price_rationale": "a low entry price so followers can try a sample of your recipes",
+     "effort_to_create": "weekend"
+    },
+    {
+     "id": "p2",
+     "format": "ebook_guide",
+     "tier": "core",
+     "title": "South Indian Tiffin Ebook Guide",
+     "description": "A compact ebook for anyone who wants a handy collection of packable South Indian meals, with tips on storage and variations.",
+     "whats_inside": [
+      "12 detailed recipes with photos",
+      "Packing and reheating tips",
+      "Ingredient substitution guide"
+     ],
+     "price_inr": 199,
+     "price_rationale": "a modest price for a complete guide that adds real value",
+     "effort_to_create": "one_week"
+    },
+    {
+     "id": "p3",
+     "format": "call_package",
+     "tier": "premium",
+     "title": "3‑Session Tiffin Coaching Package",
+     "description": "Personal 30‑minute calls to plan your weekly tiffin menu, troubleshoot prep challenges, and customize recipes to your taste.",
+     "whats_inside": [
+      "Three 30‑minute video calls",
+      "Customised weekly tiffin plan",
+      "Follow‑up recipe tweaks via chat"
+     ],
+     "price_inr": 1499,
+     "price_rationale": "a premium price reflecting personalized coaching time and custom planning",
+     "effort_to_create": "two_weeks"
+    }
+   ]
+  }
+ },
+ "R06-cooking-baking-hinglish": {
+  "id": "R06-cooking-baking-hinglish",
+  "label": "Cooking, eggless home baking, Hinglish, 25-100K",
+  "group": "realistic",
+  "expect": "ready",
+  "calls": 1,
+  "retried": false,
+  "inputTokens": 1974,
+  "outputTokens": 786,
+  "latencyMs": 2408,
+  "issues": [],
+  "fixes": [
+   "products[0].price_inr: 199 -> 249 (band 249-499)",
+   "products[2].price_inr: 3499 -> 2999 (band 2499-4999)"
+  ],
+  "ranAt": "2026-11-19T16:42:45.217Z",
+  "outcome": "ready",
+  "statusOk": true,
+  "checks": {
+   "invented_facts": true,
+   "hype_words": true,
+   "price_in_band": true,
+   "tier_order": true,
+   "distinct_formats": true,
+   "safe_claims": true
+  },
+  "modelPriceInBand": false,
+  "otherRules": {
+   "ladder": true,
+   "lengths": true,
+   "script": true,
+   "rationale": true
+  },
+  "caseSpecificOk": true,
+  "passAll": true,
+  "storefront": {
+   "creator": {
+    "display_name": "Anu",
+    "niche": "Eggless baking without oven",
+    "niche_type": "lifestyle",
+    "tagline": "Kadai aur cooker mein tasty eggless cakes & cookies banane ki simple guide",
+    "bio": "Main Anu hoon, aur main aapko ghar ki kadai ya pressure cooker mein bina oven ke eggless cakes aur cookies banana sikhati hoon. Har recipe simple, quick aur bilkul tasty hoti hai, taaki aap apne kitchen mein hi bakery ka maza le sakein. Follow karke aapko step‑by‑step tips milenge, jo aapke snacks ko Instagram‑worthy banayenge.",
+    "language": "hinglish"
+   },
+   "products": [
+    {
+     "id": "p1",
+     "format": "checklist",
+     "tier": "starter",
+     "title": "Eggless Baking Checklist",
+     "description": "Jo beginners ko har step yaad rakhna hai, unke liye ek quick checklist. Isse aap har recipe ko bina miss kiye follow kar sakte hain.",
+     "whats_inside": [
+      "Essential tools list for kadai & cooker",
+      "Common ingredient substitutes",
+      "Step‑by‑step process reminders"
+     ],
+     "price_inr": 249,
+     "price_rationale": "a low entry price so followers can try it out easily",
+     "effort_to_create": "weekend"
+    },
+    {
+     "id": "p2",
+     "format": "ebook_guide",
+     "tier": "core",
+     "title": "Eggless Cakes & Cookies Ebook",
+     "description": "Mere favourite 5 eggless cake aur 5 cookie recipes, sab cooker ya kadai mein banane ke liye. Perfect for home bakers who want tasty treats without an oven.",
+     "whats_inside": [
+      "10 detailed recipes with photos",
+      "Cooking tips & troubleshooting",
+      "Serving & storage suggestions"
+     ],
+     "price_inr": 799,
+     "price_rationale": "mid‑range price reflecting the value of a full recipe collection",
+     "effort_to_create": "one_week"
+    },
+    {
+     "id": "p3",
+     "format": "call_package",
+     "tier": "premium",
+     "title": "3‑Session Baking Mentorship",
+     "description": "Personal 30‑minute calls where I guide you through any recipe, fix issues, aur aapke custom ideas ko shape dete hain.",
+     "whats_inside": [
+      "Three 30‑minute video calls",
+      "Personalized recipe tweaks",
+      "Post‑call support via DM for 3 days"
+     ],
+     "price_inr": 2999,
+     "price_rationale": "premium package for deep, personalized coaching",
+     "effort_to_create": "two_weeks"
+    }
+   ]
+  }
+ },
+ "R07-design-canva": {
+  "id": "R07-design-canva",
+  "label": "Design, Canva for small businesses, English, 5-25K",
+  "group": "realistic",
+  "expect": "ready",
+  "calls": 1,
+  "retried": false,
+  "inputTokens": 1951,
+  "outputTokens": 639,
+  "latencyMs": 3671,
+  "issues": [],
+  "fixes": [],
+  "ranAt": "2026-11-19T16:43:20.447Z",
+  "outcome": "ready",
+  "statusOk": true,
+  "checks": {
+   "invented_facts": true,
+   "hype_words": true,
+   "price_in_band": true,
+   "tier_order": true,
+   "distinct_formats": true,
+   "safe_claims": true
+  },
+  "modelPriceInBand": true,
+  "otherRules": {
+   "ladder": true,
+   "lengths": true,
+   "script": true,
+   "rationale": true
+  },
+  "caseSpecificOk": true,
+  "passAll": true,
+  "storefront": {
+   "creator": {
+    "display_name": "Canva Coach",
+    "niche": "Canva design help for small businesses",
+    "niche_type": "expert",
+    "tagline": "DIY Instagram posts & menus without a designer",
+    "bio": "I help small business owners create eye‑catching Instagram posts and menus on Canva, so they can showcase their brand without hiring a designer. My step‑by‑step guides and ready‑made templates make design simple and fast. Join me and start designing yourself today.",
+    "language": "en"
+   },
+   "products": [
+    {
+     "id": "p1",
+     "format": "template_pack",
+     "tier": "starter",
+     "title": "Canva Post & Menu Template Pack",
+     "description": "For owners who need ready‑made, editable Canva templates for Instagram posts and menus. Plug‑in your text and go live.",
+     "whats_inside": [
+      "10 Instagram post templates",
+      "5 menu templates",
+      "Quick‑start guide to edit in Canva"
+     ],
+     "price_inr": 149,
+     "price_rationale": "a low entry price so followers can try the templates easily",
+     "effort_to_create": "weekend"
+    },
+    {
+     "id": "p2",
+     "format": "workshop",
+     "tier": "core",
+     "title": "DIY Canva Design Workshop (2 hrs)",
+     "description": "Live workshop for small business owners who want to learn how to design posts and menus from scratch in Canva.",
+     "whats_inside": [
+      "Live 2‑hour walkthrough",
+      "Design cheat‑sheet PDF",
+      "Q&A session at the end"
+     ],
+     "price_inr": 399,
+     "price_rationale": "covers the value of live instruction and interactive Q&A",
+     "effort_to_create": "one_week"
+    },
+    {
+     "id": "p3",
+     "format": "call_package",
+     "tier": "premium",
+     "title": "3‑Session Design Coaching Package",
+     "description": "Personalised 30‑minute calls to review your brand, customise templates, and fine‑tune your Canva skills.",
+     "whats_inside": [
+      "Three 30‑minute video calls",
+      "Custom feedback on your designs",
+      "Action plan for future posts"
+     ],
+     "price_inr": 1999,
+     "price_rationale": "reflects the personalised attention across multiple sessions",
+     "effort_to_create": "two_weeks"
+    }
+   ]
+  }
+ },
+ "R08-design-uiux-career": {
+  "id": "R08-design-uiux-career",
+  "label": "Design, UI/UX portfolios for freshers, English, 25-100K, with bio",
+  "group": "realistic",
+  "expect": "ready",
+  "calls": 2,
+  "retried": true,
+  "inputTokens": 4004,
+  "outputTokens": 1487,
+  "latencyMs": 3996,
+  "issues": [],
+  "fixes": [],
+  "ranAt": "2026-11-19T16:43:32.447Z",
+  "outcome": "ready",
+  "statusOk": true,
+  "checks": {
+   "invented_facts": true,
+   "hype_words": true,
+   "price_in_band": true,
+   "tier_order": true,
+   "distinct_formats": true,
+   "safe_claims": true
+  },
+  "modelPriceInBand": true,
+  "otherRules": {
+   "ladder": true,
+   "lengths": true,
+   "script": true,
+   "rationale": true
+  },
+  "caseSpecificOk": true,
+  "passAll": true,
+  "storefront": {
+   "creator": {
+    "display_name": "Product Designer",
+    "niche": "UI/UX portfolio reviews",
+    "niche_type": "career_exam",
+    "tagline": "Helping freshers land their first UI/UX job",
+    "bio": "I’ve spent six years designing products at a startup and reviewing portfolios for aspiring designers. I love giving freshers practical feedback that makes their work stand out. On Instagram I share tips and quick reviews to help you break into UX. Let’s turn your portfolio into a hiring magnet.",
+    "language": "en"
+   },
+   "products": [
+    {
+     "id": "p1",
+     "format": "priority_dm",
+     "tier": "starter",
+     "title": "Portfolio Quick Feedback DM",
+     "description": "A short, focused review for freshers who want fast, actionable pointers on their UI/UX portfolio.",
+     "whats_inside": [
+      "Personalised feedback on 1-2 portfolio pieces",
+      "3 concrete improvement suggestions",
+      "Tips to highlight your design process"
+     ],
+     "price_inr": 149,
+     "price_rationale": "a low first price so followers can try you out",
+     "effort_to_create": "weekend"
+    },
+    {
+     "id": "p2",
+     "format": "ebook_guide",
+     "tier": "core",
+     "title": "UI/UX Portfolio Blueprint (eBook)",
+     "description": "A step‑by‑step guide for fresh designers to build a portfolio that catches recruiters’ eyes.",
+     "whats_inside": [
+      "Structure and layout checklist",
+      "Content templates for case studies",
+      "Examples of strong visual storytelling"
+     ],
+     "price_inr": 799,
+     "price_rationale": "priced for the value of a complete, reusable guide",
+     "effort_to_create": "one_week"
+    },
+    {
+     "id": "p3",
+     "format": "call_package",
+     "tier": "premium",
+     "title": "3‑Session Career Coaching Package",
+     "description": "Three 45‑minute calls to refine your portfolio, prep for interviews, and map your first UX role.",
+     "whats_inside": [
+      "Live portfolio review and redesign tips",
+      "Interview question practice for UI/UX roles",
+      "Personalised action plan for job applications"
+     ],
+     "price_inr": 2999,
+     "price_rationale": "reflects the depth of personal coaching across multiple sessions",
+     "effort_to_create": "two_weeks"
+    }
+   ]
+  }
+ },
+ "R09-exam-upsc": {
+  "id": "R09-exam-upsc",
+  "label": "Exam prep, UPSC notes, English, 5-25K",
+  "group": "realistic",
+  "expect": "ready",
+  "calls": 1,
+  "retried": false,
+  "inputTokens": 1953,
+  "outputTokens": 712,
+  "latencyMs": 1945,
+  "issues": [],
+  "fixes": [
+   "products[0].price_inr: 99 -> 249 (band 249-499)",
+   "products[1].price_inr: 399 -> 499 (band 499-999)",
+   "products[2].price_inr: 1999 -> 2499 (band 2499-4999)"
+  ],
+  "ranAt": "2026-11-19T16:44:13.081Z",
+  "outcome": "ready",
+  "statusOk": true,
+  "checks": {
+   "invented_facts": true,
+   "hype_words": true,
+   "price_in_band": true,
+   "tier_order": true,
+   "distinct_formats": true,
+   "safe_claims": true
+  },
+  "modelPriceInBand": false,
+  "otherRules": {
+   "ladder": true,
+   "lengths": true,
+   "script": true,
+   "rationale": true
+  },
+  "caseSpecificOk": true,
+  "passAll": true,
+  "storefront": {
+   "creator": {
+    "display_name": "UPSC Prep Coach",
+    "niche": "UPSC answer writing & current affairs notes",
+    "niche_type": "career_exam",
+    "tagline": "Practical tips to boost your UPSC answer writing",
+    "bio": "I cleared the UPSC prelims twice and now help aspirants sharpen their answer writing skills. I share concise current affairs notes and proven writing techniques. Join me to turn your preparation into clearer, higher‑scoring answers.",
+    "language": "en"
+   },
+   "products": [
+    {
+     "id": "p1",
+     "format": "notes",
+     "tier": "starter",
+     "title": "Current Affairs Quick Notes Pack",
+     "description": "For UPSC aspirants who need compact, up‑to‑date notes to reference while writing answers.",
+     "whats_inside": [
+      "A set of 30‑day current affairs bullet points",
+      "Key facts organised by UPSC themes",
+      "Tips on linking news to answer writing"
+     ],
+     "price_inr": 249,
+     "price_rationale": "a low entry price so followers can try the notes easily",
+     "effort_to_create": "weekend"
+    },
+    {
+     "id": "p2",
+     "format": "ebook_guide",
+     "tier": "core",
+     "title": "Answer Writing Mastery Ebook",
+     "description": "A comprehensive guide for aspirants who want to improve structure, content and presentation of UPSC answers.",
+     "whats_inside": [
+      "Step‑by‑step framework for each answer type",
+      "Examples of high‑scoring answers",
+      "Practice prompts with self‑assessment checklist"
+     ],
+     "price_inr": 499,
+     "price_rationale": "a solid price reflecting the depth of the guide while staying affordable",
+     "effort_to_create": "one_week"
+    },
+    {
+     "id": "p3",
+     "format": "call_package",
+     "tier": "premium",
+     "title": "3 Personal Answer Writing Sessions",
+     "description": "For serious aspirants who want direct feedback on their drafts and personalised improvement tips.",
+     "whats_inside": [
+      "Three 45‑minute one‑on‑one video calls",
+      "Detailed review of your answer drafts",
+      "Action plan to boost your scoring"
+     ],
+     "price_inr": 2499,
+     "price_rationale": "premium pricing for personalized coaching and direct feedback",
+     "effort_to_create": "two_weeks"
+    }
+   ]
+  }
+ },
+ "R10-exam-ssc-hinglish": {
+  "id": "R10-exam-ssc-hinglish",
+  "label": "Exam prep, SSC maths, Hinglish, just starting",
+  "group": "realistic",
+  "expect": "ready",
+  "calls": 2,
+  "retried": true,
+  "inputTokens": 3998,
+  "outputTokens": 1492,
+  "latencyMs": 6757,
+  "issues": [
+   "[invented_facts] products[1].whats_inside[0] says \"30+ concise trick explanatio\", but the creator never gave that number. Remove it."
+  ],
+  "fixes": [],
+  "ranAt": "2026-11-19T16:44:27.853Z",
+  "outcome": "error",
+  "errorCode": "VALIDATION_FAILED",
+  "statusOk": false,
+  "caseSpecificOk": true,
+  "passAll": false
+ },
+ "R11-astrology-tarot": {
+  "id": "R11-astrology-tarot",
+  "label": "Astrology, tarot readings, English, 5-25K, with bio",
+  "group": "realistic",
+  "expect": "ready",
+  "calls": 1,
+  "retried": false,
+  "inputTokens": 1983,
+  "outputTokens": 712,
+  "latencyMs": 5378,
+  "issues": [],
+  "fixes": [],
+  "ranAt": "2026-11-19T16:45:19.347Z",
+  "outcome": "ready",
+  "statusOk": true,
+  "checks": {
+   "invented_facts": true,
+   "hype_words": true,
+   "price_in_band": true,
+   "tier_order": true,
+   "distinct_formats": true,
+   "safe_claims": true
+  },
+  "modelPriceInBand": true,
+  "otherRules": {
+   "ladder": true,
+   "lengths": true,
+   "script": true,
+   "rationale": true
+  },
+  "caseSpecificOk": true,
+  "passAll": true,
+  "storefront": {
+   "creator": {
+    "display_name": "Meera",
+    "niche": "Tarot and Vedic astrology readings",
+    "niche_type": "lifestyle",
+    "tagline": "Calm, practical guidance for career and love",
+    "bio": "I’m Meera, a tarot and Vedic astrology reader focusing on career and relationship questions. My approach is calm and practical – I give you clear direction without fear‑mongering. Book a reading via DM and get insights you can trust.",
+    "language": "en"
+   },
+   "products": [
+    {
+     "id": "p1",
+     "format": "priority_dm",
+     "tier": "starter",
+     "title": "Quick DM Reading – Career or Love",
+     "description": "A short, focused reading delivered via DM for anyone needing immediate clarity on work or relationship matters.",
+     "whats_inside": [
+      "Your specific question answered",
+      "Key tarot cards and their meanings",
+      "Practical next steps"
+     ],
+     "price_inr": 149,
+     "price_rationale": "a low first price so followers can try you out",
+     "effort_to_create": "weekend"
+    },
+    {
+     "id": "p2",
+     "format": "ebook_guide",
+     "tier": "core",
+     "title": "Career & Love Astrology Guide (eBook)",
+     "description": "A detailed guide that blends tarot and Vedic astrology to help you navigate career moves and relationship decisions.",
+     "whats_inside": [
+      "Astrology basics for career and love",
+      "Tarot spreads for each area",
+      "Actionable tips for each planetary influence"
+     ],
+     "price_inr": 399,
+     "price_rationale": "mid‑range price reflecting the depth of content",
+     "effort_to_create": "one_week"
+    },
+    {
+     "id": "p3",
+     "format": "call_package",
+     "tier": "premium",
+     "title": "3‑Session Personal Guidance Package",
+     "description": "Three one‑on‑one calls where we dive deep into your career path and relationship dynamics, with personalized follow‑up notes.",
+     "whats_inside": [
+      "Three 30‑minute video calls",
+      "Custom tarot spread for each session",
+      "Written summary and action plan after each call"
+     ],
+     "price_inr": 1999,
+     "price_rationale": "premium package price for comprehensive, personalized support",
+     "effort_to_create": "two_weeks"
+    }
+   ]
+  }
+ },
+ "R12-astrology-hinglish": {
+  "id": "R12-astrology-hinglish",
+  "label": "Astrology, kundli basics, Hinglish, under 5K",
+  "group": "realistic",
+  "expect": "ready",
+  "calls": 2,
+  "retried": true,
+  "inputTokens": 3964,
+  "outputTokens": 1432,
+  "latencyMs": 5887,
+  "issues": [],
+  "fixes": [
+   "products[0].price_inr: 149 -> 99 (band 49-99)"
+  ],
+  "ranAt": "2026-11-19T16:45:33.247Z",
+  "outcome": "ready",
+  "statusOk": true,
+  "checks": {
+   "invented_facts": true,
+   "hype_words": true,
+   "price_in_band": true,
+   "tier_order": true,
+   "distinct_formats": true,
+   "safe_claims": true
+  },
+  "modelPriceInBand": false,
+  "otherRules": {
+   "ladder": true,
+   "lengths": true,
+   "script": true,
+   "rationale": true
+  },
+  "caseSpecificOk": true,
+  "passAll": true,
+  "storefront": {
+   "creator": {
+    "display_name": "AstroGuide",
+    "niche": "Beginner astrology lessons",
+    "niche_type": "lifestyle",
+    "tagline": "Kundli basics samjhaane ki simple guide",
+    "bio": "Main kundli padhna aur grahon ka basic matlab beginners ke liye asaan bhasha mein samjhaati hoon. Har reel mein simple examples ke saath aapko astrology ki buniyadi samajh dene ki koshish karti hoon. Agar aap shuru se hi sahi direction chahte hain, toh yeh store aapke liye hai.",
+    "language": "hinglish"
+   },
+   "products": [
+    {
+     "id": "p1",
+     "format": "priority_dm",
+     "tier": "starter",
+     "title": "Quick DM Astrology Q&A",
+     "description": "Beginners ke liye ek short DM session jahan aap apne basic doubts clear kar sakte hain.",
+     "whats_inside": [
+      "15‑minute priority DM chat",
+      "Personalised answer to one specific question",
+      "Follow‑up tip sheet"
+     ],
+     "price_inr": 99,
+     "price_rationale": "a low first price so followers can try you out",
+     "effort_to_create": "weekend"
+    },
+    {
+     "id": "p2",
+     "format": "ebook_guide",
+     "tier": "core",
+     "title": "Astrology Basics eBook",
+     "description": "Beginners ke liye ek simple guide jo kundli ke parts, grahon ka matlab, aur daily reading kaise kare, batata hai.",
+     "whats_inside": [
+      "10 pages of easy explanations",
+      "Illustrated charts for quick reference",
+      "Simple daily ritual checklist"
+     ],
+     "price_inr": 199,
+     "price_rationale": "affordable entry product for beginners to learn at their own pace",
+     "effort_to_create": "one_week"
+    },
+    {
+     "id": "p3",
+     "format": "call_package",
+     "tier": "premium",
+     "title": "3‑Session Personal Astrology Coaching",
+     "description": "Aapke liye 3 personal calls jahan aap apni kundli detail mein samjhenge aur practical tips lenge.",
+     "whats_inside": [
+      "Three 30‑minute video calls",
+      "Custom birth chart analysis",
+      "Actionable guidance for daily life"
+     ],
+     "price_inr": 1499,
+     "price_rationale": "premium package offering deeper personal guidance and multiple touchpoints",
+     "effort_to_create": "two_weeks"
+    }
+   ]
+  }
+ },
+ "R13-fashion-saree": {
+  "id": "R13-fashion-saree",
+  "label": "Fashion, saree draping, English, 25-100K",
+  "group": "realistic",
+  "expect": "ready",
+  "calls": 1,
+  "retried": false,
+  "inputTokens": 1958,
+  "outputTokens": 699,
+  "latencyMs": 2082,
+  "issues": [],
+  "fixes": [],
+  "ranAt": "2026-11-19T16:46:14.712Z",
+  "outcome": "ready",
+  "statusOk": true,
+  "checks": {
+   "invented_facts": true,
+   "hype_words": true,
+   "price_in_band": true,
+   "tier_order": true,
+   "distinct_formats": true,
+   "safe_claims": true
+  },
+  "modelPriceInBand": true,
+  "otherRules": {
+   "ladder": true,
+   "lengths": true,
+   "script": true,
+   "rationale": true
+  },
+  "caseSpecificOk": true,
+  "passAll": true,
+  "storefront": {
+   "creator": {
+    "display_name": "Saree Stylist",
+    "niche": "Saree draping and styling tutorials",
+    "niche_type": "lifestyle",
+    "tagline": "Learn to drape and style a saree for any occasion",
+    "bio": "Hi, I’m a saree enthusiast who loves showing how one saree can look completely different for weddings, office days and parties. I break down each drape step‑by‑step so you can feel confident and stylish. Join me to explore versatile looks without buying new sarees every time.",
+    "language": "en"
+   },
+   "products": [
+    {
+     "id": "p1",
+     "format": "priority_dm",
+     "tier": "starter",
+     "title": "Quick Drape Tips via DM",
+     "description": "For beginners who want a fast answer to a specific drape question. I’ll send you a short video and written steps in a priority direct message.",
+     "whats_inside": [
+      "Personalised video demo (2‑3 min)",
+      "Step‑by‑step written guide",
+      "One follow‑up clarification"
+     ],
+     "price_inr": 199,
+     "price_rationale": "a low first price so followers can try you out",
+     "effort_to_create": "weekend"
+    },
+    {
+     "id": "p2",
+     "format": "ebook_guide",
+     "tier": "core",
+     "title": "Saree Styling Ebook Guide",
+     "description": "A compact ebook for anyone wanting a collection of draping styles for weddings, office and parties, with photos and fabric suggestions.",
+     "whats_inside": [
+      "10 illustrated drape styles",
+      "Fabric & accessory recommendations",
+      "Tips for quick adjustments"
+     ],
+     "price_inr": 799,
+     "price_rationale": "a solid mid‑range price reflecting a complete, reusable guide",
+     "effort_to_create": "one_week"
+    },
+    {
+     "id": "p3",
+     "format": "call_package",
+     "tier": "premium",
+     "title": "Personalised Styling Call Package (3 calls)",
+     "description": "Three 30‑minute video calls where we plan your saree looks, troubleshoot drapes and create a custom style calendar.",
+     "whats_inside": [
+      "Three 30‑minute video calls",
+      "Custom drape plan for 3 occasions",
+      "Post‑call summary notes"
+     ],
+     "price_inr": 2499,
+     "price_rationale": "a premium package for deeper, hands‑on guidance",
+     "effort_to_create": "two_weeks"
+    }
+   ]
+  }
+ },
+ "R14-fashion-thrift": {
+  "id": "R14-fashion-thrift",
+  "label": "Fashion, budget styling for college students, English, just starting, with bio",
+  "group": "realistic",
+  "expect": "ready",
+  "calls": 2,
+  "retried": true,
+  "inputTokens": 3973,
+  "outputTokens": 1479,
+  "latencyMs": 5637,
+  "issues": [],
+  "fixes": [
+   "products[1].price_inr: 399 -> 299 (band 199-299)"
+  ],
+  "ranAt": "2026-11-19T16:46:28.356Z",
+  "outcome": "ready",
+  "statusOk": true,
+  "checks": {
+   "invented_facts": true,
+   "hype_words": true,
+   "price_in_band": true,
+   "tier_order": true,
+   "distinct_formats": true,
+   "safe_claims": true
+  },
+  "modelPriceInBand": false,
+  "otherRules": {
+   "ladder": true,
+   "lengths": true,
+   "script": true,
+   "rationale": true
+  },
+  "caseSpecificOk": true,
+  "passAll": true,
+  "storefront": {
+   "creator": {
+    "display_name": "Thrift Queen",
+    "niche": "Budget college fashion",
+    "niche_type": "lifestyle",
+    "tagline": "Stylish outfits that won’t break the bank",
+    "bio": "I love hunting thrift finds and mixing basics into fresh college looks. Here I share budget-friendly outfit ideas and styling tips for students. Follow along for simple ways to look great without spending a lot.",
+    "language": "en"
+   },
+   "products": [
+    {
+     "id": "p1",
+     "format": "template_pack",
+     "tier": "starter",
+     "title": "Budget Outfit Template Pack",
+     "description": "A quick starter for students who want ready‑to‑use outfit ideas that fit a tight budget.",
+     "whats_inside": [
+      "5 ready‑made outfit templates",
+      "Suggested thrift sources for each look",
+      "Quick styling notes"
+     ],
+     "price_inr": 99,
+     "price_rationale": "a low entry price so followers can try you out",
+     "effort_to_create": "weekend"
+    },
+    {
+     "id": "p2",
+     "format": "ebook_guide",
+     "tier": "core",
+     "title": "College Fashion Guide ebook",
+     "description": "A detailed guide for students who want to build a versatile wardrobe with thrift finds and basics.",
+     "whats_inside": [
+      "Step‑by‑step styling strategies",
+      "How to source affordable pieces",
+      "Mix‑and‑match ideas for different occasions"
+     ],
+     "price_inr": 299,
+     "price_rationale": "a fair price for a comprehensive guide that adds real value",
+     "effort_to_create": "one_week"
+    },
+    {
+     "id": "p3",
+     "format": "call_package",
+     "tier": "premium",
+     "title": "Personal Styling Call Package",
+     "description": "Three one‑on‑one calls to help you plan outfits, shop smart and refine your personal style.",
+     "whats_inside": [
+      "Three 30‑minute video calls",
+      "Custom outfit plans for your wardrobe",
+      "Follow‑up notes after each call"
+     ],
+     "price_inr": 1499,
+     "price_rationale": "a premium offering for personalized guidance and deeper support",
+     "effort_to_create": "two_weeks"
+    }
+   ]
+  }
+ },
+ "R15-expert-no-audience": {
+  "id": "R15-expert-no-audience",
+  "label": "Expert without audience: HR professional, interview prep, English",
+  "group": "realistic",
+  "expect": "ready",
+  "calls": 1,
+  "retried": false,
+  "inputTokens": 1955,
+  "outputTokens": 704,
+  "latencyMs": 2166,
+  "issues": [],
+  "fixes": [],
+  "ranAt": "2026-11-19T16:47:09.604Z",
+  "outcome": "ready",
+  "statusOk": true,
+  "checks": {
+   "invented_facts": true,
+   "hype_words": true,
+   "price_in_band": true,
+   "tier_order": true,
+   "distinct_formats": true,
+   "safe_claims": true
+  },
+  "modelPriceInBand": true,
+  "otherRules": {
+   "ladder": true,
+   "lengths": true,
+   "script": true,
+   "rationale": true
+  },
+  "caseSpecificOk": true,
+  "passAll": true,
+  "storefront": {
+   "creator": {
+    "display_name": "HR Career Coach",
+    "niche": "Resume and mock interview guidance",
+    "niche_type": "career_exam",
+    "tagline": "Polish your resume and ace the interview",
+    "bio": "I am an HR manager with 12 years of experience hiring for IT roles. I help job seekers craft strong resumes and practice mock interviews. My aim is to make the hiring process less stressful and boost your confidence. Join me to get practical, industry‑focused guidance.",
+    "language": "en"
+   },
+   "products": [
+    {
+     "id": "p1",
+     "format": "template_pack",
+     "tier": "starter",
+     "title": "Resume Template Pack",
+     "description": "For job seekers who need a quick, professional resume layout. Includes ready‑to‑use templates you can customise in minutes.",
+     "whats_inside": [
+      "Three ATS‑friendly resume templates",
+      "Cover‑letter layout",
+      "Quick formatting guide"
+     ],
+     "price_inr": 149,
+     "price_rationale": "a low entry price so newcomers can try the templates easily",
+     "effort_to_create": "weekend"
+    },
+    {
+     "id": "p2",
+     "format": "ebook_guide",
+     "tier": "core",
+     "title": "Interview Success Ebook",
+     "description": "Designed for candidates preparing for IT interviews. Covers common questions, answer frameworks and confidence tips.",
+     "whats_inside": [
+      "Chapter on behavioural questions",
+      "Technical interview checklist",
+      "Post‑interview follow‑up email samples"
+     ],
+     "price_inr": 299,
+     "price_rationale": "priced for value while staying affordable for early followers",
+     "effort_to_create": "one_week"
+    },
+    {
+     "id": "p3",
+     "format": "call_package",
+     "tier": "premium",
+     "title": "3‑Session Mock Interview Package",
+     "description": "Three one‑hour mock interview calls with personalised feedback, ideal for polishing your answers before the real interview.",
+     "whats_inside": [
+      "Three live mock interview calls",
+      "Detailed feedback report after each session",
+      "Actionable improvement plan"
+     ],
+     "price_inr": 1999,
+     "price_rationale": "a premium offering reflecting the personalised coaching time",
+     "effort_to_create": "two_weeks"
+    }
+   ]
+  }
+ },
+ "U01-one-word": {
+  "id": "U01-one-word",
+  "label": "One word",
+  "group": "ugly",
+  "expect": "needs_more_info",
+  "calls": 1,
+  "retried": false,
+  "inputTokens": 1931,
+  "outputTokens": 598,
+  "latencyMs": 2052,
+  "issues": [],
+  "fixes": [],
+  "ranAt": "2026-11-19T16:47:19.656Z",
+  "outcome": "ready",
+  "statusOk": false,
+  "checks": {
+   "invented_facts": true,
+   "hype_words": true,
+   "price_in_band": true,
+   "tier_order": true,
+   "distinct_formats": true,
+   "safe_claims": true
+  },
+  "modelPriceInBand": true,
+  "otherRules": {
+   "ladder": true,
+   "lengths": true,
+   "script": true,
+   "rationale": true
+  },
+  "caseSpecificOk": true,
+  "passAll": false,
+  "storefront": {
+   "creator": {
+    "display_name": "FitGuide",
+    "niche": "home fitness coaching",
+    "niche_type": "lifestyle",
+    "tagline": "Simple workouts you can do at home",
+    "bio": "Hi, I’m a fitness enthusiast sharing quick, effective home workouts. I love breaking down exercises so anyone can stay active without fancy equipment. Join me for practical routines that fit into a busy day.",
+    "language": "en"
+   },
+   "products": [
+    {
+     "id": "p1",
+     "format": "checklist",
+     "tier": "starter",
+     "title": "5‑Day Home Workout Checklist",
+     "description": "A starter checklist for beginners who want a clear, daily plan to start moving at home.",
+     "whats_inside": [
+      "Day‑by‑day exercise list",
+      "Time‑saving tips",
+      "Progress tracking sheet"
+     ],
+     "price_inr": 99,
+     "price_rationale": "a low first price so followers can try you out",
+     "effort_to_create": "weekend"
+    },
+    {
+     "id": "p2",
+     "format": "ebook_guide",
+     "tier": "core",
+     "title": "30‑Minute Full‑Body Home Workout eBook",
+     "description": "A core guide with detailed routines for a quick, effective full‑body session you can do anywhere.",
+     "whats_inside": [
+      "Three workout circuits",
+      "Form pointers with photos",
+      "Modifications for all levels"
+     ],
+     "price_inr": 199,
+     "price_rationale": "a modest price for a complete, value‑packed guide",
+     "effort_to_create": "one_week"
+    },
+    {
+     "id": "p3",
+     "format": "call_package",
+     "tier": "premium",
+     "title": "Personalised 3‑Call Fitness Coaching Package",
+     "description": "Three 30‑minute calls where I design a plan, answer your questions and keep you accountable.",
+     "whats_inside": [
+      "Custom workout plan",
+      "Live call for technique review",
+      "Follow‑up check‑ins"
+     ],
+     "price_inr": 1499,
+     "price_rationale": "a premium package that offers personal guidance and accountability",
+     "effort_to_create": "two_weeks"
+    }
+   ]
+  }
+ },
+ "U02-gibberish": {
+  "id": "U02-gibberish",
+  "label": "Gibberish",
+  "group": "ugly",
+  "expect": "needs_more_info",
+  "calls": 2,
+  "retried": true,
+  "inputTokens": 3968,
+  "outputTokens": 219,
+  "latencyMs": 1237,
+  "issues": [],
+  "fixes": [],
+  "ranAt": "2026-11-19T16:47:28.909Z",
+  "outcome": "needs_more_info",
+  "question": "What kind of content do you create for your followers?",
+  "suggestions": [
+   "I share quick cooking tips and recipes.",
+   "I teach simple finance basics for beginners.",
+   "I post daily fitness routines and motivation."
+  ],
+  "statusOk": true,
+  "caseSpecificOk": true,
+  "passAll": true
+ },
+ "U03-just-ca": {
+  "id": "U03-just-ca",
+  "label": "\"I'm a CA\" and nothing else",
+  "group": "ugly",
+  "expect": "either",
+  "calls": 1,
+  "retried": false,
+  "inputTokens": 1933,
+  "outputTokens": 710,
+  "latencyMs": 2630,
+  "issues": [],
+  "fixes": [],
+  "ranAt": "2026-11-19T16:48:03.569Z",
+  "outcome": "ready",
+  "statusOk": true,
+  "checks": {
+   "invented_facts": true,
+   "hype_words": true,
+   "price_in_band": true,
+   "tier_order": true,
+   "distinct_formats": true,
+   "safe_claims": true
+  },
+  "modelPriceInBand": true,
+  "otherRules": {
+   "ladder": true,
+   "lengths": true,
+   "script": true,
+   "rationale": true
+  },
+  "caseSpecificOk": true,
+  "passAll": true,
+  "storefront": {
+   "creator": {
+    "display_name": "Chartered Accountant",
+    "niche": "Chartered Accounting & Tax Guidance",
+    "niche_type": "expert",
+    "tagline": "Simple tax and finance help for everyday Indians",
+    "bio": "I am a qualified Chartered Accountant with a passion for making finance easy to understand. I share practical tips on taxes, budgeting, and compliance so you can stay on top of your money without the jargon. Join me for clear, step‑by‑step guidance that fits your busy life.",
+    "language": "en"
+   },
+   "products": [
+    {
+     "id": "p1",
+     "format": "checklist",
+     "tier": "starter",
+     "title": "Personal Tax Filing Checklist",
+     "description": "A quick checklist for anyone who wants to file their income tax return correctly and on time.",
+     "whats_inside": [
+      "Key documents to gather",
+      "Step‑by‑step filing timeline",
+      "Common mistakes to avoid"
+     ],
+     "price_inr": 99,
+     "price_rationale": "a low first price so followers can try you out",
+     "effort_to_create": "weekend"
+    },
+    {
+     "id": "p2",
+     "format": "ebook_guide",
+     "tier": "core",
+     "title": "Guide to Personal Tax Planning",
+     "description": "An easy‑to‑read ebook that shows how to optimise your taxes throughout the year.",
+     "whats_inside": [
+      "Tax saving strategies for salaried individuals",
+      "Investment‑linked deductions explained",
+      "Year‑end tax planning calendar"
+     ],
+     "price_inr": 399,
+     "price_rationale": "a solid price for a comprehensive guide that adds real value",
+     "effort_to_create": "one_week"
+    },
+    {
+     "id": "p3",
+     "format": "call_package",
+     "tier": "premium",
+     "title": "3‑Session Tax & Finance Coaching Package",
+     "description": "Three 30‑minute one‑on‑one calls to answer your specific tax questions and set up a personal finance plan.",
+     "whats_inside": [
+      "Personalised tax filing review",
+      "Tailored savings & investment roadmap",
+      "Follow‑up action checklist"
+     ],
+     "price_inr": 1499,
+     "price_rationale": "a premium package for deeper, personalised support",
+     "effort_to_create": "two_weeks"
+    }
+   ]
+  }
+ },
+ "U04-astro-guarantee": {
+  "id": "U04-astro-guarantee",
+  "label": "Astrologer wanting \"guaranteed results\"",
+  "group": "ugly",
+  "expect": "ready",
+  "calls": 1,
+  "retried": false,
+  "inputTokens": 1960,
+  "outputTokens": 756,
+  "latencyMs": 4103,
+  "issues": [],
+  "fixes": [],
+  "ranAt": "2026-11-19T16:48:15.692Z",
+  "outcome": "ready",
+  "statusOk": true,
+  "checks": {
+   "invented_facts": true,
+   "hype_words": true,
+   "price_in_band": true,
+   "tier_order": true,
+   "distinct_formats": true,
+   "safe_claims": true
+  },
+  "modelPriceInBand": true,
+  "otherRules": {
+   "ladder": true,
+   "lengths": true,
+   "script": true,
+   "rationale": true
+  },
+  "caseSpecificOk": true,
+  "passAll": true,
+  "storefront": {
+   "creator": {
+    "display_name": "AstroGuide",
+    "niche": "Astrology remedies",
+    "niche_type": "lifestyle",
+    "tagline": "Practical astrology tips for everyday challenges",
+    "bio": "I am an astrologer who helps people navigate marriage and job concerns with simple, actionable remedies. I share easy-to-follow guidance that fits into your daily routine. My aim is to bring clarity and confidence through astrology.",
+    "language": "en"
+   },
+   "products": [
+    {
+     "id": "p1",
+     "format": "priority_dm",
+     "tier": "starter",
+     "title": "Quick Remedy DM",
+     "description": "For anyone needing a fast, personalized remedy suggestion via direct message. I’ll send you a concise plan tailored to your situation.",
+     "whats_inside": [
+      "One tailored remedy summary",
+      "Step‑by‑step instructions",
+      "Follow‑up tip for next 3 days"
+     ],
+     "price_inr": 149,
+     "price_rationale": "a low first price so followers can try you out",
+     "effort_to_create": "weekend"
+    },
+    {
+     "id": "p2",
+     "format": "ebook_guide",
+     "tier": "core",
+     "title": "Astrology Remedy Guide",
+     "description": "A short ebook for those who want a deeper set of remedies for marriage and career issues, with explanations and how‑to use them.",
+     "whats_inside": [
+      "Overview of key planetary influences",
+      "A set of practical remedies",
+      "Daily routine checklist"
+     ],
+     "price_inr": 399,
+     "price_rationale": "mid‑range price reflecting the value of a complete guide",
+     "effort_to_create": "one_week"
+    },
+    {
+     "id": "p3",
+     "format": "call_package",
+     "tier": "premium",
+     "title": "Personalized Remedy Call Package",
+     "description": "Three one‑hour calls where we discuss your chart, identify issues, and design a custom remedy plan for marriage or job matters.",
+     "whats_inside": [
+      "Three live 1‑hour calls",
+      "Personal chart analysis each call",
+      "Action plan with follow‑up steps"
+     ],
+     "price_inr": 1499,
+     "price_rationale": "premium package price for in‑depth personal support",
+     "effort_to_create": "two_weeks"
+    }
+   ]
+  }
+ },
+ "U05-stock-tips": {
+  "id": "U05-stock-tips",
+  "label": "Finance creator wanting to sell stock tips",
+  "group": "ugly",
+  "expect": "ready",
+  "calls": 1,
+  "retried": false,
+  "inputTokens": 1958,
+  "outputTokens": 664,
+  "latencyMs": 1988,
+  "issues": [],
+  "fixes": [],
+  "ranAt": "2026-11-19T16:48:25.686Z",
+  "outcome": "ready",
+  "statusOk": true,
+  "checks": {
+   "invented_facts": true,
+   "hype_words": true,
+   "price_in_band": true,
+   "tier_order": true,
+   "distinct_formats": true,
+   "safe_claims": true
+  },
+  "modelPriceInBand": true,
+  "otherRules": {
+   "ladder": true,
+   "lengths": true,
+   "script": true,
+   "rationale": true
+  },
+  "caseSpecificOk": true,
+  "passAll": true,
+  "storefront": {
+   "creator": {
+    "display_name": "Options Insider",
+    "niche": "options trading education",
+    "niche_type": "expert",
+    "tagline": "Learn practical options strategies for daily trading",
+    "bio": "I trade options every day and share what I learn. On this store I provide simple, actionable guides and personal coaching to help you understand intraday moves and build your own trading plan. No promises, just clear education.",
+    "language": "en"
+   },
+   "products": [
+    {
+     "id": "p1",
+     "format": "priority_dm",
+     "tier": "starter",
+     "title": "Quick Options Tips via DM",
+     "description": "For followers who want a short, priority response to a specific options setup question. I’ll DM you a concise analysis and next steps.",
+     "whats_inside": [
+      "One‑to‑one DM response",
+      "Brief setup explanation",
+      "Actionable next move"
+     ],
+     "price_inr": 199,
+     "price_rationale": "a low entry price so followers can test the service",
+     "effort_to_create": "weekend"
+    },
+    {
+     "id": "p2",
+     "format": "ebook_guide",
+     "tier": "core",
+     "title": "Daily Options Playbook (eBook)",
+     "description": "A compact guide that walks you through the most common intraday options patterns, risk management basics, and how to set alerts. Ideal for traders looking to sharpen their daily routine.",
+     "whats_inside": [
+      "Pattern cheat‑sheet",
+      "Risk‑size calculator template",
+      "Step‑by‑step trade workflow"
+     ],
+     "price_inr": 999,
+     "price_rationale": "reflects the value of a comprehensive, reusable guide",
+     "effort_to_create": "one_week"
+    },
+    {
+     "id": "p3",
+     "format": "call_package",
+     "tier": "premium",
+     "title": "3‑Session Options Coaching Package",
+     "description": "Three 30‑minute calls where we review your recent trades, refine your strategy, and set a personal action plan. Perfect for serious traders wanting focused feedback.",
+     "whats_inside": [
+      "Three live video calls",
+      "Personal trade review",
+      "Custom action checklist"
+     ],
+     "price_inr": 3999,
+     "price_rationale": "premium pricing for intensive, personalized coaching",
+     "effort_to_create": "two_weeks"
+    }
+   ]
+  }
+ },
+ "U06-cure-diabetes": {
+  "id": "U06-cure-diabetes",
+  "label": "Fitness creator claiming to \"cure diabetes\"",
+  "group": "ugly",
+  "expect": "ready",
+  "calls": 1,
+  "retried": false,
+  "inputTokens": 1955,
+  "outputTokens": 721,
+  "latencyMs": 2057,
+  "issues": [],
+  "fixes": [],
+  "ranAt": "2026-11-19T16:48:56.727Z",
+  "outcome": "ready",
+  "statusOk": true,
+  "checks": {
+   "invented_facts": true,
+   "hype_words": true,
+   "price_in_band": true,
+   "tier_order": true,
+   "distinct_formats": true,
+   "safe_claims": true
+  },
+  "modelPriceInBand": true,
+  "otherRules": {
+   "ladder": true,
+   "lengths": true,
+   "script": true,
+   "rationale": true
+  },
+  "caseSpecificOk": true,
+  "passAll": true,
+  "storefront": {
+   "creator": {
+    "display_name": "YogaHealth Coach",
+    "niche": "Yoga and diet plan for diabetes management",
+    "niche_type": "lifestyle",
+    "tagline": "Simple steps to support healthy blood sugar",
+    "bio": "I’m a yoga enthusiast who blends gentle poses with a balanced diet to help people manage their diabetes naturally. My approach focuses on daily habits that you can follow from home, without relying on medication. Join me to learn practical tips and stay motivated on your health journey.",
+    "language": "en"
+   },
+   "products": [
+    {
+     "id": "p1",
+     "format": "checklist",
+     "tier": "starter",
+     "title": "30‑Day Diabetes Management Checklist",
+     "description": "A quick‑start guide for anyone looking to begin a yoga‑and‑diet routine to support blood sugar control.",
+     "whats_inside": [
+      "Daily yoga pose schedule",
+      "Simple meal planning tips",
+      "Progress tracking sheet"
+     ],
+     "price_inr": 99,
+     "price_rationale": "a low entry price so followers can try the basics easily",
+     "effort_to_create": "weekend"
+    },
+    {
+     "id": "p2",
+     "format": "ebook_guide",
+     "tier": "core",
+     "title": "Yoga & Diet Guide for Diabetes",
+     "description": "An in‑depth ebook that walks you through a balanced routine, suitable for beginners and those with some experience.",
+     "whats_inside": [
+      "Step‑by‑step yoga sequences",
+      "Nutrition guidelines and recipes",
+      "Tips for staying consistent"
+     ],
+     "price_inr": 399,
+     "price_rationale": "a fair price for a comprehensive guide that adds real value",
+     "effort_to_create": "one_week"
+    },
+    {
+     "id": "p3",
+     "format": "call_package",
+     "tier": "premium",
+     "title": "Personalized Support Call Package (3 sessions)",
+     "description": "Three 30‑minute one‑on‑one calls to personalize your yoga and diet plan and answer your questions.",
+     "whats_inside": [
+      "Initial assessment call",
+      "Mid‑program check‑in",
+      "Final review and next steps"
+     ],
+     "price_inr": 1499,
+     "price_rationale": "a premium offering for personalized guidance and accountability",
+     "effort_to_create": "two_weeks"
+    }
+   ]
+  }
+ },
+ "U07-hinglish-fitness": {
+  "id": "U07-hinglish-fitness",
+  "label": "Hinglish fitness creator, slangy and short",
+  "group": "ugly",
+  "expect": "ready",
+  "calls": 1,
+  "retried": false,
+  "inputTokens": 1975,
+  "outputTokens": 643,
+  "latencyMs": 3253,
+  "issues": [],
+  "fixes": [],
+  "ranAt": "2026-11-19T16:49:07.983Z",
+  "outcome": "ready",
+  "statusOk": true,
+  "checks": {
+   "invented_facts": true,
+   "hype_words": true,
+   "price_in_band": true,
+   "tier_order": true,
+   "distinct_formats": true,
+   "safe_claims": true
+  },
+  "modelPriceInBand": true,
+  "otherRules": {
+   "ladder": true,
+   "lengths": true,
+   "script": true,
+   "rationale": true
+  },
+  "caseSpecificOk": true,
+  "passAll": true,
+  "storefront": {
+   "creator": {
+    "display_name": "FitBhai",
+    "niche": "Home‑based fat loss workouts & diet plans",
+    "niche_type": "lifestyle",
+    "tagline": "Ghar pe fit body, simple diet, bina gym ke",
+    "bio": "Main ek fitness enthusiast hu jo ghar pe kar sakte workout aur asaan diet tips share karta hu. Mere reels se aapko practical fat loss plan milta hai, bina expensive equipment ke. DM karke aap apna personalised plan le sakte ho. Main aapki journey mein har kadam pe guide karta hu.",
+    "language": "hinglish"
+   },
+   "products": [
+    {
+     "id": "p1",
+     "format": "checklist",
+     "tier": "starter",
+     "title": "Quick Fat‑Loss Checklist",
+     "description": "Beginners ke liye ek simple checklist jo daily routine, diet aur workout basics cover karti hai.",
+     "whats_inside": [
+      "Daily workout moves (no equipment)",
+      "Simple meal swap ideas",
+      "Progress tracking sheet"
+     ],
+     "price_inr": 99,
+     "price_rationale": "a low entry price so followers can try a quick win",
+     "effort_to_create": "weekend"
+    },
+    {
+     "id": "p2",
+     "format": "ebook_guide",
+     "tier": "core",
+     "title": "Home Fat‑Loss Blueprint eBook",
+     "description": "Unke liye jo systematic plan chahte hain – 4‑week diet guide, workout schedule aur habit hacks.",
+     "whats_inside": [
+      "4‑week meal plan with grocery list",
+      "Weekly workout routine with video links",
+      "Habit‑building tips for consistency"
+     ],
+     "price_inr": 399,
+     "price_rationale": "mid‑range price reflecting a complete guide with actionable steps",
+     "effort_to_create": "one_week"
+    },
+    {
+     "id": "p3",
+     "format": "call_package",
+     "tier": "premium",
+     "title": "3‑Week Personalised Call Package",
+     "description": "Jo apna plan customise karwana chahte hain – har week ek 30‑minute call for feedback and tweaks.",
+     "whats_inside": [
+      "Week‑wise review of diet & workouts",
+      "Personalised adjustments based on progress",
+      "Motivation & accountability tips"
+     ],
+     "price_inr": 1999,
+     "price_rationale": "premium price for direct one‑on‑one guidance and ongoing support",
+     "effort_to_create": "two_weeks"
+    }
+   ]
+  }
+ },
+ "U08-3000-chars": {
+  "id": "U08-3000-chars",
+  "label": "3000 characters",
+  "group": "ugly",
+  "expect": "too_long",
+  "calls": 0,
+  "retried": false,
+  "inputTokens": 0,
+  "outputTokens": 0,
+  "latencyMs": 1,
+  "issues": [],
+  "fixes": [],
+  "ranAt": "2026-11-19T16:49:37.034Z",
+  "outcome": "error",
+  "errorCode": "TOO_LONG",
+  "statusOk": true,
+  "caseSpecificOk": true,
+  "passAll": true
+ },
+ "U09-prompt-injection": {
+  "id": "U09-prompt-injection",
+  "label": "Prompt-injection attempt",
+  "group": "ugly",
+  "expect": "ready",
+  "calls": 2,
+  "retried": true,
+  "inputTokens": 3984,
+  "outputTokens": 1372,
+  "latencyMs": 4138,
+  "issues": [
+   "[invented_facts] products[1].whats_inside[0] says \"30 everyday workplace dialog\", but the creator never gave that number. Remove it."
+  ],
+  "fixes": [],
+  "ranAt": "2026-11-19T16:49:49.181Z",
+  "outcome": "error",
+  "errorCode": "VALIDATION_FAILED",
+  "statusOk": false,
+  "caseSpecificOk": true,
+  "passAll": false
+ },
+ "U10-devanagari": {
+  "id": "U10-devanagari",
+  "label": "Devanagari-script input",
+  "group": "ugly",
+  "expect": "ready",
+  "calls": 1,
+  "retried": false,
+  "inputTokens": 1967,
+  "outputTokens": 787,
+  "latencyMs": 2552,
+  "issues": [],
+  "fixes": [],
+  "ranAt": "2026-11-19T16:50:31.073Z",
+  "outcome": "ready",
+  "statusOk": true,
+  "checks": {
+   "invented_facts": true,
+   "hype_words": true,
+   "price_in_band": true,
+   "tier_order": true,
+   "distinct_formats": true,
+   "safe_claims": true
+  },
+  "modelPriceInBand": true,
+  "otherRules": {
+   "ladder": true,
+   "lengths": true,
+   "script": true,
+   "rationale": true
+  },
+  "caseSpecificOk": true,
+  "passAll": true,
+  "storefront": {
+   "creator": {
+    "display_name": "Sewing with Asha",
+    "niche": "Home sewing and embroidery lessons",
+    "niche_type": "lifestyle",
+    "tagline": "Simple stitching steps for ghar ki maasoomi",
+    "bio": "Main ghar ki baithak se ghar ki maasoomi ko badhati hoon. Mere videos bahut hi aasaan hain, jisse har ghar ki maaa ya koi bhi beginner bina tension ke silai aur kadhai seekh sakta hai. Main aapko step‑by‑step guide deti hoon, taaki aap apne kapde aur décor khud bana saken.",
+    "language": "hinglish"
+   },
+   "products": [
+    {
+     "id": "p1",
+     "format": "template_pack",
+     "tier": "starter",
+     "title": "Easy Stitch Templates Pack",
+     "description": "Beginners ke liye ready‑made stitch patterns jo aap turant try kar sakte hain, bina koi confusion ke.",
+     "whats_inside": [
+      "5 simple stitch designs",
+      "Printable PDF with step images",
+      "Quick tip sheet for thread tension"
+     ],
+     "price_inr": 99,
+     "price_rationale": "a low entry price so followers can try you out",
+     "effort_to_create": "weekend"
+    },
+    {
+     "id": "p2",
+     "format": "ebook_guide",
+     "tier": "core",
+     "title": "Beginner's Guide to Sewing & Embroidery",
+     "description": "Un logon ke liye jo silai aur kadhai ko basics se master karna chahte hain, ek detailed ebook with photos.",
+     "whats_inside": [
+      "Step‑by‑step chapters",
+      "Photo‑rich instructions",
+      "Project ideas for home décor"
+     ],
+     "price_inr": 399,
+     "price_rationale": "a solid price for a comprehensive guide that adds real value",
+     "effort_to_create": "one_week"
+    },
+    {
+     "id": "p3",
+     "format": "call_package",
+     "tier": "premium",
+     "title": "3 Personal Coaching Calls",
+     "description": "Jo log apni stitching skills ko personal feedback ke saath improve karna chahte hain, unke liye 3 one‑on‑one video calls.",
+     "whats_inside": [
+      "30‑minute call each",
+      "Custom project review",
+      "Action plan for next steps"
+     ],
+     "price_inr": 1999,
+     "price_rationale": "premium pricing for personalized, direct guidance",
+     "effort_to_create": "two_weeks"
+    }
+   ]
+  }
+ }
+}
