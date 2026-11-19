@@ -37,3 +37,19 @@ One entry per session with the AI coding assistant (Claude Code). Newest at the 
 
 **What it got wrong:**
 - It started the project on a paid provider without asking about budget first.
+
+## 2026-11-19: Key tests and Groq as primary
+
+**What I asked:** Test my Gemini key, then my Groq key, and make Groq the main model if it works.
+
+**What it built:**
+- Test scripts (kept outside the repo) that report only key length and make one tiny call. Keys were never printed or read into the chat.
+- Gemini: key works. gemini-3.5-flash-lite answered in about 10 s. gemini-3.8-flash and gemini-3.6-flash returned 503 "high demand" or timed out on every try.
+- Groq: openai/gpt-oss-120b answered in 0.6-0.9 s with schema-valid JSON in strict mode, twice.
+- Switched LLM_PRIMARY to groq and LLM_FALLBACK to gemini. Updated spec decision 14, CLAUDE.md and README.
+
+**What I changed or rejected:**
+- Made Groq primary instead of Gemini, based on the test results.
+
+**What it got wrong:**
+- Its first model pick for generation (gemini-3.8-flash) was the newest model on paper, but was unavailable on the free tier during testing.

@@ -10,7 +10,7 @@
 6. Keep scope to the spec. If a request or idea is out of scope (see NOT BUILDING), say so plainly instead of building it.
 7. Explain in plain language. The owner is a product manager, not a developer. One plain sentence for every command run. Ask before anything destructive.
 8. At the end of each session, append an entry to AI_USAGE.md: date, what was asked, what was built, what was changed or rejected, and what the AI got wrong.
-9. LLMs are free tiers only: Gemini primary, Groq fallback (spec decision 14). Provider order comes from LLM_PRIMARY / LLM_FALLBACK and models from MODEL_GENERATE, MODEL_REGEN and GROQ_MODEL. Do not hardcode provider or model names. Fall back on timeout, 429 or failed validation. Log which provider and model served each request. The app must work with Gemini alone when GROQ_API_KEY is empty. Keep DAILY_CAP low.
+9. LLMs are free tiers only: Groq primary, Gemini fallback (spec decision 14). Provider order comes from LLM_PRIMARY / LLM_FALLBACK and models from MODEL_GENERATE, MODEL_REGEN and GROQ_MODEL. Do not hardcode provider or model names. Fall back on timeout, 429 or failed validation. Log which provider and model served each request. The app must work with either provider alone when the other key is empty. Keep DAILY_CAP low.
 
 ## The brief
 

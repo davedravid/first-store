@@ -14,6 +14,6 @@ Spec: [docs/PRODUCT_SPEC.md](docs/PRODUCT_SPEC.md). AI usage log: [AI_USAGE.md](
 
 - Official `create-next-app` template (Next.js App Router, TypeScript, Tailwind, ESLint).
 - Libraries: zod, @upstash/redis, @upstash/ratelimit.
-- LLMs: Google Gemini API (primary) and Groq (fallback), both on free tiers.
+- LLMs: Groq (primary) and Google Gemini API (fallback), both on free tiers.
 - No UI kit or component library so far.
 - Built with help from Claude Code. See AI_USAGE.md.
