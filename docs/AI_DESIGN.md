@@ -7,7 +7,7 @@
 | Job | Model | Code |
 |---|---|---|
 | Decide if there is enough to go on | Asks ONE question with 3 tap-able answers for gibberish or vague input | Empty, too long, emoji-only, handle-only and **under-4-word** inputs are caught **before** any model call (free, instant) |
-| Bio, tagline, titles, descriptions, "what's inside" | Writes them in the creator's voice (English or Hinglish) | Checks lengths, Roman script only, hype words, **rule/compliance language**, unsafe claims, **title/description agree on duration** |
+| Bio, tagline, titles, descriptions, "what's inside" | Writes them in the creator's voice (English or Hinglish) | Checks lengths, Roman script only, hype words, **rule/compliance language**, unsafe claims, **outcome promises in taglines and titles**, **title/description agree on duration**, **no effort tag in titles**, **no unpromised extras** ("with photos", "WhatsApp support") |
 | Creator's name | Never invents one; writes a neutral niche label if there is no name | **Sets** the display name: typed name > @handle > the model's neutral label. **Flags** any name in the bio not given by the creator |
 | Product ideas | Picks 2-4 ideas, the format and the tier | Checks 2-4 products, distinct formats, one Starter, at most one Premium, Premium is a package or mentorship (never one call), no community |
 | Price | Suggests a price | **Sets** the final price: band from format x audience x niche type, clamp, snap to an allowed price point |
@@ -67,6 +67,10 @@ Creator text is wrapped in `<creator_input>` tags and the system prompt says it 
 - `slow`: Groq hangs for 10 s, then Gemini takes over.
 - `badjson`: Groq's first reply is broken JSON, then the retry fixes it.
 - `fail`: every provider fails, and the typed error comes back.
+
+## Guardrails
+
+Upstash Redis (free, us-east-1): a per-IP sliding window (10 stores an hour) and a global daily cap of 50 stores (regenerates get 3x both). Only requests that reach a model are counted. If Redis is down the request is allowed, because the providers' own limits still apply. 50 stores at about 4.5K tokens is about 225K tokens on a bad day, so the cap keeps Groq near its 200K daily quota, with Gemini as the overflow.
 
 ## Free-tier capacity
 

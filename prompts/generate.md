@@ -45,5 +45,5 @@ Each product:
   - call_package, mentorship: 1499-4999
   - Just starting or under 5K followers: use the lower half of the band. 25K+ followers: the upper half.
   - Each higher tier must cost more than every lower tier.
-- effort_to_create: weekend, one_week or two_weeks.
+- effort_to_create: weekend, one_week or two_weeks. This is for the creator only: never put it in the title.
 - (No "why this price" line: code writes it from the final price.)

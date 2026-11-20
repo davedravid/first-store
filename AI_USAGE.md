@@ -97,3 +97,22 @@ One entry per session with the AI coding assistant (Claude Code). Newest at the 
 - Its first v2.1 run scored 13/13, but reading the pages showed the checks had missed three things: a display name of "Options Trading with @handle" (caused by its own prompt wording), "No financial advice" in a bio, and a stock-trading store still offering "review of your current approach" and a "daily heads-up on market setups". The rules were tightened and the cases re-run; the honest path is written up in results.md.
 - It first wrote the token and retry numbers in AI_DESIGN.md from memory and got them wrong (4 of 12 retries, 3.9K average); checked against the run data and corrected (5 of 12, 4.5K).
 - Its keyword safety net at first would have put a finance disclaimer on a "budget outfits" fashion store; narrowed to strong signals before testing.
+
+## 2026-11-20: Rule fixes, Upstash limits and the creator UI
+
+**What I asked:** No more eval runs, to save quota. Four small rule fixes with unit tests only: more banned rule language ("substitute for professional", "registration"), no effort tag in titles and no outcome promises in taglines ("crack", "get selected"), Premium rationale that fits group calls, and "with photos" / "photo tutorials" in the extras check. Then the creator UI at 390 px: input, generating skeleton with an honest time hint, the clarify question, a tap-to-edit editor with per-block regenerate, Undo, price edits with a gentle warning, autosave, friendly error screens and a disabled Publish bar. Env vars on Vercel with DAILY_CAP 50, Playwright screenshots of every screen and error state, deploy and a live check. I also asked for an Upstash Redis database through the Upstash plugin.
+
+**What it built:**
+- The 4 rules in validators.ts, plus prompt lines. A credential the creator states ("registered dietitian") may be repeated; other rule words may not. 41 tests pass.
+- Upstash: free database "firststore" in us-east-1 (next to Vercel's default region). Per-IP limit and a global daily cap of 50 stores, enforced in both API routes; inputs under 4 words are never counted. The secret token was copied by me into .env.local, never shown in chat.
+- The UI: one screen flow at /, light theme, 16 px inputs and 44 px tap targets. "Cheaper" or "More premium" at the end of the band says so with no model call. A typed price keeps its own "You set ₹X" rationale and survives later regenerates.
+- 22 Playwright screenshots in docs/screenshots (API mocked, no quota), plus one real local run: a Hinglish store built by Groq in 3.4 s, then regenerate and Undo.
+- 14 env vars added to Vercel for Production, Preview and Development by a script that never printed a value.
+
+**What I changed or rejected:** I asked for the Upstash values in a new .env; it used .env.local, which already had the empty slots and is what the app reads.
+
+**What it got wrong:**
+- The loading screen and the editor opened scrolled halfway down, which hid the "taking longer than usual" hint. Caught in the screenshots; every screen now starts at the top and the hint is pinned.
+- The name and tagline were left-aligned under a centred avatar.
+- Its scroll fix crashed the app: newer Chrome returns a promise from scrollTo, and React took that as the effect's cleanup. Caught on the next screenshot run.
+- My two API key lines in .env.local have a stray space; it trimmed the values when sending them to Vercel instead of editing my lines.

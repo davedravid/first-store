@@ -46,3 +46,6 @@ docs/assignment.pdf
 
 # eval token ledger (local quota tracking)
 evals/ledger.json
+
+.vercel
+.env*

@@ -16,7 +16,9 @@
  *   - Banned words     hype words and rule/compliance language ("regulatory", "SEBI registered", "disclaimer"...)
  *   - Safe claims      no guarantees, cures or stock tips; finance pages: no personalised trading advice
  *   - Invented facts   numbers the creator never gave ("10,000+ students", "50+ tricks") and names they never gave
- *   - Consistency      a duration in the title must match the description ("3-Month" vs "three weeks")
+ *   - Consistency      a duration in the title must match the description ("3-Month" vs "three weeks"),
+ *                      no effort tag in a title, no extras the creator never mentioned ("with photos")
+ *   - Outcome promises taglines and titles never promise a result ("crack UPSC", "get selected")
  *   - Script           Roman script only (no Devanagari)
  *
  * mode "enforce": apply the fixes and return errors for the rest.
@@ -145,7 +147,35 @@ export const COMPLIANCE_WORDS = [
   "regulatory", "regulated", "regulation", "regulations", "sebi", "registered advisor", "registered adviser",
   "registered investment", "financial advice", "investment advice", "medical advice", "legal advice",
   "disclaimer", "compliance", "compliant", "terms and conditions", "liability",
+  "substitute for professional", "not a substitute", "professional advice", "consult a professional",
+  "consult your doctor", "registration", "registered", "certified advisor", "certified adviser", "licensed",
+  "license", "licence", "not responsible",
 ];
+
+/** Compliance words that are allowed when the creator uses them about themself. */
+const CREDENTIAL_WORDS = ["registered", "licensed", "registration", "certified advisor", "certified adviser"];
+
+/** Outcome promises in taglines and titles: exam prep and coaching must not promise a result. */
+export const OUTCOME_PROMISES = [
+  "clear upsc", "clear ssc", "clear neet", "clear jee", "clear cat", "clear the exam", "clear your exam", "clear exams",
+  "clear prelims", "clear mains", "crack", "cracks", "cracking", "get selected", "selection guaranteed", "top rank",
+  "top ranks", "ace the exam", "ace your exam", "pakka clear", "clear karo", "crack karo", "get the job", "land the job",
+  "land your dream job", "get hired",
+];
+
+/** Delivery extras the model likes to promise. Allowed only when the creator's own input mentions them. */
+export const UNPROMISED_EXTRAS = [
+  "with photos", "photo tutorial", "photo tutorials", "step-by-step photos", "step by step photos", "photos of every step",
+  "video tutorials", "whatsapp support", "whatsapp group", "certificate", "certificates", "lifetime access",
+  "printable", "printables", "24/7 support",
+];
+
+/** The effort tag is for the creator, never for the buyer: it must not leak into a title. */
+const EFFORT_WORDS: Record<string, string[]> = {
+  weekend: ["weekend", "one weekend"],
+  one_week: ["one week", "1 week", "1-week", "one-week", "one_week"],
+  two_weeks: ["two weeks", "2 weeks", "2-week", "two-week", "two_weeks"],
+};
 
 export const UNSAFE_CLAIMS = [
   // guarantees (astrology, exam prep, anything)
@@ -229,7 +259,7 @@ const FORMAT_PLURAL: Record<Format, string> = {
   mentorship: "Mentorships",
 };
 
-const FORMAT_SINGULAR: Record<Format, string> = {
+export const FORMAT_SINGULAR: Record<Format, string> = {
   priority_dm: "priority DM",
   template_pack: "template pack",
   checklist: "checklist",
@@ -244,7 +274,7 @@ const FORMAT_SINGULAR: Record<Format, string> = {
   mentorship: "mentorship",
 };
 
-const AUDIENCE_PHRASE: Record<Audience, string> = {
+export const AUDIENCE_PHRASE: Record<Audience, string> = {
   just_starting: "creators who are just starting",
   under_5k: "creators with under 5K followers",
   "5k_25k": "creators with 5-25K followers",
@@ -272,8 +302,8 @@ export function buildRationale(input: CreatorInput, sf: Draft, index: number): s
     why = cheaper ? `so it's a step up from your ${rs(cheaper.price_inr)} starter` : "for your main product";
   else
     why = cheaper
-      ? `because it's your most personal offer, above your ${rs(cheaper.price_inr)} ${FORMAT_SINGULAR[cheaper.format]}`
-      : "because it's your most personal offer";
+      ? `because it's your deepest offer, above your ${rs(cheaper.price_inr)} ${FORMAT_SINGULAR[cheaper.format]}`
+      : "because it's your deepest offer";
   return `${first} We picked ${rs(p.price_inr)} ${why}.`;
 }
 
@@ -378,6 +408,7 @@ function checkAll(input: CreatorInput, sf: Draft): Issue[] {
     ...checkCopy(input, sf),
     ...checkNames(input, sf),
     ...checkDurations(sf),
+    ...checkExtrasAndEffort(input, sf),
   ];
 }
 
@@ -561,12 +592,14 @@ function checkCopy(input: CreatorInput, sf: Draft): Issue[] {
   const issues: Issue[] = [];
   const allowedNumbers = numbersInInput(input);
   const finance = safetyTopic(input, sf) === "finance";
+  const said = [input.description, input.instagram_bio ?? ""].join(" ");
 
   for (const { where, text } of copyFields(sf)) {
     const hype = findWords(text, HYPE_WORDS);
     if (hype.length) issues.push({ category: "hype_words", where, message: `${where} uses hype words: ${hype.join(", ")}. Say it plainly.` });
 
-    const rules = findWords(text, COMPLIANCE_WORDS);
+    // A credential the creator states themself ("registered dietitian") may be repeated; nothing else may.
+    const rules = findWords(text, COMPLIANCE_WORDS).filter((w) => !(CREDENTIAL_WORDS.includes(w) && findWords(said, [w]).length));
     if (rules.length)
       issues.push({ category: "hype_words", where, message: `${where} uses rule or compliance language (${rules.join(", ")}). Leave it out; the page adds its own disclaimer.` });
 
@@ -671,6 +704,35 @@ function checkDurations(sf: Draft): Issue[] {
     if (clash)
       issues.push({ category: "consistency", where: `products[${i}]`, message: `Product ${i + 1}'s title says "${inTitle[0].raw}" but its description says "${clash.raw}". Make them match.` });
   });
+  return issues;
+}
+
+// ---------- effort tag in titles, outcome promises, unpromised extras ----------
+
+/** "photo tutorials" is allowed if the creator mentions any photo; "whatsapp group" if they mention WhatsApp. */
+function extraBase(extra: string): RegExp {
+  const base = ["photo", "video", "whatsapp", "certificate", "lifetime", "printable", "24/7"].find((b) => extra.includes(b)) ?? extra;
+  return new RegExp(escapeRe(base), "i");
+}
+
+function checkExtrasAndEffort(input: CreatorInput, sf: Draft): Issue[] {
+  const issues: Issue[] = [];
+  const said = [input.description, input.instagram_bio ?? ""].join(" ");
+  for (const { where, text } of [{ where: "tagline", text: sf.creator.tagline }, ...sf.products.map((p, i) => ({ where: `products[${i}].title`, text: p.title }))]) {
+    const promise = findWords(text, OUTCOME_PROMISES);
+    if (promise.length)
+      issues.push({ category: "safe_claims", where, message: `${where} promises an outcome (${promise.join(", ")}). Say what it helps with, not a result.` });
+  }
+  sf.products.forEach((p, i) => {
+    const effort = findWords(p.title, EFFORT_WORDS[p.effort_to_create] ?? []);
+    if (effort.length)
+      issues.push({ category: "consistency", where: `products[${i}].title`, message: `products[${i}].title mentions how long it takes you to make it (${effort[0]}). Leave the effort out of the title.` });
+  });
+  for (const { where, text } of copyFields(sf)) {
+    const extras = findWords(text, UNPROMISED_EXTRAS).filter((w) => !extraBase(w).test(said));
+    if (extras.length)
+      issues.push({ category: "consistency", where, message: `${where} promises ${extras.join(", ")}, which the creator never mentioned. Describe what it covers, not delivery extras.` });
+  }
   return issues;
 }
 

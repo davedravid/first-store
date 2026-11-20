@@ -261,3 +261,45 @@ describe("invented numbers", () => {
     expect(inventedNumbers("20 full-body yoga sequences", allowed)).toHaveLength(1);
   });
 });
+
+describe("v2.2 rules: rule language, outcome promises, effort tag, extras, premium wording", () => {
+  it("bans 'not a substitute for professional advice' and 'registered', unless the creator says it about themself", () => {
+    const p = page();
+    p.creator.bio += " This is not a substitute for professional advice.";
+    expect(validateStorefront(input(), p).finalChecks.hype_words).toBe(false);
+    const rd = page();
+    rd.creator.bio = rd.creator.bio.replace("I share", "As a registered dietitian I share");
+    expect(validateStorefront(input(), rd).finalChecks.hype_words).toBe(false);
+    expect(validateStorefront(input({ description: "I am a registered dietitian sharing home workouts for moms" }), rd).finalChecks.hype_words).toBe(true);
+  });
+
+  it("flags outcome promises in taglines and titles", () => {
+    const p = page();
+    p.creator.tagline = "Crack UPSC prelims with a calm plan";
+    expect(validateStorefront(input(), p).finalChecks.safe_claims).toBe(false);
+    const q = page();
+    q.products[1].title = "Get selected: interview guide";
+    expect(validateStorefront(input(), q).errors.some((e) => e.message.includes("promises an outcome"))).toBe(true);
+  });
+
+  it("flags the effort tag in a title", () => {
+    const p = page();
+    p.products[0].title = "Weekend workout checklist"; // effort_to_create is "weekend"
+    expect(validateStorefront(input(), p).finalChecks.consistency).toBe(false);
+    expect(validateStorefront(input(), page()).finalChecks.consistency).toBe(true);
+  });
+
+  it("flags photos and other extras unless the creator mentioned them", () => {
+    const p = page();
+    p.products[1].description = "A short guide with the routines I use myself, with photos for every move.";
+    expect(validateStorefront(input(), p).finalChecks.consistency).toBe(false);
+    p.products[1].whats_inside[0] = "Photo tutorials";
+    expect(validateStorefront(input({ description: "I post photos of 15 minute home workouts for busy moms" }), p).finalChecks.consistency).toBe(true);
+  });
+
+  it("calls Premium 'your deepest offer', never 'most personal'", () => {
+    const r = validateStorefront(input(), page()).storefront.products[2].price_rationale;
+    expect(r).toContain("because it's your deepest offer, above your");
+    expect(r).not.toContain("personal");
+  });
+});
