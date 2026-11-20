@@ -1,6 +1,9 @@
 import type { CreatorInput, Storefront } from "@/lib/ai/schema";
 
-export type Screen = "input" | "generating" | "clarify" | "editor" | "error";
+export type Screen = "input" | "generating" | "clarify" | "editor" | "error" | "published";
+
+/** A published store on this device: the slug and the secret edit token (also in the private edit link). */
+export type Published = { slug: string; token: string; at: number };
 
 /** A price the creator typed themself, with the price we suggested so they can go back to it. */
 export type PriceOverride = { price: number; suggested: number };
@@ -15,6 +18,7 @@ export type Saved = {
   edited: boolean;
   prices: Record<string, PriceOverride>;
   clarify: { question: string; suggestions: string[] } | null;
+  published?: Published | null;
 };
 
 const KEY = "first-store:draft:v1";

@@ -36,7 +36,7 @@ export function initialsOf(name: string) {
   );
 }
 
-export function Storefront(props: { store: Store; theme: Theme; edit?: EditHooks }) {
+export function Storefront(props: { store: Store; theme: Theme; edit?: EditHooks; onWant?: (p: Product) => void; wantCounts?: Record<string, number> }) {
   const { store, theme, edit } = props;
   const c = store.creator;
   const text = (label: string, value: string, onChange: (v: string) => void, className: string, max: number, singleLine = false) =>
@@ -71,7 +71,7 @@ export function Storefront(props: { store: Store; theme: Theme; edit?: EditHooks
       <h2 className="mt-8 px-5 font-[family-name:var(--font-display)] text-[20px] font-extrabold">What I offer</h2>
       <div className="mt-3 space-y-4 px-4">
         {store.products.map((p) => (
-          <ProductCard key={p.id} p={p} store={store} edit={edit} text={text} />
+          <ProductCard key={p.id} p={p} store={store} edit={edit} text={text} onWant={props.onWant} wanted={props.wantCounts?.[p.id]} />
         ))}
       </div>
 
@@ -86,6 +86,8 @@ function ProductCard(props: {
   store: Store;
   edit?: EditHooks;
   text: (label: string, value: string, onChange: (v: string) => void, className: string, max: number, singleLine?: boolean) => React.ReactNode;
+  onWant?: (p: Product) => void;
+  wanted?: number;
 }) {
   const { p, store, edit, text } = props;
   const [hint, setHint] = useState(false);
@@ -121,7 +123,7 @@ function ProductCard(props: {
         <button
           type="button"
           onClick={() => {
-            if (!edit) return;
+            if (!edit) return props.onWant?.(p);
             setHint(true);
             setTimeout(() => setHint(false), 2500);
           }}
@@ -136,6 +138,11 @@ function ProductCard(props: {
         </p>
       )}
 
+      {edit && props.wanted ? (
+        <p className="mt-3 rounded-xl bg-store-tint px-3 py-2 text-[13px] font-semibold text-store-deep">
+          {props.wanted} {props.wanted === 1 ? "person wants" : "people want"} this
+        </p>
+      ) : null}
       {edit && (
         <>
           {note && <p className="mt-3 rounded-xl bg-amber-50 px-3 py-2 text-[13px] leading-5 text-amber-900">{note}</p>}

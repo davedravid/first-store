@@ -9,19 +9,26 @@ import { redis } from "./redis";
  * Only requests that will call a model are counted (the route runs the free pre-checks first).
  * Without Upstash values (local dev) it falls back to an in-memory count and logs a warning once.
  */
-export type LimitKind = "generate" | "regenerate";
+export type LimitKind = "generate" | "regenerate" | "publish" | "want";
 export type LimitResult = { ok: true } | { ok: false; reason: "ip" | "daily"; retryAfterSec: number };
 
 const perIp = Number(process.env.RATE_LIMIT_GENERATE_PER_IP) || 10;
+const wantPerIp = Number(process.env.RATE_LIMIT_WANT_PER_IP) || 5;
 const windowStr = (process.env.RATE_LIMIT_WINDOW || "1 h") as Duration;
 const dailyCap = Number(process.env.DAILY_CAP) || 50;
-const factor: Record<LimitKind, number> = { generate: 1, regenerate: 3 };
+
+/** Per IP per window, and per UTC day across everyone. Publish and "I want this" cost no LLM quota, so their daily caps are only abuse brakes. */
+const RULES: Record<LimitKind, { ip: number; daily: number; prefix: string }> = {
+  generate: { ip: perIp, daily: dailyCap, prefix: "fs:rl:gen" },
+  regenerate: { ip: perIp * 3, daily: dailyCap * 3, prefix: "fs:rl:regen" },
+  publish: { ip: 20, daily: 500, prefix: "fs:rl:pub" },
+  want: { ip: wantPerIp, daily: 2000, prefix: "fs:rl:want" },
+};
 
 const limiters: Record<LimitKind, Ratelimit> | null = redis
-  ? {
-      generate: new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(perIp, windowStr), prefix: "fs:rl:gen" }),
-      regenerate: new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(perIp * 3, windowStr), prefix: "fs:rl:regen" }),
-    }
+  ? (Object.fromEntries(
+      (Object.keys(RULES) as LimitKind[]).map((k) => [k, new Ratelimit({ redis: redis!, limiter: Ratelimit.slidingWindow(RULES[k].ip, windowStr), prefix: RULES[k].prefix })]),
+    ) as Record<LimitKind, Ratelimit>)
   : null;
 
 const memory = new Map<string, number>();
@@ -40,7 +47,7 @@ function secondsToUtcMidnight(): number {
 export async function checkLimits(kind: LimitKind, ip: string): Promise<LimitResult> {
   const day = new Date().toISOString().slice(0, 10);
   const capKey = `fs:cap:${kind}:${day}`;
-  const cap = dailyCap * factor[kind];
+  const cap = RULES[kind].daily;
 
   if (!redis || !limiters) {
     if (!warned) {

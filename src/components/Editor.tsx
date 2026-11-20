@@ -39,6 +39,11 @@ export function Editor(props: {
   onRegenerate: (target: RegenTarget, chip: Chip) => Promise<RegenOutcome>;
   onRegenerateAll: () => void;
   onBackToInput: () => void;
+  published: { slug: string; hasChanges: boolean } | null;
+  publishing: boolean;
+  wantCounts?: Record<string, number>;
+  onPublish: () => void;
+  onShowLive: () => void;
 }) {
   const { storefront: sf, input, theme } = props;
   const [sheet, setSheet] = useState<{ target: RegenTarget; note?: string; error?: string; last?: Chip } | null>(null);
@@ -70,10 +75,19 @@ export function Editor(props: {
     onRegen: (target) => setSheet({ target }),
   };
 
+  const pub = props.published;
   const publish = (
     <div>
-      <PrimaryButton disabled>Publish my store</PrimaryButton>
-      <p className="mt-1.5 text-center text-xs text-stone-500">Publishing comes in the next step.</p>
+      <PrimaryButton onClick={props.onPublish} disabled={props.publishing || props.busyBlock !== null || (pub !== null && !pub.hasChanges)}>
+        {props.publishing ? "Publishing..." : pub ? (pub.hasChanges ? "Update my live page" : "Live and up to date") : "Publish my store"}
+      </PrimaryButton>
+      {pub ? (
+        <button type="button" onClick={props.onShowLive} className="mt-1 block w-full text-center text-xs font-medium text-stone-600 underline underline-offset-2">
+          Live at /s/{pub.slug} · share and see interest
+        </button>
+      ) : (
+        <p className="mt-1.5 text-center text-xs text-stone-500">Free, no login. You get a link to share.</p>
+      )}
     </div>
   );
 
@@ -112,7 +126,7 @@ export function Editor(props: {
       <div className="frame-lg">
         <div className="phone-scroll">
           <p className="mx-4 mt-3 rounded-xl bg-white px-3 py-2 text-[14px] text-stone-600 shadow-sm lg:hidden">Tap any text to change it. Tap <b>New version</b> for a fresh take on a block.</p>
-          <Storefront store={sf} theme={theme} edit={hooks} />
+          <Storefront store={sf} theme={theme} edit={hooks} wantCounts={props.wantCounts} />
         </div>
       </div>
 

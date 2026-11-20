@@ -14,6 +14,6 @@ const App = dynamic(() => import("./App"), {
   ),
 });
 
-export default function ClientApp() {
-  return <App />;
+export default function ClientApp(props: { editSlug?: string }) {
+  return <App editSlug={props.editSlug} />;
 }

@@ -50,3 +50,33 @@ export type RegenTarget = { kind: "about" } | { kind: "product"; productId: stri
 export function regenerate(args: { input: CreatorInput; storefront: Storefront; target: RegenTarget; chip: Chip }) {
   return post<{ ok: true; storefront: Storefront }>("/api/regenerate", args);
 }
+
+// ---------- publishing ----------
+
+export type PublishFail = { ok: false; kind: UiError | "bad_token" };
+
+export async function publish(args: { input: CreatorInput; storefront: Storefront; slug?: string; token?: string }): Promise<{ ok: true; slug: string; token: string } | PublishFail> {
+  if (navigator.onLine === false) return { ok: false, kind: "offline" };
+  try {
+    const res = await fetch("/api/publish", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(args), signal: AbortSignal.timeout(20000) });
+    const j = await res.json().catch(() => null);
+    if (j?.ok) return j;
+    if (res.status === 403 || res.status === 404) return { ok: false, kind: "bad_token" };
+    return { ok: false, kind: res.status === 429 ? "busy" : "broken" };
+  } catch {
+    return { ok: false, kind: (navigator.onLine as boolean) === false ? "offline" : "slow" };
+  }
+}
+
+export type Signup = { productId: string; name: string; contact: string; at: number };
+export type Interest = { counts: Record<string, number>; signups: Signup[] };
+
+export async function loadForEdit(slug: string, token: string): Promise<{ ok: true; input: CreatorInput; storefront: Storefront; interest: Interest } | { ok: false; notFound: boolean }> {
+  try {
+    const res = await fetch("/api/store", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ slug, token }), cache: "no-store" });
+    const j = await res.json().catch(() => null);
+    return j?.ok ? j : { ok: false, notFound: res.status === 404 };
+  } catch {
+    return { ok: false, notFound: false };
+  }
+}

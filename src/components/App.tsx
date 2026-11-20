@@ -2,17 +2,20 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { Chip, CreatorInput, Storefront } from "@/lib/ai/schema";
-import { generate, regenerate, type RegenTarget, type UiError } from "@/lib/ui/api";
+import { generate, loadForEdit, publish, regenerate, type Interest, type RegenTarget, type UiError } from "@/lib/ui/api";
 import { normalizeHandle } from "@/lib/ui/handle";
 import { buildRationale } from "@/lib/ai/validators";
 import { creatorRationale } from "@/lib/ui/pricing";
 import { themeFor } from "@/lib/ui/theme";
+import { track } from "@/lib/ui/track";
 import { clearSaved, emptyInput, loadSaved, save, type PriceOverride, type Saved, type Screen } from "@/lib/ui/storage";
 import { ClarifyScreen } from "./ClarifyScreen";
 import { Editor, type RegenOutcome } from "./Editor";
 import { ErrorScreen } from "./ErrorScreen";
 import { GeneratingScreen } from "./GeneratingScreen";
 import { InputScreen, MAX_CHARS } from "./InputScreen";
+import { PublishedScreen } from "./PublishedScreen";
+import Link from "next/link";
 import { ConfirmSheet, Toast } from "./ui";
 
 type Undo = { label: string; storefront: Storefront; prices: Record<string, PriceOverride>; edited: boolean };
@@ -21,7 +24,8 @@ function initial(): Saved {
   const s = loadSaved();
   if (!s) return { v: 1, screen: "input", input: emptyInput(), handleRaw: "", storefront: null, edited: false, prices: {}, clarify: null };
   // A refresh mid-request or on an error screen lands back on the right place with the words kept.
-  const screen: Screen = s.screen === "editor" && s.storefront ? "editor" : s.screen === "clarify" && s.clarify ? "clarify" : "input";
+  const screen: Screen =
+    s.screen === "published" && s.published && s.storefront ? "published" : s.screen === "editor" && s.storefront ? "editor" : s.screen === "clarify" && s.clarify ? "clarify" : "input";
   return { ...s, screen };
 }
 
@@ -32,12 +36,22 @@ function applyPrices(input: CreatorInput, sf: Storefront, prices: Record<string,
   return out;
 }
 
-export default function App() {
+export default function App(props: { editSlug?: string }) {
   const [state, setState] = useState<Saved>(initial);
+  const [interest, setInterest] = useState<Interest | null>(null);
+  const [publishing, setPublishing] = useState(false);
+  const [justPublished, setJustPublished] = useState(false);
+  // The edit token comes from the link (#k=...) or, on the creator's own phone, from the saved draft.
+  const [editToken] = useState<string | null>(() => {
+    if (!props.editSlug) return null;
+    const saved = loadSaved()?.published;
+    return new URLSearchParams(window.location.hash.slice(1)).get("k") || (saved?.slug === props.editSlug ? saved.token : null);
+  });
+  const [editLink, setEditLink] = useState<"loading" | "bad" | "ok" | null>(props.editSlug ? (editToken ? "loading" : "bad") : null);
   const [error, setError] = useState<{ kind: UiError; daily?: boolean } | null>(null);
   const [hint, setHint] = useState<string | null>(null);
   const [busyBlock, setBusyBlock] = useState<string | null>(null);
-  const [toast, setToast] = useState<{ message: string; undo?: Undo } | null>(null);
+  const [toast, setToast] = useState<{ message: string; undo?: Undo; retry?: () => void } | null>(null);
   const [confirm, setConfirm] = useState<"redo" | "startover" | null>(null);
   const abort = useRef<AbortController | null>(null);
 
@@ -67,6 +81,61 @@ export default function App() {
 
   const go = (screen: Screen) => setState((s) => ({ ...s, screen }));
 
+  // The private edit link (/e/<slug>#k=<token>): load the published store for its creator.
+  useEffect(() => {
+    if (!props.editSlug || !editToken) return;
+    const slug = props.editSlug;
+    const token = editToken;
+    loadForEdit(slug, token).then((r) => {
+      if (!r.ok) return setEditLink("bad");
+      setInterest(r.interest);
+      setJustPublished(false);
+      setState({ v: 1, screen: "published", input: r.input, handleRaw: r.input.handle ?? "", storefront: r.storefront, edited: false, prices: {}, clarify: null, published: { slug, token, at: Date.now() } });
+      setEditLink("ok");
+    });
+  }, [props.editSlug, editToken]);
+
+  const refreshInterest = useCallback(async () => {
+    const p = state.published;
+    if (!p) return;
+    const r = await loadForEdit(p.slug, p.token);
+    if (r.ok) setInterest(r.interest);
+  }, [state.published]);
+
+  // Fresh "who wants what" numbers each time the live screen opens.
+  const pubSlug = state.published?.slug;
+  const pubToken = state.published?.token;
+  useEffect(() => {
+    if (state.screen !== "published" || !pubSlug || !pubToken) return;
+    let live = true;
+    loadForEdit(pubSlug, pubToken).then((r) => {
+      if (live && r.ok) setInterest(r.interest);
+    });
+    return () => {
+      live = false;
+    };
+  }, [state.screen, pubSlug, pubToken]);
+
+  async function doPublish() {
+    const sf = state.storefront;
+    if (!sf || publishing) return;
+    setPublishing(true);
+    setToast(null);
+    let r = await publish({ input: state.input, storefront: sf, slug: state.published?.slug, token: state.published?.token });
+    // The saved token no longer matches (store gone): publish it as a new store instead of failing.
+    if (!r.ok && r.kind === "bad_token") r = await publish({ input: state.input, storefront: sf });
+    setPublishing(false);
+    if (!r.ok) {
+      const msg = r.kind === "offline" ? "You are offline. Your store is saved here; try again when you are connected." : r.kind === "busy" ? "Lots of people are publishing right now. Try again in a few minutes." : "We could not publish just now. Your store is saved here.";
+      setToast({ message: msg, retry: doPublish });
+      return;
+    }
+    const first = !state.published;
+    setJustPublished(first);
+    setState((s) => ({ ...s, screen: "published", published: { slug: r.slug, token: r.token, at: Date.now() }, edited: false }));
+    if (!first) setToast({ message: "Your live page is updated." });
+  }
+
   const run = useCallback(async (input: CreatorInput, undoFrom?: Undo) => {
     if (!input.description.trim()) {
       setHint("Tell us a little about what you do first.");
@@ -82,6 +151,7 @@ export default function App() {
     const ctrl = new AbortController();
     abort.current = ctrl;
     setState((s) => ({ ...s, input, screen: "generating" }));
+    track("generate");
 
     let r;
     try {
@@ -99,7 +169,10 @@ export default function App() {
       return go("error");
     }
     const data = r.data;
-    if (data.status === "needs_more_info") setState((s) => ({ ...s, screen: "clarify", clarify: { question: data.question, suggestions: data.suggestions } }));
+    if (data.status === "needs_more_info") {
+      track("needs_more_info");
+      setState((s) => ({ ...s, screen: "clarify", clarify: { question: data.question, suggestions: data.suggestions } }));
+    }
     else {
       setState((s) => ({ ...s, screen: "editor", storefront: data.storefront, edited: false, prices: {}, clarify: null }));
       if (undoFrom) setToast({ message: "Here is a fresh page.", undo: undoFrom });
@@ -133,6 +206,7 @@ export default function App() {
     const next = applyPrices(state.input, { ...r.data.storefront, creator: { ...r.data.storefront.creator, display_name: sf.creator.display_name } }, prices);
     setState((s) => ({ ...s, storefront: next, prices }));
     setToast({ message: target.kind === "about" ? "Your intro is updated." : "Your product is updated.", undo });
+    track("regenerate", state.published?.slug);
     return { ok: true };
   }
 
@@ -169,12 +243,30 @@ export default function App() {
 
   const startOver = () => {
     clearSaved();
+    setInterest(null);
     setState({ v: 1, screen: "input", input: emptyInput(), handleRaw: "", storefront: null, edited: false, prices: {}, clarify: null });
   };
 
   // One accent per store: from the finished store (topic, niche), else the creator's own words.
   const theme = themeFor(state.storefront, state.input);
   const loadingTheme = themeFor(null, state.input);
+
+  if (editLink === "loading")
+    return (
+      <main className="mx-auto flex min-h-dvh max-w-[480px] items-center justify-center px-6" aria-busy="true">
+        <p className="text-base text-stone-600">Opening your store...</p>
+      </main>
+    );
+  if (editLink === "bad")
+    return (
+      <main className="mx-auto flex min-h-dvh max-w-[480px] flex-col justify-center px-6 text-center">
+        <h1 className="font-[family-name:var(--font-display)] text-[26px] font-extrabold tracking-tight">This edit link does not work</h1>
+        <p className="mt-2 text-base leading-6 text-stone-600">Check that you copied the whole link, including the part after the #. Your public page is not affected.</p>
+        <Link href="/" className="mt-6 flex min-h-[52px] items-center justify-center rounded-2xl bg-stone-900 px-5 text-[17px] font-semibold text-white">
+          Make a new store
+        </Link>
+      </main>
+    );
 
   return (
     <main className="w-full">
@@ -223,11 +315,31 @@ export default function App() {
           theme={theme}
           prices={state.prices}
           busyBlock={busyBlock}
-          onEdit={(sf) => setState((s) => ({ ...s, storefront: sf, edited: true }))}
+          onEdit={(sf) => {
+            setState((s) => ({ ...s, storefront: sf, edited: true }));
+            track("edit", state.published?.slug);
+          }}
+          published={state.published ? { slug: state.published.slug, hasChanges: state.edited } : null}
+          publishing={publishing}
+          wantCounts={interest?.counts}
+          onPublish={doPublish}
+          onShowLive={() => go("published")}
           onPrice={setPrice}
           onRegenerate={regen}
           onRegenerateAll={() => (state.edited ? setConfirm("redo") : redoAll())}
           onBackToInput={() => go("input")}
+        />
+      )}
+
+      {state.screen === "published" && state.published && state.storefront && (
+        <PublishedScreen
+          published={state.published}
+          storefront={state.storefront}
+          theme={theme}
+          interest={interest}
+          justPublished={justPublished}
+          onKeepEditing={() => go("editor")}
+          onRefresh={refreshInterest}
         />
       )}
 
@@ -242,7 +354,11 @@ export default function App() {
       <ConfirmSheet
         open={confirm === "startover"}
         title="Start over?"
-        body="This clears your words and your store draft from this phone. It cannot be undone."
+        body={
+          state.published
+            ? "This clears your words and draft from this phone. Your published store stays live, but you will need your private edit link to change it again."
+            : "This clears your words and your store draft from this phone. It cannot be undone."
+        }
         confirm="Yes, clear everything"
         onConfirm={() => {
           setConfirm(null);
@@ -250,8 +366,13 @@ export default function App() {
         }}
         onClose={() => setConfirm(null)}
       />
-      {toast && state.screen === "editor" && (
-        <Toast message={toast.message} actionLabel={toast.undo ? "Undo" : undefined} onAction={() => toast.undo && undo(toast.undo)} onDone={() => setToast(null)} />
+      {toast && (state.screen === "editor" || state.screen === "published") && (
+        <Toast
+          message={toast.message}
+          actionLabel={toast.undo ? "Undo" : toast.retry ? "Try again" : undefined}
+          onAction={() => (toast.undo ? undo(toast.undo) : toast.retry?.())}
+          onDone={() => setToast(null)}
+        />
       )}
     </main>
   );

@@ -136,3 +136,23 @@ One entry per session with the AI coding assistant (Claude Code). Newest at the 
 - The header band and hover outline read a colour variable that is resolved once for the whole page, so every store came out teal. Caught in the first screenshots.
 - Starter chips first moved the cursor one frame after the tap, so the first word typed was lost ("hostel mein" became "mein"), and iPhones might not have opened the keyboard. Caught by the behaviour script; focus now happens inside the tap.
 - The loading skeleton showed the default teal tint and the avatar sat behind the band; fixed on the next pass.
+
+## 2026-11-20: Publishing
+
+**What I asked:** Build publishing (spec decisions 8 to 10, 12 and 13).
+
+**What it built:**
+- Publish with no login: a public page at /s/<name>-<4 chars> and a private edit link /e/<slug>#k=<token>. The token sits after the #, so it never reaches a server log; only its SHA-256 is stored. Publishing again with the token updates the same page, and the page's cache is cleared at once.
+- The disclaimer is re-derived on the server at publish, so it cannot be removed. The public page never gets the creator's input, the token hash or "why this price".
+- "I want this" on the public page: name plus a 10-digit Indian mobile number or an email, a one-line consent note, de-duplicated per product, 5 per device per hour.
+- A "Your store is live" screen: copy link, WhatsApp share, open page, who wants what (counts, then names and contacts behind a tap), the private edit link with a warning, and the tracked "Make this a real store on SuperProfile" button.
+- A share image for WhatsApp and Instagram previews, generated from the store.
+- Funnel events per day and per store: generate, needs_more_info, edit, regenerate, publish, share_click, page_view, want_this_submit, superprofile_click.
+- An end-to-end Playwright test on the real database (publish, follower sign-up, count reaches the creator, edit link on a second device, update shows on the public page at once, bad link, share image, 404), then the test store is deleted.
+
+**What I changed or rejected:** nothing yet.
+
+**What it got wrong:**
+- React's lint caught two effects that set state in a way that causes extra renders; rewritten.
+- The contact box first opened an email keyboard on phones, which makes typing a WhatsApp number harder.
+- The missing-store page returns HTTP 200 instead of 404, a side effect of streaming in this Next.js version. People see the right page; only search engines see the code. Left as is.
