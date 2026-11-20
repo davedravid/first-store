@@ -22,8 +22,8 @@ What the creator tapped: {{chip}}
 
 Rules:
 - Keep the same tier. Keep the same id.
-- All the rules from the system prompt still apply: no hype words, no invented numbers or facts, safe claims only, Roman script only.
-- price_rationale explains the price in words only. Never put a rupee amount or any number in it.
+- All the rules from the system prompt still apply: no hype words, no invented names, numbers or facts, no promised extras, no rule or compliance language, safe claims only, Roman script only.
+- Do not write a "why this price" line or a disclaimer: code writes both.
 
 ## Chip instructions (reference)
 - try_another: a fresh take. Different angle or idea, same tier, same quality.

@@ -16,9 +16,10 @@ Language for all copy: {{language}}
 
 ## The storefront
 creator:
-- display_name: the creator's name if given, else a short friendly name from their handle or niche.
+- display_name: the creator's name only if they gave one. Otherwise a neutral label built from the niche, like "Home Baking with Kadai" or "Budget Recipes for Couples". Never a person's name they did not give. Never write a handle or placeholder text in any field.
 - niche: a short phrase for what they do.
 - niche_type: career_exam (exam prep, jobs, interviews, careers), expert (finance, law, design, coaching, a professional skill) or lifestyle (fitness, cooking, fashion, beauty, astrology, travel, parenting and similar).
+- safety_topic: finance (money, investing, trading, tax, credit), health (fitness, diet, yoga, any health condition), astrology (astrology, tarot, numerology, vastu) or none. Code uses it to add the right disclaimer.
 - tagline: one short line (under 90 characters).
 - bio: first person, 2 to 4 sentences (120 to 450 characters).
 - language: "{{language}}".
@@ -32,8 +33,8 @@ products: 2 to 4 product ideas the creator could make alone in a weekend to two 
 Each product:
 - id: "p1", "p2" and so on.
 - title: short and specific (under 60 characters). Plain words, no hype.
-- description: 1 to 2 sentences on who it is for and what they get (under 240 characters).
-- whats_inside: exactly 3 short bullets.
+- description: 1 to 2 sentences on who it is for and what they get (under 240 characters). Same duration as the title if the title has one.
+- whats_inside: exactly 3 short bullets about what it covers. No extras the creator did not mention (photos, WhatsApp support, certificates).
 - price_inr: a fair price in rupees for a price-sensitive Indian audience. Use only these price points: 49, 99, 149, 199, 249, 299, 399, 499, 599, 699, 799, 999, 1499, 1999, 2499, 2999, 3999, 4999. Stay inside the band for the format:
   - priority_dm: 49-199
   - template_pack, checklist, notes, prompt_pack: 99-499
@@ -44,5 +45,5 @@ Each product:
   - call_package, mentorship: 1499-4999
   - Just starting or under 5K followers: use the lower half of the band. 25K+ followers: the upper half.
   - Each higher tier must cost more than every lower tier.
-- price_rationale: one line telling the creator why this price makes sense, in words only. Never put a rupee amount or any number in it (for example "a low first price so followers can try you out"), because the final price may be adjusted.
 - effort_to_create: weekend, one_week or two_weeks.
+- (No "why this price" line: code writes it from the final price.)

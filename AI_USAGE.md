@@ -76,3 +76,24 @@ One entry per session with the AI coding assistant (Claude Code). Newest at the 
 - Failed calls logged the timeout limit as their latency instead of the real time.
 - An eval import accidentally started a run, and a test server kept running after its task was stopped.
 - Gemini Flash-Lite, the backup, returned 503 "overloaded" during the final API tests, so the backup path is proven to start but not to succeed tonight.
+
+## 2026-11-20: Fixes from my review of 10 stores (v2.1)
+
+**What I asked:** I reviewed the 10 v2 stores by hand and caught issues 1 to 5 myself: (1) invented names (Rahul, Anu, Meera), (2) the model writing "why this price", (3) finance products drifting into personalised trading advice, (4) compliance language in the copy ("without any regulatory claims"), (5) a title/description mismatch ("3-Month" vs "three weeks") and promised extras. I also asked for (6) inputs under 4 words to get the clarify question in code, (7) a Gemini retest with a second fallback only if still overloaded, and (8) a re-run of only the 3 failed cases plus the 10 rated stores, as v2.1, keeping v1 and v2 numbers unchanged.
+
+**What it built:**
+- Optional "name" input; display name = typed name > @handle > neutral niche label. Name check in the bio and display name.
+- Code-written "why this price" from the final price, band, audience and the tier below; the model no longer writes it.
+- Code-written disclaimers for finance, health and astrology pages (model tags the topic, a keyword safety net backs it up).
+- Finance advice phrase list plus patterns; compliance words added to the banned list; duration consistency check; prompt rules against promised extras.
+- Under-4-word inputs answered in code with a question that echoes what they typed.
+- Gemini Flash-Lite retested: 3/3 small calls and 2/2 full stores, about 2 s each. No second fallback added; AI_DESIGN.md explains why a second Groq model would not help with Groq rate limits.
+- v1 re-score frozen to a file so new rules cannot move the published v1/v2 numbers. 34 unit tests, all passing.
+- Results: v1 2/25 and v2 22/25 unchanged; v2.1 12/13.
+
+**What I changed or rejected:** the 8 points above. The rationale wording says "Our price guide puts..." instead of "usually sell for", because the bands are our heuristics, not market data.
+
+**What it got wrong:**
+- Its first v2.1 run scored 13/13, but reading the pages showed the checks had missed three things: a display name of "Options Trading with @handle" (caused by its own prompt wording), "No financial advice" in a bio, and a stock-trading store still offering "review of your current approach" and a "daily heads-up on market setups". The rules were tightened and the cases re-run; the honest path is written up in results.md.
+- It first wrote the token and retry numbers in AI_DESIGN.md from memory and got them wrong (4 of 12 retries, 3.9K average); checked against the run data and corrected (5 of 12, 4.5K).
+- Its keyword safety net at first would have put a finance disclaimer on a "budget outfits" fashion store; narrowed to strong signals before testing.

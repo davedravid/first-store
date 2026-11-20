@@ -14,6 +14,8 @@ export const AUDIENCE = ["just_starting", "under_5k", "5k_25k", "25k_100k_plus"]
 export const LANGUAGE = ["en", "hinglish"] as const;
 
 export const CreatorInputSchema = z.object({
+  /** Optional. If empty, the page uses the @handle, else a neutral label from the niche. Never an invented name. */
+  name: z.string().optional(),
   description: z.string().default(""),
   handle: z.string().optional(),
   instagram_bio: z.string().optional(),
@@ -63,7 +65,12 @@ export const FORMAT_LABEL: Record<Format, string> = {
   mentorship: "Mentorship",
 };
 
-export const ProductSchema = z.object({
+/** Topics that get a code-written disclaimer on the public page. */
+export const SAFETY_TOPIC = ["finance", "health", "astrology", "none"] as const;
+export type SafetyTopic = (typeof SAFETY_TOPIC)[number];
+
+/** What the MODEL writes for one product. No price_rationale: code writes that from the final price. */
+export const ModelProductSchema = z.object({
   id: z.string(),
   format: z.enum(FORMAT),
   tier: z.enum(TIER),
@@ -71,25 +78,45 @@ export const ProductSchema = z.object({
   description: z.string(),
   whats_inside: z.array(z.string()),
   price_inr: z.number(),
-  price_rationale: z.string(),
   effort_to_create: z.enum(EFFORT),
 });
+export type ModelProduct = z.infer<typeof ModelProductSchema>;
+
+/** A product on the final page: the model's product plus code's "why this price". */
+export const ProductSchema = ModelProductSchema.extend({ price_rationale: z.string() });
 export type Product = z.infer<typeof ProductSchema>;
 
 export const CreatorSchema = z.object({
   display_name: z.string(),
   niche: z.string(),
   niche_type: z.enum(NICHE_TYPE),
+  safety_topic: z.enum(SAFETY_TOPIC),
   tagline: z.string(),
   bio: z.string(),
   language: z.enum(LANGUAGE),
 });
 
+/** What the MODEL writes for a whole page. */
+export const ModelStorefrontSchema = z.object({
+  creator: CreatorSchema,
+  products: z.array(ModelProductSchema),
+});
+export type ModelStorefront = z.infer<typeof ModelStorefrontSchema>;
+
+/** The final page: code adds price_rationale per product and the disclaimer. */
 export const StorefrontSchema = z.object({
   creator: CreatorSchema,
   products: z.array(ProductSchema),
+  disclaimer: z.string().nullable(),
 });
 export type Storefront = z.infer<typeof StorefrontSchema>;
+
+/** Anything from a bare model draft to a final page (old pages may lack the code-owned fields). */
+export type Draft = {
+  creator: Omit<Storefront["creator"], "safety_topic"> & { safety_topic?: SafetyTopic };
+  products: (ModelProduct & { price_rationale?: string })[];
+  disclaimer?: string | null;
+};
 
 // ---------- Gate response (what the model returns for a generation) ----------
 // Sent to the model as ONE flat object with nullable fields, because a flat
@@ -97,13 +124,13 @@ export type Storefront = z.infer<typeof StorefrontSchema>;
 
 export const GateWireSchema = z.object({
   status: z.enum(["ready", "needs_more_info"]),
-  storefront: StorefrontSchema.nullable(),
+  storefront: ModelStorefrontSchema.nullable(),
   question: z.string().nullable(),
   suggestions: z.array(z.string()).nullable(),
 });
 
 export type GateResponse =
-  | { status: "ready"; storefront: Storefront }
+  | { status: "ready"; storefront: ModelStorefront }
   | { status: "needs_more_info"; question: string; suggestions: string[] };
 
 /** Turns the flat wire object into a clean union. Throws a readable message if fields are missing. */
@@ -123,7 +150,7 @@ export const CHIPS = ["try_another", "shorter", "more_casual", "more_premium", "
 export type Chip = (typeof CHIPS)[number];
 
 export const AboutBlockSchema = z.object({ tagline: z.string(), bio: z.string() });
-export const ProductBlockSchema = z.object({ product: ProductSchema });
+export const ProductBlockSchema = z.object({ product: ModelProductSchema });
 
 // ---------- JSON Schema for the providers ----------
 

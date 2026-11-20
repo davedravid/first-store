@@ -27,7 +27,9 @@ import {
   toProviderJsonSchema,
   type Chip,
   type CreatorInput,
-  type Product,
+  type Draft,
+  type ModelProduct,
+  type ModelStorefront,
   type Storefront,
 } from "./schema";
 import {
@@ -73,13 +75,13 @@ export type EngineMeta = {
   calls: CallLog[];
   totalMs: number;
   /** Decided before any model call (pre-checks). */
-  local?: "handle_only" | "no_words";
+  local?: "handle_only" | "no_words" | "too_short";
   fixes: Fix[];
   issues: Issue[];
   modelChecks?: Record<Category, boolean>;
   finalChecks?: Record<Category, boolean>;
   /** What the model wrote before code fixes (for evals). */
-  modelStorefront?: Storefront;
+  modelStorefront?: ModelStorefront;
   /** The model's last draft when everything failed (for evals and debugging; never sent to the UI). */
   lastDraft?: unknown;
 };
@@ -108,7 +110,7 @@ export async function generateStorefront(input: CreatorInput, opts: EngineOption
 
   const mode = opts.mode ?? "enforce";
   type Parsed =
-    | { status: "ready"; storefront: Storefront; model: Storefront; v: ReturnType<typeof validateStorefront> }
+    | { status: "ready"; storefront: Storefront; model: ModelStorefront; v: ReturnType<typeof validateStorefront> }
     | { status: "needs_more_info"; question: string; suggestions: string[] };
 
   const out = await runChain<Parsed>({
@@ -172,20 +174,21 @@ export async function regenerateBlock(
     schemaName: target.kind === "about" ? "about_block" : "product_block",
     schema: toProviderJsonSchema(target.kind === "about" ? AboutBlockSchema : ProductBlockSchema),
     parse: (json) => {
-      const merged: Storefront = structuredClone(page);
+      const merged: Draft = structuredClone(page);
       if (target.kind === "about") {
         const b = AboutBlockSchema.parse(json);
         merged.creator.tagline = b.tagline;
         merged.creator.bio = b.bio;
       } else {
         const old = page.products[index];
-        const p: Product = { ...ProductBlockSchema.parse(json).product, id: old.id, tier: old.tier };
+        const p: ModelProduct = { ...ProductBlockSchema.parse(json).product, id: old.id, tier: old.tier };
         // Cheaper / More premium: code moves the price one step; the model only rewrites the copy.
         if (chip === "cheaper" || chip === "more_premium")
           p.price_inr = stepPrice(old.price_inr, priceBand(p.format, input.audience, merged.creator.niche_type), chip === "cheaper" ? -1 : 1);
         merged.products[index] = p;
       }
-      const v = validateStorefront(input, merged, opts.mode ?? "enforce");
+      // setName false: never overwrite a display name the creator may have edited.
+      const v = validateStorefront(input, merged, opts.mode ?? "enforce", { setName: false });
       // Only problems this regeneration introduced count; the creator's own edits elsewhere never block it.
       const fresh = v.errors.filter((e) => !before.includes(e.message));
       return { value: { storefront: v.storefront, fixes: v.fixes }, issues: fresh, fixes: v.fixes };

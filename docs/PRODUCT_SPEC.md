@@ -9,12 +9,15 @@ PRIMARY USER: Indian micro-creator, 5K-100K followers (fitness, finance, cooking
 DESIGN PRINCIPLE: The creator is stuck on a blank page, so never hand them another one. Taps beat typing. Clarify, don't reject. Never show a broken page, to the creator OR their follower.
 
 DECISIONS
-1. Input: one screen. Text box (required), optional @handle (display label only), optional "Paste your Instagram bio" box, audience size chips (just starting / under 5K / 5-25K / 25-100K+), language toggle (English / Hinglish).
+1. Input: one screen. Text box (required), optional name, optional @handle (display label only), optional "Paste your Instagram bio" box, audience size chips (just starting / under 5K / 5-25K / 25-100K+), language toggle (English / Hinglish).
 2. Instagram: NO scraping. The handle is never used to guess a niche. The pasted bio is treated as creator input.
-3. Output (structured JSON, schema-constrained): creator {display_name, niche, niche_type(career_exam|expert|lifestyle), tagline, bio, language}; products[2..4] each {id, format, tier(starter|core|premium), title, description, whats_inside[3], price_inr, price_rationale, effort_to_create(weekend|one_week|two_weeks)}. `format` is a fixed list (priority_dm, template_pack, checklist, notes, prompt_pack, ebook_guide, roadmap, workshop, call_1on1, short_course, call_package, mentorship) so code can look up the price band; community is not on it. price_rationale is written in words only, never a rupee amount or number, because code may change the price. See docs/AI_DESIGN.md.
+3. Output (structured JSON, schema-constrained). The MODEL writes: creator {display_name, niche, niche_type(career_exam|expert|lifestyle), safety_topic(finance|health|astrology|none), tagline, bio, language}; products[2..4] each {id, format, tier(starter|core|premium), title, description, whats_inside[3], price_inr, effort_to_create(weekend|one_week|two_weeks)}. CODE adds: display_name (typed name, else @handle, else the model's neutral niche label), the final price_inr, price_rationale per product, and disclaimer. `format` is a fixed list (priority_dm, template_pack, checklist, notes, prompt_pack, ebook_guide, roadmap, workshop, call_1on1, short_course, call_package, mentorship) so code can look up the price band; community is not on it. See docs/AI_DESIGN.md.
+3b. Names: never invent a person's name. If the creator gives no name, the page shows their @handle, else a neutral label from the niche ("Home Baking with Kadai"). Code flags any name in the bio or display name that is not in the input or a whole word of the handle.
+3c. "Why this price" is written by code from the final price, the band, the audience bucket and the tier below it, e.g. "Our price guide puts ebooks and guides from creators with 5-25K followers at ₹199-₹499. We picked ₹399 so it's a step up from your ₹99 starter." Worded "our price guide" because the bands are our heuristics, not market data.
+3d. Disclaimers, written by code and shown on the public page: finance "Educational content only. Not investment advice."; health/fitness "Not medical advice."; astrology "For guidance only; no guaranteed outcomes." Topic comes from the model's safety_topic plus a keyword safety net on the creator's own words.
 4. Product ladder: Starter (Priority DM, template, checklist, notes), Core (workshop, ebook, short course), Premium (always a package such as 3 calls, or a mentorship; never a single call). Distinct formats. Code enforces price order Premium > Core > Starter.
-5. THE MODEL WRITES, CODE ENFORCES. Model proposes format, tier and copy. Code: sets/snaps price from the band table, enforces tier order, rejects hype words, flags any number in the output not present in the creator's input, checks lengths and product count. Failed checks -> one retry with errors fed back -> friendly fallback.
-6. Gate: the model returns either {status:"ready", storefront} or {status:"needs_more_info", question, suggestions[3]}. One-word or gibberish input leads to ONE follow-up question with 3 tappable suggestions. A handle-only input with no description also goes to the needs_more_info clarify question, never an error (the handle is never read, so there is nothing to generate from yet).
+5. THE MODEL WRITES, CODE ENFORCES. Model proposes format, tier and copy. Code: sets/snaps price from the band table, enforces tier order, writes the price rationale and disclaimer, rejects hype words and rule/compliance language ("regulatory", "SEBI registered", "no financial advice"), flags any number or name in the output not present in the creator's input, flags personalised trading advice on finance pages, flags a title/description duration mismatch, checks lengths and product count. Failed checks -> one retry with errors fed back -> friendly fallback.
+6. Gate: the model returns either {status:"ready", storefront} or {status:"needs_more_info", question, suggestions[3]}. One-word or gibberish input leads to ONE follow-up question with 3 tappable suggestions. Inputs under 4 words (after removing the handle) get the question in code with no model call, echoing what they typed. A handle-only input with no description also goes to the needs_more_info clarify question, never an error (the handle is never read, so there is nothing to generate from yet).
 6b. Slow LLM: every model call has a timeout. While waiting, show an honest loading state (say what is happening, no fake progress). On timeout, one retry, then the friendly fallback.
 7. Editor = tap-to-edit live preview. Per-block regenerate sheet with chips: Try another / Shorter / More casual / More premium / Cheaper. Regenerate-all asks to confirm if edits exist. Every regenerate has one-tap Undo. Regenerating one block sends the rest of the page as context.
 8. Publish: no login. /s/<slug> public page + private edit link (secret token) + copy link + WhatsApp share + OG tags. Draft autosaves.
@@ -27,9 +30,11 @@ DECISIONS
 
 QUALITY RULES FOR GENERATED COPY
 - Simple, warm, specific. First-person bio. No hype words ("ultimate", "game-changing", "unlock", "secret").
-- NEVER invent follower counts, testimonials, credentials, results or numbers the creator didn't give. Omit rather than fabricate.
+- NEVER invent follower counts, testimonials, credentials, results, names or numbers the creator didn't give. Omit rather than fabricate.
+- Do not promise specifics the creator didn't mention (content counts, photos, WhatsApp support, certificates). Title and description must agree (e.g. on duration).
+- No rule or compliance language in the copy; disclaimers are added by code.
 - Hinglish = natural Roman-script Hindi-English mix, how a creator would actually speak.
-- Safe claims: finance = education only, no stock tips or investment advice; fitness/health = no medical claims; astrology and exam prep = no guaranteed outcomes.
+- Safe claims: finance = education only, no stock tips, investment advice or personalised trading advice (no reviewing the buyer's trades or setup, no next moves, entry/exit or signals); fitness/health = no medical claims; astrology and exam prep = no guaranteed outcomes.
 - Product ideas must be makeable by one person in about a weekend to two weeks.
 
 PRICING (starting heuristics, sense-checked against Topmate public data; Topmate skews to career/expert niches so treat it as a ceiling for lifestyle creators)
@@ -44,7 +49,7 @@ Format -> default band in INR
 Not generated in v1: community membership.
 Audience: "just starting" / under 5K -> lower half of band; 25-100K+ -> upper half. career_exam niches can use the upper half one audience step earlier.
 Price points only: 49, 99, 149, 199, 249, 299, 399, 499, 599, 699, 799, 999, 1499, 1999, 2499, 2999, 3999, 4999, 7999, 9999.
-Each product has a one-line "why this price" for the creator.
+Each product has a one-line "why this price" for the creator, written by code (see 3c).
 
 NOT BUILDING: payments/checkout, accounts, product file upload or delivery, AI writing the actual ebook/course, image generation, themes, custom domains, Devanagari Hindi, any Instagram scraping, community memberships, "let buyers choose price" toggle, fee calculator, SuperProfile integration.
 

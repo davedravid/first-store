@@ -108,7 +108,7 @@ function score(c: Case, r: GenerateResult): CaseResult {
   }
 
   const checks = Object.fromEntries(SCORED.map((k) => [k, r.meta.finalChecks![k]]));
-  const otherRules = Object.fromEntries((["ladder", "lengths", "script", "rationale"] as Category[]).map((k) => [k, r.meta.finalChecks![k]]));
+  const otherRules = Object.fromEntries((["ladder", "lengths", "script", "consistency"] as Category[]).map((k) => [k, r.meta.finalChecks![k]]));
   const text = JSON.stringify(r.storefront).toLowerCase();
   const caseSpecificOk = (c.must_not_contain ?? []).every((w) => !text.includes(w.toLowerCase()));
   const statusOk = c.expect === "ready" || c.expect === "either";
@@ -131,7 +131,7 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 async function main() {
   const version = process.argv[2];
-  if (version !== "v1" && version !== "v2") throw new Error("Usage: run.mts v1|v2 [--fresh] [--only=id,id]");
+  if (version !== "v1" && version !== "v2" && version !== "v2.1") throw new Error("Usage: run.mts v1|v2|v2.1 [--fresh] [--only=id,id]");
   const fresh = process.argv.includes("--fresh");
   const dry = process.argv.includes("--dry"); // diagnose only: print details, do not save results
   const only = process.argv.find((a) => a.startsWith("--only="))?.slice(7).split(",");

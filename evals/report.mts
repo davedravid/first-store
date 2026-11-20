@@ -2,31 +2,21 @@
  * Builds evals/results.md from evals/runs/v1.json and v2.json. No model calls.
  * Run: node --import tsx evals/report.mts
  *
- * v1 pages are re-checked with the FINAL validator rules (report mode), so v1 and v2 are judged by the same rules.
- * Cases that errored in a run stay errors; re-checking cannot invent a page that was never produced.
+ * v1 and v2 numbers are frozen as published: v1 comes from runs/v1-rescored.json (v1 pages checked with the v2 rules),
+ * v2 from runs/v2.json. v2.1 (a 13-case re-run) comes from runs/v2.1.json with the v2.1 rules.
  */
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { FORMAT_LABEL, type CreatorInput, type Storefront } from "../src/lib/ai/schema";
-import { validateStorefront } from "../src/lib/ai/validators";
 import { SCORED, type CaseResult } from "./run.mjs";
 
 type Case = { id: string; label: string; expect: string; repeat_to?: number; must_not_contain?: string[]; input: CreatorInput };
 const cases: Case[] = JSON.parse(readFileSync("evals/cases.json", "utf8"));
 const v1raw: Record<string, CaseResult> = JSON.parse(readFileSync("evals/runs/v1.json", "utf8"));
+const v21: Record<string, CaseResult> = existsSync("evals/runs/v2.1.json") ? JSON.parse(readFileSync("evals/runs/v2.1.json", "utf8")) : {};
 const v2: Record<string, CaseResult> = JSON.parse(readFileSync("evals/runs/v2.json", "utf8"));
 
-// ---- re-check v1 pages with the final rules ----
-const v1: Record<string, CaseResult> = {};
-for (const c of cases) {
-  const r = structuredClone(v1raw[c.id]);
-  if (r?.outcome === "ready" && r.storefront) {
-    const v = validateStorefront(c.input, r.storefront, "report");
-    r.checks = Object.fromEntries(SCORED.map((k) => [k, v.finalChecks[k]]));
-    r.issues = v.errors.map((i) => `[${i.category}] ${i.message}`);
-    r.passAll = r.statusOk && r.caseSpecificOk && Object.values(r.checks).every(Boolean);
-  }
-  v1[c.id] = r;
-}
+// ---- v1 re-scored with the v2 rules, frozen on 20 Nov 2026 by freeze-v1.mts (later rule changes never move it) ----
+const v1: Record<string, CaseResult> = JSON.parse(readFileSync("evals/runs/v1-rescored.json", "utf8"));
 
 const ids = cases.map((c) => c.id);
 const passCount = (runs: Record<string, CaseResult>) => ids.filter((id) => runs[id]?.passAll).length;
@@ -57,10 +47,10 @@ function expectText(e: string) {
   return { ready: "store", needs_more_info: "question", too_long: "blocked", either: "store or question" }[e] ?? e;
 }
 
-function caseTable(runs: Record<string, CaseResult>, showModelPrice: boolean): string {
+function caseTable(runs: Record<string, CaseResult>, showModelPrice: boolean, only: string[] = ids): string {
   const head = `| Case | Expected | Got | ${SCORED.map((k) => CHECK_NAMES[k]).join(" | ")} |${showModelPrice ? " Model's own price in band |" : ""} Retry | Time | Tokens | Pass |`;
   const sep = `|${"---|".repeat(SCORED.length + (showModelPrice ? 8 : 7))}`;
-  const rows = ids.map((id) => {
+  const rows = only.map((id) => {
     const r = runs[id];
     const c = cases.find((x) => x.id === id)!;
     const checks = SCORED.map((k) => tick(r.checks?.[k]));
@@ -75,7 +65,7 @@ function checkSummary(runs: Record<string, CaseResult>) {
 }
 
 function stats(runs: Record<string, CaseResult>) {
-  const called = ids.map((id) => runs[id]).filter((r) => r.calls > 0);
+  const called = ids.map((id) => runs[id]).filter((r) => r && r.calls > 0);
   return {
     medianMs: median(called.map((r) => r.latencyMs)),
     avgMs: avg(called.map((r) => r.latencyMs)),
@@ -96,7 +86,7 @@ function renderStore(c: Case, r: CaseResult, n: number): string {
   const lines = [
     `### ${n}. ${c.label}`,
     "",
-    `> **What the creator typed:** ${c.input.description}${c.input.instagram_bio ? `  \n> **Instagram bio:** ${c.input.instagram_bio}` : ""}  \n> **Audience:** ${c.input.audience.replace(/_/g, " ")} · **Language:** ${c.input.language}`,
+    `> **What the creator typed:** ${c.input.description}${c.input.handle ? `  \n> **Handle:** ${c.input.handle}` : ""}${c.input.instagram_bio ? `  \n> **Instagram bio:** ${c.input.instagram_bio}` : ""}  \n> **Audience:** ${c.input.audience.replace(/_/g, " ")} · **Language:** ${c.input.language}`,
     "",
     `**${s.creator.display_name}** · ${s.creator.niche}`,
     `*${s.creator.tagline}*`,
@@ -110,6 +100,7 @@ function renderStore(c: Case, r: CaseResult, n: number): string {
     for (const w of p.whats_inside) lines.push(`- ${w}`);
     lines.push(`*Why this price:* ${p.price_rationale}`, "");
   }
+  if (s.disclaimer) lines.push(`<sub>Disclaimer on the page: ${s.disclaimer}</sub>`, "");
   if (r.fixes.length) lines.push(`<sub>Code fixed: ${r.fixes.join("; ")}</sub>`, "");
   lines.push("**Would an Indian micro-creator ship this?**  ☐ Yes  ☐ No  ·  Note: ____________________", "", "---", "");
   return lines.join("\n");
@@ -137,9 +128,16 @@ const p1 = passCount(v1);
 const p2 = passCount(v2);
 const v2Fails = ids.filter((id) => !v2[id].passAll);
 
+// ---- v2.1: 13-case re-run (the 3 v2 fails + the 10 rated stores) ----
+const v21Ids = ids.filter((id) => v21[id]);
+const p21 = v21Ids.filter((id) => v21[id].passAll).length;
+const v21Fails = v21Ids.filter((id) => !v21[id].passAll);
+const s21 = stats(Object.fromEntries(v21Ids.map((id) => [id, v21[id]])) as Record<string, CaseResult>);
+const RATE21 = RATE.filter((id) => v21[id]?.outcome === "ready");
+
 const md = `# First Store: AI eval results
 
-**v1: ${p1}/25 pass all checks, v2: ${p2}/25.**
+**v1: ${p1}/25 pass all checks, v2: ${p2}/25.**${v21Ids.length ? ` **v2.1 (re-run of ${v21Ids.length} cases: the 3 v2 fails + the 10 rated stores): ${p21}/${v21Ids.length}.**` : ""}
 
 Real runs on Groq \`openai/gpt-oss-120b\` (free tier), 19 Nov 2026. 25 inputs: 15 realistic creators and 10 ugly ones. Raw data: \`evals/runs/v1.json\` and \`v2.json\`.
 
@@ -156,7 +154,7 @@ Real runs on Groq \`openai/gpt-oss-120b\` (free tier), 19 Nov 2026. 25 inputs: 1
 
 **How a case passes:** the right kind of answer (a store, one clarifying question, or "too long" blocked before any AI call), plus all six checks below on the final page. For the prompt-injection case, the page also must not echo the injected words. The evals run on Groq only, so a case that still breaks a rule after the retry counts as a fail. On the live site Gemini would try it next.
 
-**Scoring note:** the number rule got stricter between the runs: content counts like "50+ tricks" now count as invented. So the saved v1 pages were re-checked with the same final rules as v2. ${v1OriginalPass === p1 ? `This did not change v1's result (${p1}/25 either way), only which checks each page failed.` : `With the rules as they stood during the v1 run, v1 scored ${v1OriginalPass}/25.`}
+**Scoring note:** the number rule got stricter between the runs: content counts like "50+ tricks" now count as invented. So the saved v1 pages were re-checked with the same rules as v2. ${v1OriginalPass === p1 ? `This did not change v1's result (${p1}/25 either way), only which checks each page failed.` : `With the rules as they stood during the v1 run, v1 scored ${v1OriginalPass}/25.`}
 
 ## Checks passed, per check (out of pages produced)
 
@@ -179,11 +177,43 @@ ${SCORED.map((k) => `| ${CHECK_NAMES[k]} | ${c1[k]} | ${c2[k]} |`).join("\n")}
 
 ${v2Fails.map((id) => `- **${cases.find((c) => c.id === id)!.label}:** ${v2[id].outcome === "ready" ? "built a store where a clarifying question was expected" : v2[id].issues[0]?.replace(/^\[\w+\] /, "") ?? v2[id].errorCode}`).join("\n")}
 
-## v2, case by case
+${
+  v21Ids.length
+    ? `## v2.1: after the store review (20 Nov 2026)
+
+**${p21}/${v21Ids.length} pass all checks.** Re-run of ${v21Ids.length} cases only, to save free-tier quota: the 3 cases that failed in v2 plus the 10 stores rated by hand. The v1 and v2 numbers above are unchanged.
+
+What changed from v2 (issues 1-5 came from the hand review of the 10 stores):
+1. **Invented names** (stores named Rahul, Anu, Meera). New optional "name" input. The page shows the typed name, else the @handle, else a neutral niche label ("Home Baking with Kadai"). The prompt never invents a name, and code flags a name in the bio or display name that the creator did not give.
+2. **"Why this price" is written by code**, from the final price, the band, the audience and the cheaper tier. Example: *"Our price guide puts ebooks and guides from creators with 5-25K followers at ₹199-₹499. We picked ₹499 so it's a step up from your ₹149 starter."* The model no longer writes it.
+3. **Finance is education only.** Code flags personalised trading advice: a phrase list ("next move", "entry/exit", "buy/sell signals"...) plus patterns for rewordings ("review of your current approach", "tailored suggestions", "the day's key options setup", "your recent trades"). Finance, health and astrology pages get a fixed, code-written disclaimer.
+4. **No rule or compliance language in the copy** ("regulatory", "SEBI registered", "no financial advice"...).
+5. **Consistency:** a duration in a product title must match its description ("3-Month" vs "three weeks"). The prompt also says not to promise extras the creator never mentioned (photos, WhatsApp support).
+6. **Inputs under 4 words** get the clarifying question in code, with no model call, and the question repeats what they typed ("You said \\"fitness\\". Who do you help, and with what?").
+
+**Honest note on how v2.1 got here:** the first v2.1 run scored 13/13, but reading the pages found problems the checks missed: a display name of "Options Trading with @handle" (a placeholder copied from my own prompt), a bio saying "No financial advice", and a stock-trading store still offering "review of your current approach" and a "daily heads-up on market setups". Re-checking that run with tightened rules gave 11/13. After fixing the prompt and the rules, the 13 cases were re-run (the two finance cases once more after the last finance patterns). The table below is that final run.
+
+| | v2.1 |
+|---|---|
+| Pass all checks | **${p21}/${v21Ids.length}** |
+| Median time per case | ${(s21.medianMs / 1000).toFixed(1)} s |
+| Average tokens per case | ${s21.avgTokens} |
+| Cases that needed the retry | ${s21.retries}/${s21.calls} |
+
+Still failing in v2.1 (${v21Fails.length}):
+${v21Fails.map((id) => `- **${cases.find((c) => c.id === id)!.label}:** ${v21[id].issues[0]?.replace(/^\[\w+\] /, "") ?? v21[id].errorCode}`).join("\n") || "- none"}
+
+Word lists and patterns only catch phrasings someone has thought of. The finance rule caught two rewordings only after a human read the pages. That is the strongest argument for keeping a human check on finance and health pages before launch at scale.
+
+${caseTable(v21, true, v21Ids)}
+
+`
+    : ""
+}## v2, case by case
 
 ${caseTable(v2, true)}
 
-## v1, case by case (re-scored with the final rules)
+## v1, case by case (re-scored with the v2 rules)
 
 ${caseTable(v1, false)}
 
@@ -192,7 +222,16 @@ ${caseTable(v1, false)}
 Exactly what a creator would see after code checks (final prices, ₹).
 
 ${RATE.map((id, i) => renderStore(cases.find((c) => c.id === id)!, v2[id], i + 1)).join("\n")}
-`;
+${
+  RATE21.length
+    ? `
+## The same stores in v2.1 (rate again)
+
+After the review fixes: real names only, code-written "why this price", disclaimers, no rule language.
+
+${RATE21.map((id, i) => renderStore(cases.find((c) => c.id === id)!, v21[id], i + 1)).join("\n")}`
+    : ""
+}`;
 
 writeFileSync("evals/results.md", md);
-console.log(`results.md written. v1 ${p1}/25 (original rules ${v1OriginalPass}/25), v2 ${p2}/25. Stores to rate: ${RATE.length}`);
+console.log(`results.md written. v1 ${p1}/25 (original rules ${v1OriginalPass}/25), v2 ${p2}/25, v2.1 ${p21}/${v21Ids.length}. Stores to rate: ${RATE.length} + ${RATE21.length}`);

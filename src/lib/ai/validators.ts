@@ -1,21 +1,38 @@
 /**
  * THE MODEL WRITES, CODE ENFORCES.
  *
- * Every rule about meaning lives in this one file:
- *   1. Price      – band from (format x audience x niche type), clamped and snapped to an allowed point. Code fixes.
- *   2. Tier order – Premium > Core > Starter. Code fixes by re-pricing.
- *   3. Ladder     – Premium is a package or mentorship (never one call); no community; 2-4 products; distinct formats.
- *   4. Lengths    – name, tagline, bio, titles, descriptions, bullets, rationale.
- *   5. Hype words – banned list.
- *   6. Safe claims– no guarantees, cures or stock tips.
- *   7. Invented numbers – any number in the copy that the creator did not give is flagged.
- *   8. Rationale  – "why this price" must not contain a rupee amount or number (code may change the price).
- *   9. Script     – Roman script only (no Devanagari).
+ * Every rule about meaning lives in this one file.
  *
- * mode "enforce": apply the fixes (price, tier order) and return errors for the rest (they go back to the model).
+ * Code WRITES (the model never does):
+ *   - Final price      band from (format x audience x niche type), clamped and snapped to an allowed point
+ *   - Tier order       Premium > Core > Starter, fixed by re-pricing
+ *   - Display name     the creator's name if given, else their @handle, else the model's neutral niche label
+ *   - "Why this price" built from the band, the audience and the other tiers, using the final price
+ *   - Disclaimer       finance / health / astrology pages get a fixed one-line disclaimer
+ *
+ * Code CHECKS (problems go back to the model for one retry):
+ *   - Ladder           2-4 products, distinct formats, one Starter, Premium is a package or mentorship, no community
+ *   - Lengths          name, tagline, bio, titles, descriptions, bullets
+ *   - Banned words     hype words and rule/compliance language ("regulatory", "SEBI registered", "disclaimer"...)
+ *   - Safe claims      no guarantees, cures or stock tips; finance pages: no personalised trading advice
+ *   - Invented facts   numbers the creator never gave ("10,000+ students", "50+ tricks") and names they never gave
+ *   - Consistency      a duration in the title must match the description ("3-Month" vs "three weeks")
+ *   - Script           Roman script only (no Devanagari)
+ *
+ * mode "enforce": apply the fixes and return errors for the rest.
  * mode "report" : fix nothing, only record what is wrong (used for the v1 eval run).
  */
-import type { Audience, CreatorInput, Format, GateResponse, NicheType, Product, Storefront, Tier } from "./schema";
+import {
+  type Audience,
+  type CreatorInput,
+  type Draft,
+  type Format,
+  type GateResponse,
+  type NicheType,
+  type SafetyTopic,
+  type Storefront,
+  type Tier,
+} from "./schema";
 
 // ======================================================================
 // 1. PRICE BANDS (from docs/PRODUCT_SPEC.md "PRICING")
@@ -86,7 +103,7 @@ export function stepPrice(price: number, band: Band, dir: 1 | -1): number {
 }
 
 // ======================================================================
-// 3. LADDER RULES
+// 2. LADDER RULES
 // ======================================================================
 
 const TIER_RANK: Record<Tier, number> = { starter: 0, core: 1, premium: 2 };
@@ -98,7 +115,7 @@ export const ALLOWED_FORMATS: Record<Tier, Format[]> = {
 };
 
 // ======================================================================
-// 4. LENGTH LIMITS (characters)
+// 3. LENGTH LIMITS (characters)
 // ======================================================================
 
 export const LIMITS = {
@@ -109,19 +126,25 @@ export const LIMITS = {
   title: { min: 5, max: 60 },
   description: { min: 40, max: 240 },
   whats_inside_item: { min: 3, max: 80 },
-  price_rationale: { min: 10, max: 120 },
   question: { min: 10, max: 140 },
   suggestion: { min: 3, max: 60 },
 };
 
 // ======================================================================
-// 5 + 6. WORD LISTS
+// 4. WORD LISTS
 // ======================================================================
 
 export const HYPE_WORDS = [
   "ultimate", "game-changing", "game changing", "game changer", "game-changer", "unlock", "unlocks", "unlocking",
   "secret", "secrets", "life-changing", "life changing", "revolutionary", "overnight", "mind-blowing", "mind blowing",
   "world-class", "world class", "skyrocket", "supercharge", "next level", "next-level", "transform your life",
+];
+
+/** Rule and compliance language never belongs in the creator's copy (disclaimers are added by code instead). */
+export const COMPLIANCE_WORDS = [
+  "regulatory", "regulated", "regulation", "regulations", "sebi", "registered advisor", "registered adviser",
+  "registered investment", "financial advice", "investment advice", "medical advice", "legal advice",
+  "disclaimer", "compliance", "compliant", "terms and conditions", "liability",
 ];
 
 export const UNSAFE_CLAIMS = [
@@ -135,6 +158,124 @@ export const UNSAFE_CLAIMS = [
   "stock tip", "stock tips", "multibagger", "multi-bagger", "buy call", "sell call", "assured returns",
   "guaranteed returns", "double your money", "intraday tips",
 ];
+
+/** Personalised trading advice. Checked on finance pages only ("picks" is fine for a thrift store). */
+export const FINANCE_ADVICE = [
+  "analysis of your setup", "analyse your setup", "analyze your setup", "your setup", "next move", "next moves",
+  "review your trades", "review of your trades", "your trades", "trade review", "trade reviews", "trade calls",
+  "trading calls", "trade alerts", "trading alerts", "entry/exit", "entry and exit", "entry & exit", "entry points",
+  "exit points", "entry price", "exit price", "buy/sell", "buy or sell", "buy and sell signals", "buy signals",
+  "sell signals", "trading signals", "stock picks", "picks", "which stocks to buy", "what to buy", "portfolio review",
+  "review your portfolio", "target price", "live trades", "profit targets", "exit criteria", "next trading week",
+  "next trading day", "next trading session",
+];
+
+/**
+ * Word lists miss rewordings ("review of your current approach", "tailored suggestions for strategy improvement"),
+ * so finance pages also get these patterns: a review verb aimed at the buyer's own trading, or a tailored strategy.
+ */
+const FINANCE_ADVICE_PATTERNS: RegExp[] = [
+  /\b(review|reviewing|reviews|analy[sz]\w*|audit\w*|check\w*|fine-?tun\w*|assess\w*)\s+(of\s+)?(your|ur)\s+(current\s+|own\s+)?(trad\w*|setups?|positions?|portfolios?|charts?|approach|strateg\w*|plans?|picks?)/i,
+  /\b(tailored|personali[sz]ed|custom)\s+(trading\s+|investment\s+)?(strateg\w*|suggestions?|trades?|portfolios?|picks?|calls?|signals?)/i,
+  /\b(personali[sz]ed|tailored)\b[^.]{0,40}\b(trad\w*|options|stocks?|portfolio)/i,
+  // the buyer's own trades or positions, in any wording ("your recent trades", "your open positions")
+  /\byour\s+(recent\s+|current\s+|own\s+|open\s+|live\s+|past\s+|last\s+)?(trades?|positions?|portfolios?)\b/i,
+  // daily trade ideas dressed up as content ("the day's key options setup", "daily heads-up on market setups")
+  /\b(market|options?|trade|trading|intraday|stock)\s+setups?\b/i,
+  /\b(daily|day['’]s|today['’]s|tomorrow['’]s|weekly)\b[^.;]{0,30}\b(setups?|trades?|levels?|calls?|trade ideas?|picks?)\b/i,
+];
+
+// ======================================================================
+// 5. DISCLAIMERS (code-written, shown on the public page)
+// ======================================================================
+
+export const DISCLAIMERS: Record<Exclude<SafetyTopic, "none">, string> = {
+  finance: "Educational content only. Not investment advice.",
+  health: "Not medical advice.",
+  astrology: "For guidance only; no guaranteed outcomes.",
+};
+
+/** Strong signals only, so "budget outfits" or "tiffin options" never get a finance disclaimer. */
+const TOPIC_KEYWORDS: [Exclude<SafetyTopic, "none">, RegExp][] = [
+  ["finance", /\b(stocks?|share market|stock market|trading|trader|trade options|options trading|intraday|invest\w*|sips?|mutual funds?|personal finance|finance|financial|income tax|itr|credit cards?|cibil|crypto)\b/i],
+  ["astrology", /\b(astro\w*|tarot|kundli|horoscope|numerolog\w*|vastu|zodiac|jyotish\w*)\b/i],
+  ["health", /\b(diabet\w*|weight loss|fat loss|diet plans?|desi diet|yoga|fitness|workouts?|gym|pcos|pcod|thyroid|nutrition\w*)\b/i],
+];
+
+/** Topic from the model, with a keyword safety net on the creator's own words and the niche. */
+export function safetyTopic(input: CreatorInput, draft: Draft): SafetyTopic {
+  if (draft.creator.safety_topic && draft.creator.safety_topic !== "none") return draft.creator.safety_topic;
+  const text = `${input.description} ${input.instagram_bio ?? ""} ${draft.creator.niche}`;
+  for (const [topic, re] of TOPIC_KEYWORDS) if (re.test(text)) return topic;
+  return "none";
+}
+
+// ======================================================================
+// 6. "WHY THIS PRICE" (code-written from the final price)
+// ======================================================================
+
+const FORMAT_PLURAL: Record<Format, string> = {
+  priority_dm: "Priority DMs",
+  template_pack: "Template packs",
+  checklist: "Checklists",
+  notes: "Notes",
+  prompt_pack: "Prompt packs",
+  ebook_guide: "Ebooks and guides",
+  roadmap: "Roadmaps",
+  workshop: "Live workshops",
+  call_1on1: "1:1 calls",
+  short_course: "Short recorded courses",
+  call_package: "Call packages",
+  mentorship: "Mentorships",
+};
+
+const FORMAT_SINGULAR: Record<Format, string> = {
+  priority_dm: "priority DM",
+  template_pack: "template pack",
+  checklist: "checklist",
+  notes: "notes",
+  prompt_pack: "prompt pack",
+  ebook_guide: "ebook",
+  roadmap: "roadmap",
+  workshop: "workshop",
+  call_1on1: "1:1 call",
+  short_course: "course",
+  call_package: "call package",
+  mentorship: "mentorship",
+};
+
+const AUDIENCE_PHRASE: Record<Audience, string> = {
+  just_starting: "creators who are just starting",
+  under_5k: "creators with under 5K followers",
+  "5k_25k": "creators with 5-25K followers",
+  "25k_100k_plus": "creators with 25K+ followers",
+};
+
+const rs = (n: number) => `₹${n.toLocaleString("en-IN")}`;
+
+/**
+ * Example: "Our price guide puts ebooks and guides from creators with 5-25K followers at ₹199-₹499.
+ *           We picked ₹399 so it's a step up from your ₹99 starter."
+ * Worded as "our price guide" because the bands are our heuristics (sense-checked against public data), not market data.
+ */
+export function buildRationale(input: CreatorInput, sf: Draft, index: number): string {
+  const p = sf.products[index];
+  const band = priceBand(p.format, input.audience, sf.creator.niche_type);
+  const range = band.min === band.max ? rs(band.min) : `${rs(band.min)}-${rs(band.max)}`;
+  const plural = FORMAT_PLURAL[p.format];
+  const first = `Our price guide puts ${plural.startsWith("Priority") ? "priority DMs" : plural.toLowerCase()} from ${AUDIENCE_PHRASE[input.audience]} at ${range}.`;
+
+  const cheaper = sf.products.filter((o) => TIER_RANK[o.tier] < TIER_RANK[p.tier]).sort((a, b) => b.price_inr - a.price_inr)[0];
+  let why: string;
+  if (p.tier === "starter") why = "so it's an easy first buy for your followers";
+  else if (p.tier === "core")
+    why = cheaper ? `so it's a step up from your ${rs(cheaper.price_inr)} starter` : "for your main product";
+  else
+    why = cheaper
+      ? `because it's your most personal offer, above your ${rs(cheaper.price_inr)} ${FORMAT_SINGULAR[cheaper.format]}`
+      : "because it's your most personal offer";
+  return `${first} We picked ${rs(p.price_inr)} ${why}.`;
+}
 
 // ======================================================================
 // Result types
@@ -150,13 +291,13 @@ export type Category =
   | "ladder"
   | "lengths"
   | "script"
-  | "rationale";
+  | "consistency";
 
 export type Issue = { category: Category; where: string; message: string };
 export type Fix = { where: string; message: string };
 
 export type ValidationResult = {
-  /** Fixed storefront in enforce mode, untouched in report mode. */
+  /** The final page: code-owned fields always filled; prices fixed in enforce mode only. */
   storefront: Storefront;
   /** Problems the model must fix (enforce) or that were found (report). */
   errors: Issue[];
@@ -170,7 +311,7 @@ export type ValidationResult = {
 
 const ALL_CATEGORIES: Category[] = [
   "invented_facts", "hype_words", "price_in_band", "tier_order", "distinct_formats",
-  "safe_claims", "ladder", "lengths", "script", "rationale",
+  "safe_claims", "ladder", "lengths", "script", "consistency",
 ];
 
 // ======================================================================
@@ -179,26 +320,47 @@ const ALL_CATEGORIES: Category[] = [
 
 export function validateStorefront(
   input: CreatorInput,
-  original: Storefront,
+  draft: Draft,
   mode: "enforce" | "report" = "enforce",
+  opts: { setName?: boolean } = {},
 ): ValidationResult {
-  const sf: Storefront = structuredClone(original);
+  const sf: Draft = structuredClone(draft);
   const modelIssues = checkAll(input, sf);
   const fixes: Fix[] = [];
 
+  if (opts.setName !== false) setDisplayName(input, sf);
   if (mode === "enforce") {
     fixes.push(...fixPrices(input, sf));
     fixes.push(...fixTierOrder(input, sf));
   }
+  const finalPage = finalize(input, sf);
 
-  const finalIssues = mode === "enforce" ? checkAll(input, sf) : modelIssues;
+  const finalIssues = mode === "enforce" ? checkAll(input, finalPage) : modelIssues;
   return {
-    storefront: mode === "enforce" ? sf : original,
+    storefront: finalPage,
     errors: finalIssues,
     fixes,
     modelChecks: toChecks(modelIssues),
     finalChecks: toChecks(finalIssues),
   };
+}
+
+/** Adds the code-owned fields: safety topic, "why this price" for every product, disclaimer. */
+function finalize(input: CreatorInput, sf: Draft): Storefront {
+  const topic = safetyTopic(input, sf);
+  return {
+    creator: { ...sf.creator, safety_topic: topic },
+    products: sf.products.map((p, i) => ({ ...p, price_rationale: buildRationale(input, sf, i) })),
+    disclaimer: topic === "none" ? null : DISCLAIMERS[topic],
+  };
+}
+
+/** Name the creator typed > their @handle > the model's neutral niche label. */
+function setDisplayName(input: CreatorInput, sf: Draft) {
+  const name = input.name?.trim();
+  const handle = input.handle?.trim();
+  if (name) sf.creator.display_name = name;
+  else if (handle) sf.creator.display_name = handle.startsWith("@") ? handle : `@${handle}`;
 }
 
 function toChecks(issues: Issue[]): Record<Category, boolean> {
@@ -207,19 +369,21 @@ function toChecks(issues: Issue[]): Record<Category, boolean> {
   return out;
 }
 
-function checkAll(input: CreatorInput, sf: Storefront): Issue[] {
+function checkAll(input: CreatorInput, sf: Draft): Issue[] {
   return [
     ...checkPrices(input, sf),
     ...checkTierOrder(sf),
     ...checkLadder(sf),
     ...checkLengths(sf),
     ...checkCopy(input, sf),
+    ...checkNames(input, sf),
+    ...checkDurations(sf),
   ];
 }
 
-// ---------- 1. price ----------
+// ---------- price ----------
 
-function checkPrices(input: CreatorInput, sf: Storefront): Issue[] {
+function checkPrices(input: CreatorInput, sf: Draft): Issue[] {
   const issues: Issue[] = [];
   sf.products.forEach((p, i) => {
     const band = priceBand(p.format, input.audience, sf.creator.niche_type);
@@ -233,7 +397,7 @@ function checkPrices(input: CreatorInput, sf: Storefront): Issue[] {
   return issues;
 }
 
-function fixPrices(input: CreatorInput, sf: Storefront): Fix[] {
+function fixPrices(input: CreatorInput, sf: Draft): Fix[] {
   const fixes: Fix[] = [];
   sf.products.forEach((p, i) => {
     const band = priceBand(p.format, input.audience, sf.creator.niche_type);
@@ -246,9 +410,9 @@ function fixPrices(input: CreatorInput, sf: Storefront): Fix[] {
   return fixes;
 }
 
-// ---------- 2. tier order ----------
+// ---------- tier order ----------
 
-function checkTierOrder(sf: Storefront): Issue[] {
+function checkTierOrder(sf: Draft): Issue[] {
   const issues: Issue[] = [];
   for (const a of sf.products)
     for (const b of sf.products)
@@ -265,9 +429,9 @@ function checkTierOrder(sf: Storefront): Issue[] {
  * Re-price so every higher tier costs more than every lower tier.
  * First try moving the higher product UP inside its band; if its band is too low, move the lower product DOWN.
  */
-function fixTierOrder(input: CreatorInput, sf: Storefront): Fix[] {
+function fixTierOrder(input: CreatorInput, sf: Draft): Fix[] {
   const fixes: Fix[] = [];
-  const band = (p: Product) => priceBand(p.format, input.audience, sf.creator.niche_type);
+  const band = (p: Draft["products"][number]) => priceBand(p.format, input.audience, sf.creator.niche_type);
   for (let pass = 0; pass < 6; pass++) {
     let changed = false;
     for (const lo of sf.products)
@@ -296,9 +460,9 @@ function fixTierOrder(input: CreatorInput, sf: Storefront): Fix[] {
   return fixes;
 }
 
-// ---------- 3. ladder ----------
+// ---------- ladder ----------
 
-function checkLadder(sf: Storefront): Issue[] {
+function checkLadder(sf: Draft): Issue[] {
   const issues: Issue[] = [];
   const n = sf.products.length;
   if (n < 2 || n > 4)
@@ -336,7 +500,7 @@ function checkLadder(sf: Storefront): Issue[] {
   return issues;
 }
 
-// ---------- 4. lengths ----------
+// ---------- lengths ----------
 
 function len(where: string, text: string, limit: { min: number; max: number }): Issue[] {
   const n = text.trim().length;
@@ -345,7 +509,7 @@ function len(where: string, text: string, limit: { min: number; max: number }): 
   return [];
 }
 
-function checkLengths(sf: Storefront): Issue[] {
+function checkLengths(sf: Draft): Issue[] {
   const c = sf.creator;
   return [
     ...len("display_name", c.display_name, LIMITS.display_name),
@@ -355,16 +519,15 @@ function checkLengths(sf: Storefront): Issue[] {
     ...sf.products.flatMap((p, i) => [
       ...len(`products[${i}].title`, p.title, LIMITS.title),
       ...len(`products[${i}].description`, p.description, LIMITS.description),
-      ...len(`products[${i}].price_rationale`, p.price_rationale, LIMITS.price_rationale),
       ...p.whats_inside.flatMap((w, j) => len(`products[${i}].whats_inside[${j}]`, w, LIMITS.whats_inside_item)),
     ]),
   ];
 }
 
-// ---------- 5-9. copy: hype, safety, invented numbers, rationale, script ----------
+// ---------- copy: banned words, safety, invented numbers, script ----------
 
-/** All creator-visible text fields, labelled. */
-export function copyFields(sf: Storefront): { where: string; text: string }[] {
+/** All creator-visible text the MODEL wrote, labelled. (price_rationale and disclaimer are written by code.) */
+export function copyFields(sf: Draft): { where: string; text: string }[] {
   const c = sf.creator;
   return [
     { where: "display_name", text: c.display_name },
@@ -374,13 +537,12 @@ export function copyFields(sf: Storefront): { where: string; text: string }[] {
       { where: `products[${i}].title`, text: p.title },
       { where: `products[${i}].description`, text: p.description },
       ...p.whats_inside.map((w, j) => ({ where: `products[${i}].whats_inside[${j}]`, text: w })),
-      { where: `products[${i}].price_rationale`, text: p.price_rationale },
     ]),
   ];
 }
 
 export function findWords(text: string, list: string[]): string[] {
-  const lower = text.toLowerCase();
+  const lower = normaliseDashes(text).toLowerCase();
   return list.filter((w) => new RegExp(`(^|[^a-z])${escapeRe(w)}($|[^a-z])`, "i").test(lower));
 }
 
@@ -388,27 +550,41 @@ function escapeRe(s: string) {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
+/** Models often write Unicode hyphens ("30‑min"); treat them like a normal hyphen. */
+function normaliseDashes(s: string) {
+  return s.replace(/[‐-―−]/g, "-");
+}
+
 const DEVANAGARI = /[ऀ-ॿ]/;
 
-function checkCopy(input: CreatorInput, sf: Storefront): Issue[] {
+function checkCopy(input: CreatorInput, sf: Draft): Issue[] {
   const issues: Issue[] = [];
   const allowedNumbers = numbersInInput(input);
+  const finance = safetyTopic(input, sf) === "finance";
 
   for (const { where, text } of copyFields(sf)) {
     const hype = findWords(text, HYPE_WORDS);
     if (hype.length) issues.push({ category: "hype_words", where, message: `${where} uses hype words: ${hype.join(", ")}. Say it plainly.` });
 
+    const rules = findWords(text, COMPLIANCE_WORDS);
+    if (rules.length)
+      issues.push({ category: "hype_words", where, message: `${where} uses rule or compliance language (${rules.join(", ")}). Leave it out; the page adds its own disclaimer.` });
+
     const unsafe = findWords(text, UNSAFE_CLAIMS);
     if (unsafe.length)
       issues.push({ category: "safe_claims", where, message: `${where} makes an unsafe claim (${unsafe.join(", ")}). No guarantees, cures or stock tips; keep it to education.` });
 
-    if (DEVANAGARI.test(text)) issues.push({ category: "script", where, message: `${where} uses Devanagari script; write in Roman script only.` });
-
-    if (where.endsWith("price_rationale")) {
-      if (/₹|\brs\.?\s*\d|\binr\b|\d/i.test(text))
-        issues.push({ category: "rationale", where, message: `${where} contains a number or rupee amount. Explain the price without any number, because code may adjust the price.` });
-      continue; // numbers in the rationale are handled by the rule above, not the invented-number rule
+    if (finance) {
+      const advice = findWords(text, FINANCE_ADVICE);
+      for (const re of FINANCE_ADVICE_PATTERNS) {
+        const m = normaliseDashes(text).match(re);
+        if (m) advice.push(m[0]);
+      }
+      if (advice.length)
+        issues.push({ category: "safe_claims", where, message: `${where} offers personalised trading advice (${advice.join(", ")}). Finance products must teach concepts, not review trades or give calls.` });
     }
+
+    if (DEVANAGARI.test(text)) issues.push({ category: "script", where, message: `${where} uses Devanagari script; write in Roman script only.` });
 
     for (const claim of inventedNumbers(text, allowedNumbers))
       issues.push({ category: "invented_facts", where, message: `${where} says "${claim}", but the creator never gave that number. Remove it.` });
@@ -416,10 +592,91 @@ function checkCopy(input: CreatorInput, sf: Storefront): Issue[] {
   return issues;
 }
 
-// ---------- 7. invented numbers ----------
+// ---------- invented names ----------
 
-/** Words after a number that make it a claim about the creator (needs to come from the input). */
-// Up to two describing words may sit between the number and the unit: "10,000 happy students", "30 quick recipes".
+/** Words the creator gave us: name, description, bio, and the handle split on . _ - and digits ("rahul.lifts" -> rahul, lifts). */
+function inputWords(input: CreatorInput): Set<string> {
+  const text = [input.name ?? "", input.description, input.instagram_bio ?? "", (input.handle ?? "").replace(/[@._\-\d]+/g, " ")].join(" ");
+  return new Set(text.toLowerCase().match(/\p{L}+/gu) ?? []);
+}
+
+/** Capitalised words after these openers are almost always a person's name. */
+// Hinglish "Main X hoon" only counts at the start of a sentence, so English "my main Starter" does not trip it.
+const NAME_INTRO = /(?:\b[Ii] am|\b[Ii]['’]m|\b[Mm]y name is|\b[Tt]his is|\b[Mm]yself|\b[Mm]era naam|(?:^|[.!?]\s+)Main|\b[Hh]i,? [Ii]['’]m|\b[Hh]ey,? [Ii]['’]m)\s+([A-Z][a-z]{1,})\b/g;
+const SIGN_OFF = /[-–—]\s*([A-Z][a-z]+)\s*[.!]?\s*$/;
+
+/** Capitalised words that are not names (so "I'm Delhi-based" or "Main Hindi medium..." do not trip the rule). */
+const NOT_NAMES = new Set([
+  "a", "an", "the", "here", "so", "not", "also", "just", "your", "passionate", "certified", "currently", "based",
+  "working", "hindi", "english", "india", "indian", "delhi", "mumbai", "bangalore", "bengaluru", "pune", "chennai",
+  "kolkata", "hyderabad", "on", "in", "into", "from", "with", "aap", "apne", "ek", "yahan", "har", "bhi", "sirf",
+  "beginners", "students", "doing", "helping", "teaching", "sharing", "excited", "happy", "glad", "now", "always",
+  "starter", "core", "premium", "kadai", "cooker",
+]);
+
+function checkNames(input: CreatorInput, sf: Draft): Issue[] {
+  const issues: Issue[] = [];
+  const allowed = inputWords(input);
+  const ok = (w: string) => allowed.has(w.toLowerCase()) || NOT_NAMES.has(w.toLowerCase());
+
+  const bio = normaliseDashes(sf.creator.bio);
+  const found = [...bio.matchAll(NAME_INTRO)].map((m) => m[1]);
+  const sign = bio.match(SIGN_OFF)?.[1];
+  if (sign) found.push(sign);
+  for (const name of new Set(found))
+    if (!ok(name))
+      issues.push({ category: "invented_facts", where: "bio", message: `bio uses the name "${name}", but the creator never gave a name. Do not invent a person's name; write the bio without one.` });
+
+  // A handle the creator never gave, or a literal placeholder like "@handle", is invented too.
+  const handle = (input.handle ?? "").trim().replace(/^@?/, "@").toLowerCase();
+  for (const { where, text } of [{ where: "display_name", text: sf.creator.display_name }, { where: "bio", text: sf.creator.bio }, { where: "tagline", text: sf.creator.tagline }])
+    for (const m of text.matchAll(/@[\w.]+/g))
+      if (m[0].toLowerCase() !== handle)
+        issues.push({ category: "invented_facts", where, message: `${where} uses "${m[0]}", which is not the creator's handle. Do not write handles or placeholders.` });
+
+  // Only checked when code did not set the name itself (no name and no handle given).
+  if (!input.name?.trim() && !input.handle?.trim()) {
+    const words = sf.creator.display_name.match(/\p{L}+/gu) ?? [];
+    const niche = new Set((sf.creator.niche.toLowerCase().match(/\p{L}+/gu) ?? []));
+    const grounded = words.some((w) => w.length >= 3 && (allowed.has(w.toLowerCase()) || niche.has(w.toLowerCase())));
+    if (!grounded)
+      issues.push({ category: "invented_facts", where: "display_name", message: `display_name "${sf.creator.display_name}" looks like an invented name. Use a neutral label from the niche instead, like "Home Baking with Kadai".` });
+  }
+  return issues;
+}
+
+// ---------- consistency: durations ----------
+
+const NUMBER_WORDS: Record<string, number> = {
+  one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10, eleven: 11, twelve: 12,
+  ek: 1, do: 2, teen: 3, char: 4, chaar: 4, paanch: 5, panch: 5, chhe: 6, saat: 7, aath: 8, nau: 9, das: 10,
+};
+const UNIT_DAYS: Record<string, number> = { day: 1, din: 1, week: 7, hafte: 7, hafta: 7, month: 30, mahine: 30, mahina: 30 };
+const DURATION_RE = /\b(\d+|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|ek|do|teen|chaar|char|paanch|panch|chhe|saat|aath|nau|das)[\s-]*(day|week|month|din|hafte|hafta|mahine|mahina)s?\b/gi;
+
+function durations(text: string): { days: number; raw: string }[] {
+  return [...normaliseDashes(text).matchAll(DURATION_RE)].map((m) => {
+    const n = /^\d+$/.test(m[1]) ? parseInt(m[1], 10) : NUMBER_WORDS[m[1].toLowerCase()];
+    return { days: n * UNIT_DAYS[m[2].toLowerCase()], raw: m[0] };
+  });
+}
+
+function checkDurations(sf: Draft): Issue[] {
+  const issues: Issue[] = [];
+  sf.products.forEach((p, i) => {
+    const inTitle = durations(p.title);
+    if (!inTitle.length) return;
+    const rest = durations([p.description, ...p.whats_inside].join(" | "));
+    const clash = rest.find((d) => !inTitle.some((t) => t.days === d.days));
+    if (clash)
+      issues.push({ category: "consistency", where: `products[${i}]`, message: `Product ${i + 1}'s title says "${inTitle[0].raw}" but its description says "${clash.raw}". Make them match.` });
+  });
+  return issues;
+}
+
+// ---------- invented numbers ----------
+
+// Up to two describing words may sit between the number and the unit: "10,000 happy students".
 const CLAIM_UNITS = /^\s*(\+|%|k\b|l\b|lakh|lac|cr\b|crore|million|mn\b|(?:[a-z-]+\s+){0,2}(?:followers?|students?|clients?|members?|people|subscribers?|customers?|learners?|aspirants?|downloads?|sales|years?|yrs?|selections?|ranks?|reviews?|views?|likes?|families|women|men|kids|patients?)\b)/i;
 
 /**
@@ -442,7 +699,7 @@ function normalise(raw: string, suffix: string): number {
 const NUMBER_RE = /(?<![\w.])(\d[\d,]*(?:\.\d+)?)(?=([^\d]{0,30}))/g;
 
 export function numbersInInput(input: CreatorInput): Set<number> {
-  const text = [input.description, input.instagram_bio ?? "", input.handle ?? ""].join(" ");
+  const text = [input.name ?? "", input.description, input.instagram_bio ?? "", input.handle ?? ""].join(" ");
   const out = new Set<number>();
   for (const m of text.matchAll(NUMBER_RE)) {
     out.add(parseFloat(m[1].replace(/,/g, "")));
@@ -454,12 +711,11 @@ export function numbersInInput(input: CreatorInput): Set<number> {
 /**
  * Returns the invented claims in a piece of copy.
  * Flagged: a number the creator never gave that is a claim (followers, students, years, %, 10k, 2 lakh, 500+...)
- *          or any bare number above 12 that is not describing the product.
- * Allowed: numbers from the input, product-shape counts ("3 calls", "30-min", "7-day plan"), small counts 1-12.
+ *          or any bare number above 12 that is not describing the product's time or sessions.
+ * Allowed: numbers from the input, time/session counts ("3 calls", "30-min", "7-day plan"), small counts 1-12.
  */
 export function inventedNumbers(rawText: string, allowed: Set<number>): string[] {
-  // Models often write Unicode hyphens ("30‑min"); treat them like a normal hyphen.
-  const text = rawText.replace(/[‐-―−]/g, "-");
+  const text = normaliseDashes(rawText);
   const out: string[] = [];
   for (const m of text.matchAll(NUMBER_RE)) {
     const raw = m[1];

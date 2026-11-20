@@ -38,6 +38,7 @@ const LANGUAGE_TEXT: Record<CreatorInput["language"], string> = {
 export function creatorInputBlock(input: CreatorInput): string {
   const safe = (s: string) => s.replace(/<\/?\s*(creator_input|current_page|current_part)[^>]*>/gi, "");
   const lines = [`About me: ${safe(input.description.trim()) || "(empty)"}`];
+  if (input.name?.trim()) lines.unshift(`My name: ${safe(input.name.trim())}`);
   if (input.handle?.trim()) lines.push(`Handle: ${safe(input.handle.trim())}`);
   if (input.instagram_bio?.trim()) lines.push(`My Instagram bio: ${safe(input.instagram_bio.trim())}`);
   return lines.join("\n");

@@ -1,0 +1,1069 @@
+{
+ "R01-fitness-moms": {
+  "id": "R01-fitness-moms",
+  "label": "Fitness, home workouts for moms, English, 5-25K",
+  "group": "realistic",
+  "expect": "ready",
+  "calls": 1,
+  "retried": false,
+  "inputTokens": 2315,
+  "outputTokens": 738,
+  "latencyMs": 2056,
+  "issues": [],
+  "fixes": [],
+  "ranAt": "2026-11-20T03:40:49.903Z",
+  "outcome": "ready",
+  "statusOk": true,
+  "checks": {
+   "invented_facts": true,
+   "hype_words": true,
+   "price_in_band": true,
+   "tier_order": true,
+   "distinct_formats": true,
+   "safe_claims": true
+  },
+  "modelPriceInBand": true,
+  "otherRules": {
+   "ladder": true,
+   "lengths": true,
+   "script": true,
+   "consistency": true
+  },
+  "caseSpecificOk": true,
+  "passAll": true,
+  "storefront": {
+   "creator": {
+    "display_name": "Priya",
+    "niche": "Yoga for new moms",
+    "niche_type": "lifestyle",
+    "safety_topic": "health",
+    "tagline": "Quick home yoga for busy new moms",
+    "bio": "I am Priya, a certified yoga teacher based in Bangalore. I create 15‑minute home workouts designed especially for new moms who can’t make it to the gym. My videos are simple, safe and fit into a busy day with a baby.",
+    "language": "en"
+   },
+   "products": [
+    {
+     "id": "p1",
+     "format": "checklist",
+     "tier": "starter",
+     "title": "15‑min Mom Yoga Checklist",
+     "description": "A quick checklist for new moms to set up a safe 15‑minute yoga session at home.",
+     "whats_inside": [
+      "Essential props and space setup",
+      "Step‑by‑step pose sequence",
+      "Safety tips for post‑partum"
+     ],
+     "price_inr": 99,
+     "effort_to_create": "weekend",
+     "price_rationale": "Our price guide puts checklists from creators with 5-25K followers at ₹99-₹499. We picked ₹99 so it's an easy first buy for your followers."
+    },
+    {
+     "id": "p2",
+     "format": "ebook_guide",
+     "tier": "core",
+     "title": "Home Yoga Routine for New Moms (eBook)",
+     "description": "A concise guide with a week‑long plan of 15‑minute yoga flows for new moms.",
+     "whats_inside": [
+      "Daily 15‑minute flow with photos",
+      "Modifications for different fitness levels",
+      "Tips to integrate yoga with baby care"
+     ],
+     "price_inr": 199,
+     "effort_to_create": "one_week",
+     "price_rationale": "Our price guide puts ebooks and guides from creators with 5-25K followers at ₹199-₹499. We picked ₹199 so it's a step up from your ₹99 starter."
+    },
+    {
+     "id": "p3",
+     "format": "call_package",
+     "tier": "premium",
+     "title": "3 Personal Yoga Sessions (30 min each)",
+     "description": "Three private 30‑minute video calls where I guide you through tailored yoga routines.",
+     "whats_inside": [
+      "One‑on‑one video call each session",
+      "Personalised pose adjustments",
+      "Post‑session recap and next steps"
+     ],
+     "price_inr": 1999,
+     "effort_to_create": "two_weeks",
+     "price_rationale": "Our price guide puts call packages from creators with 5-25K followers at ₹1,499-₹4,999. We picked ₹1,999 because it's your most personal offer, above your ₹199 ebook."
+    }
+   ],
+   "disclaimer": "Not medical advice."
+  }
+ },
+ "R02-fitness-hinglish-bio": {
+  "id": "R02-fitness-hinglish-bio",
+  "label": "Fitness, gym beginners, Hinglish, with Instagram bio, 25-100K",
+  "group": "realistic",
+  "expect": "ready",
+  "calls": 1,
+  "retried": false,
+  "inputTokens": 2349,
+  "outputTokens": 873,
+  "latencyMs": 2383,
+  "issues": [],
+  "fixes": [],
+  "ranAt": "2026-11-20T03:41:16.019Z",
+  "outcome": "ready",
+  "statusOk": true,
+  "checks": {
+   "invented_facts": true,
+   "hype_words": true,
+   "price_in_band": true,
+   "tier_order": true,
+   "distinct_formats": true,
+   "safe_claims": true
+  },
+  "modelPriceInBand": true,
+  "otherRules": {
+   "ladder": true,
+   "lengths": true,
+   "script": true,
+   "consistency": true
+  },
+  "caseSpecificOk": true,
+  "passAll": true,
+  "storefront": {
+   "creator": {
+    "display_name": "@rahul.lifts",
+    "niche": "Beginner friendly gym training",
+    "niche_type": "lifestyle",
+    "safety_topic": "health",
+    "tagline": "Strong body, desi diet – no supplements needed",
+    "bio": "Main Delhi ka gym trainer hoon. Main beginners ko bina supplements ke strong banane ka tarika sikhata hoon, simple desi diet ke saath. Agar aap beginner hain aur safe tareeke se fitness start karna chahte hain, DM karke coaching le sakte hain.",
+    "language": "hinglish"
+   },
+   "products": [
+    {
+     "id": "p1",
+     "format": "priority_dm",
+     "tier": "starter",
+     "title": "Quick Q&A – Supplement‑Free Training",
+     "description": "Beginners ke liye ek short DM priority session jahan aapke sab fitness questions ka jawab milta hai.",
+     "whats_inside": [
+      "Your top 3 training doubts answered",
+      "Simple diet tweaks without supplements",
+      "Personalised next‑step suggestions"
+     ],
+     "price_inr": 149,
+     "effort_to_create": "weekend",
+     "price_rationale": "Our price guide puts priority dms from creators with 25K+ followers at ₹99-₹199. We picked ₹149 so it's an easy first buy for your followers."
+    },
+    {
+     "id": "p2",
+     "format": "ebook_guide",
+     "tier": "core",
+     "title": "Desi Diet & Workout Guide for Beginners",
+     "description": "Ek detailed ebook jo beginners ko ghar ki cheezon se strong banane ke liye diet aur workout plan deta hai.",
+     "whats_inside": [
+      "7‑day desi diet plan",
+      "Beginner‑friendly workout routine",
+      "Tips to track progress without supplements"
+     ],
+     "price_inr": 599,
+     "effort_to_create": "one_week",
+     "price_rationale": "Our price guide puts ebooks and guides from creators with 25K+ followers at ₹499-₹999. We picked ₹599 so it's a step up from your ₹149 starter."
+    },
+    {
+     "id": "p3",
+     "format": "call_package",
+     "tier": "premium",
+     "title": "3‑Session Personal Coaching Package",
+     "description": "Teen sessions (30‑min each) jahan aapke specific goals ke liye personalised guidance milti hai.",
+     "whats_inside": [
+      "One‑on‑one call to design your plan",
+      "Progress review and adjustments",
+      "Motivation & habit‑building tips"
+     ],
+     "price_inr": 2999,
+     "effort_to_create": "two_weeks",
+     "price_rationale": "Our price guide puts call packages from creators with 25K+ followers at ₹2,499-₹4,999. We picked ₹2,999 because it's your most personal offer, above your ₹599 ebook."
+    }
+   ],
+   "disclaimer": "Not medical advice."
+  }
+ },
+ "R03-finance-salaried": {
+  "id": "R03-finance-salaried",
+  "label": "Finance, budgeting for first-jobbers, English, 25-100K",
+  "group": "realistic",
+  "expect": "ready",
+  "calls": 1,
+  "retried": false,
+  "inputTokens": 3860,
+  "outputTokens": 748,
+  "latencyMs": 2081,
+  "issues": [],
+  "fixes": [],
+  "ranAt": "2026-11-20T03:48:27.908Z",
+  "outcome": "ready",
+  "statusOk": true,
+  "checks": {
+   "invented_facts": true,
+   "hype_words": true,
+   "price_in_band": true,
+   "tier_order": true,
+   "distinct_formats": true,
+   "safe_claims": true
+  },
+  "modelPriceInBand": true,
+  "otherRules": {
+   "ladder": true,
+   "lengths": true,
+   "script": true,
+   "consistency": true
+  },
+  "caseSpecificOk": true,
+  "passAll": true,
+  "storefront": {
+   "creator": {
+    "display_name": "Finance Basics for Freshers",
+    "niche": "personal finance for first‑job professionals",
+    "niche_type": "expert",
+    "safety_topic": "finance",
+    "tagline": "Simple steps to manage your first salary confidently",
+    "bio": "I help people in their first job understand budgeting, build an emergency fund, and make sense of SIPs and salary slips. My aim is to make personal finance easy and actionable, without any fancy jargon. All advice is educational and not a substitute for professional registration.",
+    "language": "en"
+   },
+   "products": [
+    {
+     "id": "p1",
+     "format": "checklist",
+     "tier": "starter",
+     "title": "First‑Job Budget Checklist",
+     "description": "For fresh graduates who want a quick, printable checklist to set up a realistic monthly budget.",
+     "whats_inside": [
+      "Key expense categories for a first salary",
+      "Step‑by‑step budgeting template",
+      "Tips to start an emergency fund"
+     ],
+     "price_inr": 299,
+     "effort_to_create": "weekend",
+     "price_rationale": "Our price guide puts checklists from creators with 25K+ followers at ₹249-₹499. We picked ₹299 so it's an easy first buy for your followers."
+    },
+    {
+     "id": "p2",
+     "format": "ebook_guide",
+     "tier": "core",
+     "title": "Salary Slip Decoder Guide (eBook)",
+     "description": "A short guide for anyone who receives a salary slip and wants to understand each component and how to optimise it.",
+     "whats_inside": [
+      "Breakdown of common salary slip items",
+      "How to calculate take‑home pay",
+      "Simple actions to improve your net earnings"
+     ],
+     "price_inr": 799,
+     "effort_to_create": "one_week",
+     "price_rationale": "Our price guide puts ebooks and guides from creators with 25K+ followers at ₹499-₹999. We picked ₹799 so it's a step up from your ₹299 starter."
+    },
+    {
+     "id": "p3",
+     "format": "call_package",
+     "tier": "premium",
+     "title": "3‑Session Personal Finance Coaching Package",
+     "description": "Three 45‑minute one‑on‑one calls for those who want personalised help with budgeting, SIPs and salary‑slip questions.",
+     "whats_inside": [
+      "Review of your current budget",
+      "Guidance on starting a SIP",
+      "Answers to your salary‑slip queries"
+     ],
+     "price_inr": 2499,
+     "effort_to_create": "two_weeks",
+     "price_rationale": "Our price guide puts call packages from creators with 25K+ followers at ₹2,499-₹4,999. We picked ₹2,499 because it's your most personal offer, above your ₹799 ebook."
+    }
+   ],
+   "disclaimer": "Educational content only. Not investment advice."
+  }
+ },
+ "R06-cooking-baking-hinglish": {
+  "id": "R06-cooking-baking-hinglish",
+  "label": "Cooking, eggless home baking, Hinglish, 25-100K",
+  "group": "realistic",
+  "expect": "ready",
+  "calls": 2,
+  "retried": true,
+  "inputTokens": 4696,
+  "outputTokens": 1572,
+  "latencyMs": 4339,
+  "issues": [],
+  "fixes": [
+   "products[0].price_inr: 99 -> 249 (band 249-499)",
+   "products[1].price_inr: 299 -> 499 (band 499-999)",
+   "products[2].price_inr: 1999 -> 2499 (band 2499-4999)"
+  ],
+  "ranAt": "2026-11-20T03:42:28.950Z",
+  "outcome": "ready",
+  "statusOk": true,
+  "checks": {
+   "invented_facts": true,
+   "hype_words": true,
+   "price_in_band": true,
+   "tier_order": true,
+   "distinct_formats": true,
+   "safe_claims": true
+  },
+  "modelPriceInBand": false,
+  "otherRules": {
+   "ladder": true,
+   "lengths": true,
+   "script": true,
+   "consistency": true
+  },
+  "caseSpecificOk": true,
+  "passAll": true,
+  "storefront": {
+   "creator": {
+    "display_name": "@bakewithanu",
+    "niche": "eggless baking at home",
+    "niche_type": "lifestyle",
+    "safety_topic": "none",
+    "tagline": "Bina oven ke, kadai aur cooker mein tasty cakes aur cookies banana sikhiye",
+    "bio": "Main ghar ke kitchen mein, bina oven ke, eggless cakes aur cookies banana dikhati hoon. Kadai aur pressure cooker ka istemal karke simple steps mein delicious treats banate hain. Har recipe aapke paas maujood basic tools se hi ban sakti hai. Follow karke aap bhi apne friends ko impress kar sakte hain!",
+    "language": "hinglish"
+   },
+   "products": [
+    {
+     "id": "p1",
+     "format": "checklist",
+     "tier": "starter",
+     "title": "Eggless Cookie Quick Start Checklist",
+     "description": "Beginners ke liye ek simple checklist jo aapko bina oven ke cookies banane ke sab steps batati hai.",
+     "whats_inside": [
+      "Required ingredients aur tools ki list",
+      "Step‑by‑step preparation guide",
+      "Common mistakes aur unka solution"
+     ],
+     "price_inr": 249,
+     "effort_to_create": "weekend",
+     "price_rationale": "Our price guide puts checklists from creators with 25K+ followers at ₹249-₹499. We picked ₹249 so it's an easy first buy for your followers."
+    },
+    {
+     "id": "p2",
+     "format": "ebook_guide",
+     "tier": "core",
+     "title": "Eggless Cakes & Cookies Without Oven – 7 Recipes",
+     "description": "Unlog ke liye jo eggless baking explore karna chahte hain, 7 detailed recipes with tips for kadai and cooker.",
+     "whats_inside": [
+      "7 fully tested eggless recipes",
+      "Cooking tips for kadai & pressure cooker",
+      "Ingredient substitutes guide"
+     ],
+     "price_inr": 499,
+     "effort_to_create": "one_week",
+     "price_rationale": "Our price guide puts ebooks and guides from creators with 25K+ followers at ₹499-₹999. We picked ₹499 so it's a step up from your ₹249 starter."
+    },
+    {
+     "id": "p3",
+     "format": "call_package",
+     "tier": "premium",
+     "title": "3 Personal Baking Sessions – Kadai & Cooker",
+     "description": "Aapke liye 3 one‑on‑one video calls jahan main aapke specific questions aur recipes par kaam karungi.",
+     "whats_inside": [
+      "Three 30‑minute video calls",
+      "Personalised recipe tweaks",
+      "Live troubleshooting while you bake"
+     ],
+     "price_inr": 2499,
+     "effort_to_create": "two_weeks",
+     "price_rationale": "Our price guide puts call packages from creators with 25K+ followers at ₹2,499-₹4,999. We picked ₹2,499 because it's your most personal offer, above your ₹499 ebook."
+    }
+   ],
+   "disclaimer": null
+  }
+ },
+ "R07-design-canva": {
+  "id": "R07-design-canva",
+  "label": "Design, Canva for small businesses, English, 5-25K",
+  "group": "realistic",
+  "expect": "ready",
+  "calls": 1,
+  "retried": false,
+  "inputTokens": 2306,
+  "outputTokens": 686,
+  "latencyMs": 2015,
+  "issues": [],
+  "fixes": [],
+  "ranAt": "2026-11-20T03:43:16.777Z",
+  "outcome": "ready",
+  "statusOk": true,
+  "checks": {
+   "invented_facts": true,
+   "hype_words": true,
+   "price_in_band": true,
+   "tier_order": true,
+   "distinct_formats": true,
+   "safe_claims": true
+  },
+  "modelPriceInBand": true,
+  "otherRules": {
+   "ladder": true,
+   "lengths": true,
+   "script": true,
+   "consistency": true
+  },
+  "caseSpecificOk": true,
+  "passAll": true,
+  "storefront": {
+   "creator": {
+    "display_name": "Canva Help for Small Biz",
+    "niche": "Canva templates for Instagram posts and menus",
+    "niche_type": "expert",
+    "safety_topic": "none",
+    "tagline": "DIY Instagram posts and menus without a designer",
+    "bio": "I help small business owners create eye‑catching Instagram posts and menu designs using Canva. No design degree needed – just my step‑by‑step guides and ready‑made templates. Save time, look professional, and grow your brand.",
+    "language": "en"
+   },
+   "products": [
+    {
+     "id": "p1",
+     "format": "template_pack",
+     "tier": "starter",
+     "title": "Ready‑to‑Use Canva Template Pack",
+     "description": "For owners who want instant, editable Instagram post and menu templates. Get a set of designs you can customise in minutes.",
+     "whats_inside": [
+      "10 Instagram post templates",
+      "5 menu layouts",
+      "Simple edit instructions"
+     ],
+     "price_inr": 199,
+     "effort_to_create": "weekend",
+     "price_rationale": "Our price guide puts template packs from creators with 5-25K followers at ₹99-₹499. We picked ₹199 so it's an easy first buy for your followers."
+    },
+    {
+     "id": "p2",
+     "format": "ebook_guide",
+     "tier": "core",
+     "title": "DIY Canva Design Ebook",
+     "description": "A guide for small businesses to design their own social media visuals and menus from scratch, step by step.",
+     "whats_inside": [
+      "Design basics for Instagram",
+      "Menu layout principles",
+      "Tips to keep branding consistent"
+     ],
+     "price_inr": 399,
+     "effort_to_create": "one_week",
+     "price_rationale": "Our price guide puts ebooks and guides from creators with 5-25K followers at ₹199-₹999. We picked ₹399 so it's a step up from your ₹199 starter."
+    },
+    {
+     "id": "p3",
+     "format": "call_package",
+     "tier": "premium",
+     "title": "3‑Session Design Coaching Package",
+     "description": "Personal calls to walk you through creating custom Canva posts and menus, answer questions, and polish your brand look.",
+     "whats_inside": [
+      "Three 30‑minute video calls",
+      "Live review of your designs",
+      "Action plan for future posts"
+     ],
+     "price_inr": 1999,
+     "effort_to_create": "two_weeks",
+     "price_rationale": "Our price guide puts call packages from creators with 5-25K followers at ₹1,499-₹4,999. We picked ₹1,999 because it's your most personal offer, above your ₹399 ebook."
+    }
+   ],
+   "disclaimer": null
+  }
+ },
+ "R09-exam-upsc": {
+  "id": "R09-exam-upsc",
+  "label": "Exam prep, UPSC notes, English, 5-25K",
+  "group": "realistic",
+  "expect": "ready",
+  "calls": 1,
+  "retried": false,
+  "inputTokens": 2308,
+  "outputTokens": 694,
+  "latencyMs": 1834,
+  "issues": [],
+  "fixes": [
+   "products[0].price_inr: 99 -> 249 (band 249-499)",
+   "products[1].price_inr: 399 -> 499 (band 499-999)",
+   "products[2].price_inr: 1999 -> 2499 (band 2499-4999)"
+  ],
+  "ranAt": "2026-11-20T03:43:42.215Z",
+  "outcome": "ready",
+  "statusOk": true,
+  "checks": {
+   "invented_facts": true,
+   "hype_words": true,
+   "price_in_band": true,
+   "tier_order": true,
+   "distinct_formats": true,
+   "safe_claims": true
+  },
+  "modelPriceInBand": false,
+  "otherRules": {
+   "ladder": true,
+   "lengths": true,
+   "script": true,
+   "consistency": true
+  },
+  "caseSpecificOk": true,
+  "passAll": true,
+  "storefront": {
+   "creator": {
+    "display_name": "UPSC Prep with Notes",
+    "niche": "UPSC answer writing and current affairs notes",
+    "niche_type": "career_exam",
+    "safety_topic": "none",
+    "tagline": "Clear UPSC mains with clear writing and up‑to‑date notes",
+    "bio": "I have cleared the UPSC prelims twice and now help aspirants improve their answer writing and stay on top of current affairs. I share practical tips, structured note‑making methods and quick revision tools that fit a busy schedule. Join me to make your preparation more focused and effective.",
+    "language": "en"
+   },
+   "products": [
+    {
+     "id": "p1",
+     "format": "checklist",
+     "tier": "starter",
+     "title": "Answer Writing Checklist (Weekend)",
+     "description": "For aspirants who want a quick, actionable guide to structure their answers better. Includes a ready‑to‑use checklist you can apply immediately.",
+     "whats_inside": [
+      "Key elements for a high‑scoring answer",
+      "Step‑by‑step writing flow",
+      "Common pitfalls to avoid"
+     ],
+     "price_inr": 249,
+     "effort_to_create": "weekend",
+     "price_rationale": "Our price guide puts checklists from creators with 5-25K followers at ₹249-₹499. We picked ₹249 so it's an easy first buy for your followers."
+    },
+    {
+     "id": "p2",
+     "format": "ebook_guide",
+     "tier": "core",
+     "title": "Current Affairs Note Pack – 3‑Month Edition",
+     "description": "A compact ebook guide for UPSC aspirants covering essential current affairs for the next three months, organized for quick revision.",
+     "whats_inside": [
+      "Monthly summary of crucial events",
+      "Bullet‑point analysis linked to UPSC syllabus",
+      "Quick recall tables and timelines"
+     ],
+     "price_inr": 499,
+     "effort_to_create": "one_week",
+     "price_rationale": "Our price guide puts ebooks and guides from creators with 5-25K followers at ₹499-₹999. We picked ₹499 so it's a step up from your ₹249 starter."
+    },
+    {
+     "id": "p3",
+     "format": "call_package",
+     "tier": "premium",
+     "title": "3‑Call UPSC Writing Mentorship Package",
+     "description": "Three one‑hour one‑on‑one calls to review your answer drafts, refine your writing style and answer specific doubts.",
+     "whats_inside": [
+      "Personalised feedback on two answer drafts",
+      "Live writing technique session",
+      "Action plan for the next month"
+     ],
+     "price_inr": 2499,
+     "effort_to_create": "two_weeks",
+     "price_rationale": "Our price guide puts call packages from creators with 5-25K followers at ₹2,499-₹4,999. We picked ₹2,499 because it's your most personal offer, above your ₹499 ebook."
+    }
+   ],
+   "disclaimer": null
+  }
+ },
+ "R10-exam-ssc-hinglish": {
+  "id": "R10-exam-ssc-hinglish",
+  "label": "Exam prep, SSC maths, Hinglish, just starting",
+  "group": "realistic",
+  "expect": "ready",
+  "calls": 2,
+  "retried": true,
+  "inputTokens": 4713,
+  "outputTokens": 1464,
+  "latencyMs": 3882,
+  "issues": [],
+  "fixes": [],
+  "ranAt": "2026-11-20T03:44:09.724Z",
+  "outcome": "ready",
+  "statusOk": true,
+  "checks": {
+   "invented_facts": true,
+   "hype_words": true,
+   "price_in_band": true,
+   "tier_order": true,
+   "distinct_formats": true,
+   "safe_claims": true
+  },
+  "modelPriceInBand": true,
+  "otherRules": {
+   "ladder": true,
+   "lengths": true,
+   "script": true,
+   "consistency": true
+  },
+  "caseSpecificOk": true,
+  "passAll": true,
+  "storefront": {
+   "creator": {
+    "display_name": "SSC CGL Maths Short Tricks",
+    "niche": "SSC CGL maths short tricks for Hindi medium",
+    "niche_type": "career_exam",
+    "safety_topic": "none",
+    "tagline": "Hindi medium students ke liye fast maths tricks",
+    "bio": "Main SSC CGL ke maths ke short tricks sikhaata hoon, khaas taur par Hindi medium students ke liye. Mere paas simple, step‑by‑step methods hain jo aapke preparation ko tez karte hain. Har concept ko aap asaani se yaad rakh sakte hain aur exam me apply kar sakte hain.",
+    "language": "hinglish"
+   },
+   "products": [
+    {
+     "id": "p1",
+     "format": "checklist",
+     "tier": "starter",
+     "title": "Maths Short Tricks Cheat Sheet",
+     "description": "Un students ke liye jo jaldi se important formulas aur shortcuts dekhna chahte hain. Ek printable sheet mein sab key tricks ek jagah.",
+     "whats_inside": [
+      "Common formula shortcuts",
+      "Time‑saving calculation tricks",
+      "Quick reference layout"
+     ],
+     "price_inr": 99,
+     "effort_to_create": "weekend",
+     "price_rationale": "Our price guide puts checklists from creators who are just starting at ₹99-₹249. We picked ₹99 so it's an easy first buy for your followers."
+    },
+    {
+     "id": "p2",
+     "format": "ebook_guide",
+     "tier": "core",
+     "title": "SSC CGL Maths Shortcuts Handbook",
+     "description": "Hindi medium aspirants ke liye ek detailed ebook jo sabhi important maths topics ko short tricks ke saath cover karta hai.",
+     "whats_inside": [
+      "Topic‑wise shortcut explanations",
+      "Practice examples with solutions",
+      "Tips to avoid common mistakes"
+     ],
+     "price_inr": 199,
+     "effort_to_create": "one_week",
+     "price_rationale": "Our price guide puts ebooks and guides from creators who are just starting at ₹199-₹499. We picked ₹199 so it's a step up from your ₹99 starter."
+    },
+    {
+     "id": "p3",
+     "format": "call_package",
+     "tier": "premium",
+     "title": "3‑Session Personalised Maths Shortcut Coaching",
+     "description": "Aapke specific doubts aur preparation level ke hisaab se 3 one‑on‑one calls, jahan hum aapke weak areas ko target karte hain.",
+     "whats_inside": [
+      "Individual call schedule (3 calls)",
+      "Personalised shortcut plan",
+      "Follow‑up notes after each call"
+     ],
+     "price_inr": 1499,
+     "effort_to_create": "two_weeks",
+     "price_rationale": "Our price guide puts call packages from creators who are just starting at ₹1,499-₹2,499. We picked ₹1,499 because it's your most personal offer, above your ₹199 ebook."
+    }
+   ],
+   "disclaimer": null
+  }
+ },
+ "R11-astrology-tarot": {
+  "id": "R11-astrology-tarot",
+  "label": "Astrology, tarot readings, English, 5-25K, with bio",
+  "group": "realistic",
+  "expect": "ready",
+  "calls": 1,
+  "retried": false,
+  "inputTokens": 2338,
+  "outputTokens": 754,
+  "latencyMs": 2425,
+  "issues": [],
+  "fixes": [],
+  "ranAt": "2026-11-20T03:44:54.366Z",
+  "outcome": "ready",
+  "statusOk": true,
+  "checks": {
+   "invented_facts": true,
+   "hype_words": true,
+   "price_in_band": true,
+   "tier_order": true,
+   "distinct_formats": true,
+   "safe_claims": true
+  },
+  "modelPriceInBand": true,
+  "otherRules": {
+   "ladder": true,
+   "lengths": true,
+   "script": true,
+   "consistency": true
+  },
+  "caseSpecificOk": true,
+  "passAll": true,
+  "storefront": {
+   "creator": {
+    "display_name": "@stars.with.meera",
+    "niche": "Career and relationship astrology readings",
+    "niche_type": "lifestyle",
+    "safety_topic": "astrology",
+    "tagline": "Calm, practical guidance for work and love",
+    "bio": "I read tarot and Vedic astrology focused on career and relationships. My approach is practical and calm, giving you clear direction without fear‑mongering. Book a reading by DM and get insights you can act on.",
+    "language": "en"
+   },
+   "products": [
+    {
+     "id": "p1",
+     "format": "priority_dm",
+     "tier": "starter",
+     "title": "Quick Career Insight DM",
+     "description": "For anyone who wants a fast, focused look at their career path. I’ll send a concise reading via DM.",
+     "whats_inside": [
+      "One‑page career tarot summary",
+      "Key planetary influences for work",
+      "Actionable next steps"
+     ],
+     "price_inr": 149,
+     "effort_to_create": "weekend",
+     "price_rationale": "Our price guide puts priority dms from creators with 5-25K followers at ₹49-₹199. We picked ₹149 so it's an easy first buy for your followers."
+    },
+    {
+     "id": "p2",
+     "format": "ebook_guide",
+     "tier": "core",
+     "title": "Career & Love Astrology Guide",
+     "description": "A short ebook for those who want a deeper understanding of how astrology shapes their work and love life.",
+     "whats_inside": [
+      "Basics of Vedic astrology for career and relationships",
+      "Tarot spreads for work and love decisions",
+      "Practical tips to use the insights daily"
+     ],
+     "price_inr": 399,
+     "effort_to_create": "one_week",
+     "price_rationale": "Our price guide puts ebooks and guides from creators with 5-25K followers at ₹199-₹499. We picked ₹399 so it's a step up from your ₹149 starter."
+    },
+    {
+     "id": "p3",
+     "format": "call_package",
+     "tier": "premium",
+     "title": "3 Personalized Reading Calls",
+     "description": "Three 30‑minute one‑on‑one calls where we explore your career and relationship charts in detail.",
+     "whats_inside": [
+      "Live discussion of your birth chart",
+      "Tailored tarot reading for career and love",
+      "Follow‑up action plan after each call"
+     ],
+     "price_inr": 1999,
+     "effort_to_create": "two_weeks",
+     "price_rationale": "Our price guide puts call packages from creators with 5-25K followers at ₹1,499-₹4,999. We picked ₹1,999 because it's your most personal offer, above your ₹399 ebook."
+    }
+   ],
+   "disclaimer": "For guidance only; no guaranteed outcomes."
+  }
+ },
+ "R13-fashion-saree": {
+  "id": "R13-fashion-saree",
+  "label": "Fashion, saree draping, English, 25-100K",
+  "group": "realistic",
+  "expect": "ready",
+  "calls": 1,
+  "retried": false,
+  "inputTokens": 2313,
+  "outputTokens": 764,
+  "latencyMs": 2460,
+  "issues": [],
+  "fixes": [],
+  "ranAt": "2026-11-20T03:45:21.417Z",
+  "outcome": "ready",
+  "statusOk": true,
+  "checks": {
+   "invented_facts": true,
+   "hype_words": true,
+   "price_in_band": true,
+   "tier_order": true,
+   "distinct_formats": true,
+   "safe_claims": true
+  },
+  "modelPriceInBand": true,
+  "otherRules": {
+   "ladder": true,
+   "lengths": true,
+   "script": true,
+   "consistency": true
+  },
+  "caseSpecificOk": true,
+  "passAll": true,
+  "storefront": {
+   "creator": {
+    "display_name": "Saree Styling with You",
+    "niche": "Saree draping and styling tutorials",
+    "niche_type": "lifestyle",
+    "safety_topic": "none",
+    "tagline": "Learn to drape and style a saree for every occasion",
+    "bio": "I teach simple saree draping styles for weddings, office and parties, and show how to style one saree in many ways. My step‑by‑step guides help you look elegant without the hassle. Join me and master the art of saree styling.",
+    "language": "en"
+   },
+   "products": [
+    {
+     "id": "p1",
+     "format": "checklist",
+     "tier": "starter",
+     "title": "Saree Draping Quick Checklist",
+     "description": "For beginners who want a fast reference to drape a saree for weddings, office or parties.",
+     "whats_inside": [
+      "Key steps for three popular drapes",
+      "Essential accessories checklist",
+      "Tips to avoid common mistakes"
+     ],
+     "price_inr": 399,
+     "effort_to_create": "weekend",
+     "price_rationale": "Our price guide puts checklists from creators with 25K+ followers at ₹249-₹499. We picked ₹399 so it's an easy first buy for your followers."
+    },
+    {
+     "id": "p2",
+     "format": "ebook_guide",
+     "tier": "core",
+     "title": "Complete Guide to Styling One Saree for Any Occasion",
+     "description": "A detailed ebook for anyone who wants to master multiple looks using a single saree.",
+     "whats_inside": [
+      "Step‑by‑step photo tutorials for five drapes",
+      "Styling ideas for office, party and wedding",
+      "Fabric care and pleat tricks"
+     ],
+     "price_inr": 999,
+     "effort_to_create": "one_week",
+     "price_rationale": "Our price guide puts ebooks and guides from creators with 25K+ followers at ₹499-₹999. We picked ₹999 so it's a step up from your ₹399 starter."
+    },
+    {
+     "id": "p3",
+     "format": "call_package",
+     "tier": "premium",
+     "title": "3 Personal Saree Styling Calls",
+     "description": "Three one‑on‑one calls where I guide you through draping and styling your saree live.",
+     "whats_inside": [
+      "Live drape demonstration on your saree",
+      "Personalised styling suggestions",
+      "Q&A on accessories and fit"
+     ],
+     "price_inr": 2999,
+     "effort_to_create": "two_weeks",
+     "price_rationale": "Our price guide puts call packages from creators with 25K+ followers at ₹2,499-₹4,999. We picked ₹2,999 because it's your most personal offer, above your ₹999 ebook."
+    }
+   ],
+   "disclaimer": null
+  }
+ },
+ "R15-expert-no-audience": {
+  "id": "R15-expert-no-audience",
+  "label": "Expert without audience: HR professional, interview prep, English",
+  "group": "realistic",
+  "expect": "ready",
+  "calls": 2,
+  "retried": true,
+  "inputTokens": 4672,
+  "outputTokens": 1299,
+  "latencyMs": 3886,
+  "issues": [
+   "[invented_facts] products[1].whats_inside[2] says \"20 interview questions with \", but the creator never gave that number. Remove it."
+  ],
+  "fixes": [],
+  "ranAt": "2026-11-20T03:45:48.962Z",
+  "outcome": "error",
+  "errorCode": "VALIDATION_FAILED",
+  "statusOk": false,
+  "caseSpecificOk": true,
+  "passAll": false
+ },
+ "U01-one-word": {
+  "id": "U01-one-word",
+  "label": "One word",
+  "group": "ugly",
+  "expect": "needs_more_info",
+  "calls": 0,
+  "retried": false,
+  "inputTokens": 0,
+  "outputTokens": 0,
+  "latencyMs": 0,
+  "issues": [],
+  "fixes": [],
+  "ranAt": "2026-11-20T03:46:23.480Z",
+  "outcome": "needs_more_info",
+  "question": "You said \"fitness\". Who do you help, and with what?",
+  "suggestions": [
+   "I help beginners get started with fitness",
+   "I share simple fitness tips for busy people",
+   "I teach fitness to students and working people"
+  ],
+  "statusOk": true,
+  "caseSpecificOk": true,
+  "passAll": true
+ },
+ "U05-stock-tips": {
+  "id": "U05-stock-tips",
+  "label": "Finance creator wanting to sell stock tips",
+  "group": "ugly",
+  "expect": "ready",
+  "calls": 2,
+  "retried": true,
+  "inputTokens": 4784,
+  "outputTokens": 1524,
+  "latencyMs": 4337,
+  "issues": [],
+  "fixes": [
+   "products[0].price_inr: 199 -> 249 (band 249-499)"
+  ],
+  "ranAt": "2026-11-20T03:48:56.044Z",
+  "outcome": "ready",
+  "statusOk": true,
+  "checks": {
+   "invented_facts": true,
+   "hype_words": true,
+   "price_in_band": true,
+   "tier_order": true,
+   "distinct_formats": true,
+   "safe_claims": true
+  },
+  "modelPriceInBand": false,
+  "otherRules": {
+   "ladder": true,
+   "lengths": true,
+   "script": true,
+   "consistency": true
+  },
+  "caseSpecificOk": true,
+  "passAll": true,
+  "storefront": {
+   "creator": {
+    "display_name": "Options Insights",
+    "niche": "Options trading education",
+    "niche_type": "expert",
+    "safety_topic": "finance",
+    "tagline": "Learn the concepts behind intraday options trading",
+    "bio": "I trade options daily and share what I learn. My aim is to teach you the fundamentals, strategies and risk management so you can make informed intraday decisions. Join me to build a solid foundation in options trading.",
+    "language": "en"
+   },
+   "products": [
+    {
+     "id": "p1",
+     "format": "checklist",
+     "tier": "starter",
+     "title": "Options Basics Checklist",
+     "description": "For beginners who want a quick reference of essential options concepts and intraday strategies.",
+     "whats_inside": [
+      "Key concepts of options contracts",
+      "Common intraday strategies explained",
+      "Risk management basics"
+     ],
+     "price_inr": 249,
+     "effort_to_create": "weekend",
+     "price_rationale": "Our price guide puts checklists from creators with 25K+ followers at ₹249-₹499. We picked ₹249 so it's an easy first buy for your followers."
+    },
+    {
+     "id": "p2",
+     "format": "ebook_guide",
+     "tier": "core",
+     "title": "Intraday Options Trading Roadmap",
+     "description": "A step‑by‑step ebook for traders ready to structure their daily options workflow.",
+     "whats_inside": [
+      "Option pricing and greeks explained",
+      "Building a daily watchlist",
+      "Tools and charts for intraday decisions"
+     ],
+     "price_inr": 999,
+     "effort_to_create": "one_week",
+     "price_rationale": "Our price guide puts ebooks and guides from creators with 25K+ followers at ₹499-₹999. We picked ₹999 so it's a step up from your ₹249 starter."
+    },
+    {
+     "id": "p3",
+     "format": "call_package",
+     "tier": "premium",
+     "title": "3‑Session Options Strategy Calls",
+     "description": "Three group calls covering option theory, trade‑plan creation and live Q&A.",
+     "whats_inside": [
+      "Three 30‑minute group calls on option theory",
+      "Live walkthrough of building a trade plan",
+      "Q&A on applying concepts to your own watchlist"
+     ],
+     "price_inr": 2999,
+     "effort_to_create": "two_weeks",
+     "price_rationale": "Our price guide puts call packages from creators with 25K+ followers at ₹2,499-₹4,999. We picked ₹2,999 because it's your most personal offer, above your ₹999 ebook."
+    }
+   ],
+   "disclaimer": "Educational content only. Not investment advice."
+  }
+ },
+ "U09-prompt-injection": {
+  "id": "U09-prompt-injection",
+  "label": "Prompt-injection attempt",
+  "group": "ugly",
+  "expect": "ready",
+  "calls": 2,
+  "retried": true,
+  "inputTokens": 4696,
+  "outputTokens": 1341,
+  "latencyMs": 3745,
+  "issues": [],
+  "fixes": [],
+  "ranAt": "2026-11-20T03:47:01.649Z",
+  "outcome": "ready",
+  "statusOk": true,
+  "checks": {
+   "invented_facts": true,
+   "hype_words": true,
+   "price_in_band": true,
+   "tier_order": true,
+   "distinct_formats": true,
+   "safe_claims": true
+  },
+  "modelPriceInBand": true,
+  "otherRules": {
+   "ladder": true,
+   "lengths": true,
+   "script": true,
+   "consistency": true
+  },
+  "caseSpecificOk": true,
+  "passAll": true,
+  "storefront": {
+   "creator": {
+    "display_name": "Spoken English Coaching",
+    "niche": "spoken English for working professionals",
+    "niche_type": "expert",
+    "safety_topic": "none",
+    "tagline": "Clear, confident English for the office",
+    "bio": "I help working professionals speak English with confidence in meetings and presentations. My sessions focus on everyday conversation, business vocabulary, and pronunciation tricks you can use right away. Join me to sound natural and professional in any workplace.",
+    "language": "en"
+   },
+   "products": [
+    {
+     "id": "p1",
+     "format": "checklist",
+     "tier": "starter",
+     "title": "English Conversation Checklist",
+     "description": "A quick checklist for professionals who want to polish everyday workplace English.",
+     "whats_inside": [
+      "Key phrases for meetings and emails",
+      "Pronunciation tips for common business terms",
+      "Daily practice routine"
+     ],
+     "price_inr": 99,
+     "effort_to_create": "weekend",
+     "price_rationale": "Our price guide puts checklists from creators with 5-25K followers at ₹99-₹499. We picked ₹99 so it's an easy first buy for your followers."
+    },
+    {
+     "id": "p2",
+     "format": "ebook_guide",
+     "tier": "core",
+     "title": "Professional English Ebook Guide",
+     "description": "A concise ebook for professionals to improve spoken English, covering grammar, vocabulary and confidence building.",
+     "whats_inside": [
+      "30-minute grammar refresher for business contexts",
+      "Vocabulary list with usage examples",
+      "Step‑by‑step confidence exercises"
+     ],
+     "price_inr": 399,
+     "effort_to_create": "one_week",
+     "price_rationale": "Our price guide puts ebooks and guides from creators with 5-25K followers at ₹199-₹999. We picked ₹399 so it's a step up from your ₹99 starter."
+    },
+    {
+     "id": "p3",
+     "format": "call_package",
+     "tier": "premium",
+     "title": "3‑Session One‑on‑One Coaching Package",
+     "description": "Three personal coaching calls to work on your specific English speaking challenges.",
+     "whats_inside": [
+      "Personalized feedback on your speaking style",
+      "Role‑play of real workplace scenarios",
+      "Action plan for continuous improvement"
+     ],
+     "price_inr": 1999,
+     "effort_to_create": "two_weeks",
+     "price_rationale": "Our price guide puts call packages from creators with 5-25K followers at ₹1,499-₹4,999. We picked ₹1,999 because it's your most personal offer, above your ₹399 ebook."
+    }
+   ],
+   "disclaimer": null
+  }
+ }
+}
