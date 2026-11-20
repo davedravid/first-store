@@ -15,6 +15,7 @@ await page.goto(BASE);
 await page.evaluate(() => localStorage.clear());
 await page.reload();
 await page.getByLabel("What do you do and who do you help?").fill("Main college students ko kadai mein bina oven ke cake aur cookies banana sikhati hoon. Simple recipes, hostel friendly.");
+await page.getByRole("button", { name: /Add more about you/ }).click();
 await page.getByLabel(/Instagram handle/).fill("instagram.com/bakewithanu");
 await page.getByRole("button", { name: "Under 5K" }).click();
 await page.getByRole("button", { name: "Hinglish" }).click();
