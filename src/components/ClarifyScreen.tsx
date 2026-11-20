@@ -6,9 +6,9 @@ import { ChipButton, PrimaryButton } from "./ui";
 export function ClarifyScreen(props: { question: string; suggestions: string[]; onAnswer: (text: string) => void; onBack: () => void }) {
   const [text, setText] = useState("");
   return (
-    <div className="flex min-h-dvh flex-col px-4 pb-10 pt-6">
-      <p className="text-sm font-semibold uppercase tracking-wider text-accent">One quick question</p>
-      <h1 className="mt-2 text-[24px] font-bold leading-snug">{props.question}</h1>
+    <div className="mx-auto flex min-h-dvh w-full max-w-[520px] flex-col px-4 pb-10 pt-6 lg:justify-center">
+      <p className="text-sm font-semibold uppercase tracking-wider text-stone-500">One quick question</p>
+      <h1 className="mt-2 font-[family-name:var(--font-display)] text-[26px] font-extrabold leading-tight tracking-tight lg:text-[32px]">{props.question}</h1>
       <p className="mt-2 text-base text-stone-600">Tap one, or say it in your own words.</p>
 
       <div className="mt-5 flex flex-col gap-2">
@@ -35,7 +35,7 @@ export function ClarifyScreen(props: { question: string; suggestions: string[]; 
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="e.g. I help working women do 20 minute home workouts"
-          className="mt-2 w-full resize-none rounded-2xl border border-stone-300 bg-white px-4 py-3 text-[16px] leading-6 outline-none focus:border-accent focus:ring-2 focus:ring-accent/20"
+          className="mt-2 w-full resize-none rounded-2xl border border-stone-300 bg-white px-4 py-3 text-[16px] leading-6 outline-none focus:border-stone-900 focus:ring-2 focus:ring-stone-900/10"
         />
         <PrimaryButton type="submit" disabled={!text.trim()} className="mt-3">
           Continue

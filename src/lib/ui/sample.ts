@@ -1,0 +1,62 @@
+import type { Storefront } from "@/lib/ai/schema";
+
+/** Example store for the input screen (a real v2.1 eval output, "with photos" removed). Shown as "Example", never as a real creator. */
+export const SAMPLE_STORE: Storefront = {
+  "creator": {
+    "display_name": "Priya",
+    "niche": "Yoga for new moms",
+    "niche_type": "lifestyle",
+    "safety_topic": "health",
+    "tagline": "Quick home yoga for busy new moms",
+    "bio": "I am Priya, a certified yoga teacher based in Bangalore. I create 15‑minute home workouts designed especially for new moms who can’t make it to the gym. My videos are simple, safe and fit into a busy day with a baby.",
+    "language": "en"
+  },
+  "products": [
+    {
+      "id": "p1",
+      "format": "checklist",
+      "tier": "starter",
+      "title": "15‑min Mom Yoga Checklist",
+      "description": "A quick checklist for new moms to set up a safe 15‑minute yoga session at home.",
+      "whats_inside": [
+        "Essential props and space setup",
+        "Step‑by‑step pose sequence",
+        "Safety tips for post‑partum"
+      ],
+      "price_inr": 99,
+      "effort_to_create": "weekend",
+      "price_rationale": "Our price guide puts checklists from creators with 5-25K followers at ₹99-₹499. We picked ₹99 so it's an easy first buy for your followers."
+    },
+    {
+      "id": "p2",
+      "format": "ebook_guide",
+      "tier": "core",
+      "title": "Home Yoga Routine for New Moms (eBook)",
+      "description": "A concise guide with a week‑long plan of 15‑minute yoga flows for new moms.",
+      "whats_inside": [
+        "Daily 15‑minute flow",
+        "Modifications for different fitness levels",
+        "Tips to integrate yoga with baby care"
+      ],
+      "price_inr": 199,
+      "effort_to_create": "one_week",
+      "price_rationale": "Our price guide puts ebooks and guides from creators with 5-25K followers at ₹199-₹499. We picked ₹199 so it's a step up from your ₹99 starter."
+    },
+    {
+      "id": "p3",
+      "format": "call_package",
+      "tier": "premium",
+      "title": "3 Personal Yoga Sessions (30 min each)",
+      "description": "Three private 30‑minute video calls where I guide you through tailored yoga routines.",
+      "whats_inside": [
+        "One‑on‑one video call each session",
+        "Personalised pose adjustments",
+        "Post‑session recap and next steps"
+      ],
+      "price_inr": 1999,
+      "effort_to_create": "two_weeks",
+      "price_rationale": "Our price guide puts call packages from creators with 5-25K followers at ₹1,499-₹4,999. We picked ₹1,999 because it's your most personal offer, above your ₹199 ebook."
+    }
+  ],
+  "disclaimer": "Not medical advice."
+};

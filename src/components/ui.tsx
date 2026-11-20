@@ -8,7 +8,7 @@ export function PrimaryButton(props: { children: ReactNode; onClick?: () => void
       type={props.type ?? "button"}
       onClick={props.onClick}
       disabled={props.disabled}
-      className={`min-h-[52px] w-full rounded-2xl bg-accent px-5 text-[17px] font-semibold text-white shadow-sm transition active:scale-[0.99] disabled:cursor-not-allowed disabled:bg-stone-300 disabled:text-stone-500 ${props.className ?? ""}`}
+      className={`min-h-[52px] w-full rounded-2xl bg-stone-900 px-5 text-[17px] font-semibold text-white shadow-sm transition hover:bg-stone-800 active:scale-[0.99] disabled:cursor-not-allowed disabled:bg-stone-300 disabled:text-stone-500 ${props.className ?? ""}`}
     >
       {props.children}
     </button>
@@ -36,7 +36,7 @@ export function ChipButton(props: { children: ReactNode; selected?: boolean; onC
       onClick={props.onClick}
       className={`min-h-[44px] rounded-full border px-4 text-[15px] font-medium transition ${
         props.selected
-          ? "border-accent bg-accent-soft text-accent"
+          ? "border-stone-900 bg-stone-900 text-white"
           : props.muted
             ? "border-stone-200 bg-stone-50 text-stone-400"
             : "border-stone-300 bg-white text-stone-800 active:bg-stone-100"
@@ -142,28 +142,43 @@ export function Editable(props: {
           if (v && v !== props.value) props.onChange(v);
           setEditing(false);
         }}
-        className={`autogrow ${base} resize-none border border-accent bg-white px-2 py-1 !text-[16px] outline-none ring-2 ring-accent/20`}
+        className={`autogrow ${base} resize-none border border-store bg-white px-2 py-1 !text-[16px] outline-none ring-2 ring-store/20`}
       />
     );
   return (
-    <button type="button" aria-label={`Edit ${props.label}`} onClick={() => setEditing(true)} className={`${base} -mx-2 block px-2 py-1 transition hover:bg-stone-100 active:bg-stone-100`} style={{ width: "calc(100% + 16px)" }}>
+    <button
+      type="button"
+      aria-label={`Edit ${props.label}`}
+      onClick={() => setEditing(true)}
+      className={`editable ${base} -mx-1.5 block px-1.5 py-0.5`}
+      style={{ width: "calc(100% + 12px)" }}
+    >
       {props.value}
+      <span aria-hidden="true" className="pencil flex h-6 w-6 items-center justify-center rounded-full bg-store text-white shadow">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 20h9" />
+          <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
+        </svg>
+      </span>
     </button>
   );
 }
 
-export function RegenIcon(props: { onClick: () => void; label: string }) {
+export function RegenIcon(props: { onClick: () => void; label: string; onDark?: boolean }) {
   return (
     <button
       type="button"
       onClick={props.onClick}
       aria-label={props.label}
-      className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full text-stone-500 active:bg-stone-100"
+      className={`flex min-h-[36px] items-center gap-1.5 rounded-full px-3 text-[13px] font-semibold shadow-sm transition active:scale-95 ${
+        props.onDark ? "bg-white/90 text-store-deep" : "border border-stone-200 bg-white text-stone-700"
+      }`}
     >
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M21 12a9 9 0 1 1-3-6.7" />
         <path d="M21 4v5h-5" />
       </svg>
+      New version
     </button>
   );
 }

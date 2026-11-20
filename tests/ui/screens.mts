@@ -22,9 +22,9 @@ async function shot(page: Page, name: string, full = false) {
 
 async function fillInput(page: Page) {
   await page.getByLabel("What do you do and who do you help?").fill(fx.input.description);
+  await page.getByRole("button", { name: /Add more about you/ }).click();
   await page.getByLabel(/Your name/).fill("Priya");
   await page.getByLabel(/Instagram handle/).fill("https://www.instagram.com/priya.yoga.blr/");
-  await page.getByText("+ Paste your Instagram bio").click();
   await page.getByLabel(/Your Instagram bio/).fill("Yoga for busy moms | Bangalore | 15 min a day");
   await page.getByRole("button", { name: "5K to 25K" }).click();
 }
@@ -65,6 +65,13 @@ await shot(page, "02-input-empty-hint");
 await page.getByLabel("What do you do and who do you help?").fill("I teach yoga. ".repeat(46));
 await page.getByRole("button", { name: "Build my store" }).click();
 await shot(page, "03-input-too-long");
+
+// 2b. A starter chip fills the box with an unfinished sentence, cursor at the end
+await page.getByLabel("What do you do and who do you help?").fill("");
+await page.getByRole("button", { name: "Hinglish: ghar ki baking" }).click();
+await page.keyboard.type("hostel mein rehte hain");
+console.log("starter + typing:", await page.getByLabel("What do you do and who do you help?").inputValue());
+await shot(page, "03b-starter-chip");
 
 // 3. Filled
 await fillInput(page);
@@ -113,6 +120,9 @@ await page.getByText(/Heads up/).scrollIntoViewIfNeeded();
 await shot(page, "14-price-warning");
 
 // 10. Redo all asks first, because there are edits
+await page.getByRole("button", { name: "I want this" }).first().click();
+await page.getByText("Followers will tap this on your live page.").waitFor();
+await shot(page, "14b-i-want-this-hint");
 await page.getByRole("button", { name: "Redo all" }).click();
 await shot(page, "15-redo-all-confirm");
 await page.getByRole("button", { name: "Keep what I have" }).click();
@@ -140,7 +150,7 @@ await page.getByRole("button", { name: "Edit my words" }).click();
 
 // 13. Clarify question, from the REAL API: under 4 words is answered by code, no model call
 await page.unroute("**/api/generate*");
-await page.getByRole("button", { name: "Start over with a blank page" }).click();
+await page.getByRole("button", { name: "Start over" }).click();
 await page.getByRole("button", { name: "Yes, clear everything" }).click();
 await page.getByLabel("What do you do and who do you help?").fill("fitness");
 await page.getByRole("button", { name: "Build my store" }).click();

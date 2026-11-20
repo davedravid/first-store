@@ -6,6 +6,7 @@ import { generate, regenerate, type RegenTarget, type UiError } from "@/lib/ui/a
 import { normalizeHandle } from "@/lib/ui/handle";
 import { buildRationale } from "@/lib/ai/validators";
 import { creatorRationale } from "@/lib/ui/pricing";
+import { themeFor } from "@/lib/ui/theme";
 import { clearSaved, emptyInput, loadSaved, save, type PriceOverride, type Saved, type Screen } from "@/lib/ui/storage";
 import { ClarifyScreen } from "./ClarifyScreen";
 import { Editor, type RegenOutcome } from "./Editor";
@@ -171,34 +172,31 @@ export default function App() {
     setState({ v: 1, screen: "input", input: emptyInput(), handleRaw: "", storefront: null, edited: false, prices: {}, clarify: null });
   };
 
+  // One accent per store: from the finished store (topic, niche), else the creator's own words.
+  const theme = themeFor(state.storefront, state.input);
+  const loadingTheme = themeFor(null, state.input);
+
   return (
-    <main className="mx-auto w-full max-w-[480px]">
+    <main className="w-full">
       {state.screen === "input" && (
-        <>
-          <InputScreen
-            input={state.input}
-            handleRaw={state.handleRaw}
-            hint={hint}
-            hasStore={Boolean(state.storefront)}
-            busy={false}
-            onChange={(input, handleRaw) => {
-              if (hint) setHint(null);
-              setState((s) => ({ ...s, input, handleRaw: handleRaw ?? s.handleRaw }));
-            }}
-            onSubmit={submit}
-            onBackToStore={() => go("editor")}
-          />
-          {(state.storefront || state.input.description) && (
-            <div className="-mt-28 mb-32 px-4 text-center">
-              <button type="button" onClick={() => setConfirm("startover")} className="min-h-[44px] text-sm text-stone-500 underline">
-                Start over with a blank page
-              </button>
-            </div>
-          )}
-        </>
+        <InputScreen
+          input={state.input}
+          handleRaw={state.handleRaw}
+          hint={hint}
+          hasStore={Boolean(state.storefront)}
+          canStartOver={Boolean(state.storefront || state.input.description)}
+          onChange={(input, handleRaw) => {
+            if (hint) setHint(null);
+            setState((s) => ({ ...s, input, handleRaw: handleRaw ?? s.handleRaw }));
+          }}
+          onSubmit={submit}
+          onBackToStore={() => go("editor")}
+          onStartOver={() => setConfirm("startover")}
+        />
       )}
       {state.screen === "generating" && (
         <GeneratingScreen
+          theme={loadingTheme}
           onCancel={() => {
             abort.current?.abort();
             go("input");
@@ -222,6 +220,7 @@ export default function App() {
         <Editor
           input={state.input}
           storefront={state.storefront}
+          theme={theme}
           prices={state.prices}
           busyBlock={busyBlock}
           onEdit={(sf) => setState((s) => ({ ...s, storefront: sf, edited: true }))}

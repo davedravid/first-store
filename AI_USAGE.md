@@ -116,3 +116,23 @@ One entry per session with the AI coding assistant (Claude Code). Newest at the 
 - The name and tagline were left-aligned under a centred avatar.
 - Its scroll fix crashed the app: newer Chrome returns a promise from scrollTo, and React took that as the effect's cleanup. Caught on the next screenshot run.
 - My two API key lines in .env.local have a stray space; it trimmed the values when sending them to Vercel instead of editing my lines.
+
+## 2026-11-20: UI redesign before publishing
+
+**What I asked:** After reviewing the first UI myself, I flagged that it looked like a form, not a product, and was a narrow column in empty space on desktop. I asked for one storefront component shared by the editor and the future public page, an accent colour by niche, a shorter input screen with example chips and folded optional fields, a desktop layout (form plus sample store; editor in a phone frame with a side panel), clearer editing cues, a "New version" label, a quiet "Redo all", a collapsible editor-only "Why this price", and a loading skeleton in the new shape. My tweaks: chips put an unfinished starter sentence in the box with the cursor at the end, plus one Hinglish chip; the accent comes from the model's niche and safety_topic first, keywords only as backup; fonts through next/font; the "I want this" button only shows a hint in the editor. Time box about 1.5 hours.
+
+**What it built:**
+- `Storefront` component with an edit mode (pencils, "New version", price hints) and a public mode (none of those).
+- 8 accents picked by safety_topic, then the model's niche, then the creator's words; a test checks every accent passes WCAG AA, and that "budget outfits for college" stays fashion, not finance.
+- Bricolage Grotesque for names, titles and prices via next/font (self-hosted, no call to Google from the phone); Geist for body text.
+- Input screen with 6 starter chips (one Hinglish), the optional fields folded away and, on desktop, a sample store in a phone frame.
+- Editor in a phone frame with a side panel on desktop; Publish is the only primary button.
+- Before and after screenshots at 390 px and 1280 px, stitched side by side in docs/screenshots/compare.
+
+**What I changed or rejected:** the 4 tweaks above.
+
+**What it got wrong:**
+- It labelled the Core tier "Most popular", which is invented social proof; caught and changed back to "Core" before any screenshot.
+- The header band and hover outline read a colour variable that is resolved once for the whole page, so every store came out teal. Caught in the first screenshots.
+- Starter chips first moved the cursor one frame after the tap, so the first word typed was lost ("hostel mein" became "mein"), and iPhones might not have opened the keyboard. Caught by the behaviour script; focus now happens inside the tap.
+- The loading skeleton showed the default teal tint and the avatar sat behind the band; fixed on the next pass.

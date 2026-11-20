@@ -14,6 +14,10 @@
   --color-accent-soft: #fff1e8;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-display), var(--font-geist-sans), system-ui, sans-serif;
+  --color-store: var(--accent, #0f766e);
+  --color-store-tint: var(--tint, #ccfbf1);
+  --color-store-deep: var(--deep, #134e4a);
 }
 
 body {
@@ -21,6 +25,35 @@ body {
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
   -webkit-tap-highlight-color: transparent;
+}
+
+/* Editable text: a dashed outline and a pencil on hover; on touch phones (no hover) a faint outline always. */
+.editable {
+  position: relative;
+  outline: 1.5px dashed transparent;
+  outline-offset: 2px;
+  transition: outline-color 120ms, background-color 120ms;
+}
+.editable .pencil {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  opacity: 0;
+  transition: opacity 120ms;
+}
+@media (hover: hover) {
+  .editable:hover {
+    outline-color: color-mix(in srgb, var(--accent, #0f766e) 55%, transparent);
+    background-color: color-mix(in srgb, var(--tint, #ccfbf1) 45%, transparent);
+  }
+  .editable:hover .pencil {
+    opacity: 1;
+  }
+}
+@media (hover: none) {
+  .editable {
+    outline-color: rgb(28 25 23 / 0.08);
+  }
 }
 
 /* Textareas grow with their text where the browser supports it. */
@@ -40,4 +73,38 @@ textarea.autogrow {
 }
 @media (prefers-reduced-motion: reduce) {
   .skeleton { animation: none; }
+}
+
+/* A phone-sized frame for the store on desktop. */
+.phone-frame {
+  width: 390px;
+  height: min(780px, calc(100dvh - 64px));
+  border-radius: 44px;
+  border: 10px solid #1c1917;
+  box-shadow: 0 30px 60px -20px rgb(28 25 23 / 0.35);
+  overflow: hidden;
+  background: #fff;
+}
+.phone-frame > .phone-scroll {
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+/* The editor's store: full width on phones, a phone frame on desktop. */
+@media (min-width: 1024px) {
+  .frame-lg {
+    width: 390px;
+    height: min(800px, calc(100dvh - 64px));
+    border-radius: 44px;
+    border: 10px solid #1c1917;
+    box-shadow: 0 30px 60px -20px rgb(28 25 23 / 0.35);
+    overflow: hidden;
+    background: #fff;
+  }
+  .frame-lg > .phone-scroll {
+    height: 100%;
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
 }
