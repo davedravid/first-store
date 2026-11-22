@@ -1,3 +1,24 @@
+# How I used AI on this project
+
+I built First Store with Claude Code doing most of the engineering. My job was the product: I wrote the context and the spec, decided what to build and what to leave out, set the rules the AI had to follow and reviewed everything it produced before it shipped. Its job was to turn that into working code, run the tests and tell me plainly what broke.
+
+**How I worked with it.** For every big piece I asked for a plan in plain language first and approved or changed it before any code was written. I kept secrets out of its hands: I typed API keys into the env file myself and it only ever checked them as "present, N characters". I asked it to log every session below, including what it got wrong.
+
+**What it was good at.** Speed and stamina. It wrote the engine, the validators, 51 unit tests, an eval harness and the Playwright scripts and it was good at finding its own bugs once a screenshot or a test showed them. It was also honest about numbers when I asked it to check them against the data.
+
+**Where I had to step in.** Mostly where a check passed but the product was wrong:
+
+- **Invented names.** After v2 scored 22/25, I read the stores and found creators called "Rahul", "Anu" and "Meera" who had never given a name. I made names a code rule.
+- **Price explanations.** The model's "why this price" lines were generic and could disagree with the final price. I had code write them from the real price band.
+- **Finance safety.** A "safe" stock-tips store still offered to review the buyer's own trading. I pushed for stricter rules and fixed disclaimers and I kept rule language like "no financial advice" out of the creator's copy.
+- **Overstated results.** Its first v2.1 run said 13/13. When we read the pages again it was really 11/13 and the honest path is written up in the eval results.
+- **The UI and colours.** The first UI looked like a form and the warm background clashed with the niche colours. I sent it back twice. It also once labelled a tier "Most popular", which is invented social proof; it caught that one itself.
+- **The assignment PDF.** It committed the brief to the public repo on day one. I caught it and had it removed from the git history.
+
+The dated log below is the full record, one entry per session, newest at the bottom.
+
+---
+
 # AI usage log
 
 One entry per session with the AI coding assistant (Claude Code). Newest at the bottom.
@@ -156,3 +177,22 @@ One entry per session with the AI coding assistant (Claude Code). Newest at the 
 - React's lint caught two effects that set state in a way that causes extra renders; rewritten.
 - The contact box first opened an email keyboard on phones, which makes typing a WhatsApp number harder.
 - The missing-store page returns HTTP 200 instead of 404, a side effect of streaming in this Next.js version. People see the right page; only search engines see the code. Left as is.
+
+## 2026-11-22: Final polish, QA and docs
+
+**What I asked:** On the last day, a visual polish (a white app shell with the niche colour only inside the store, a solid avatar, a plain gradient band, lighter tints and a card header that never wraps), a real 404 for missing stores, gentle warnings at publish for the creator's own edits, a reset-stats script, a live QA pass with at most 3 real generations, a secrets scan and the repo docs rewritten in my voice for the reviewer.
+
+**What it built:**
+- The polish, checked at 390px and 1280px in docs/screenshots/final.
+- A proxy that checks the store exists before the page starts, so a missing store gets a real 404.
+- Publish-time warnings for hype words, unsafe claims and prices outside the guide, with "Publish anyway".
+- `npm run reset-stats` (a dry run unless given --yes).
+- Live QA: 15/15 checks pass (docs/QA_REPORT.md). Secrets scan of the code and full history: clean.
+- README, product spec, AI design, eval write-up and QA report rewritten for a reader.
+
+**What I changed or rejected:** I flagged the colour clash and the overflowing card header after reviewing the redesign.
+
+**What it got wrong:**
+- Two QA checks failed on the first run because its test script checked the screen before the server had answered. It fixed the script and re-ran them; the app was fine.
+- In the docs it first quoted a model phrase about pricing that it could not verify and wrote that no creator had typed the name "Rahul" when it came from a handle. Both were reworded before commit.
+- It first wrote the README's example creator as "she"; changed to "they".

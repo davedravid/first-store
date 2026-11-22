@@ -1,0 +1,104 @@
+{
+  "base": "https://first-store-nine.vercel.app",
+  "at": "2026-11-22T05:35:13.888Z",
+  "slug": "scriptalertxssscriptpriy-69e7",
+  "results": [
+    {
+      "check": "One-word input (\"fitness\")",
+      "expected": "clarify question, no AI call",
+      "got": "question: You said \"fitness\". Who do you help, and with what?",
+      "pass": true,
+      "ms": 945
+    },
+    {
+      "check": "Gibberish (5 nonsense words)",
+      "expected": "clarify question with 3 suggestions",
+      "got": "question: What kind of content or products do you create for your audience?",
+      "pass": true,
+      "ms": 1932
+    },
+    {
+      "check": "?simulate=fail",
+      "expected": "friendly error screen with Try again, input kept",
+      "got": "error screen: Something went wrong on our side",
+      "pass": true,
+      "ms": 394
+    },
+    {
+      "check": "Input kept after an error",
+      "expected": "same words in the box",
+      "got": "I teach Excel shortcuts to accountants w...",
+      "pass": true
+    },
+    {
+      "check": "?simulate=slow (Groq hangs, Gemini takes over)",
+      "expected": "honest 'taking longer' hint, then a store",
+      "got": "store; hint after 11 s: \"Taking longer than usual. Our main AI is slow, so we are asking our backup.\"",
+      "pass": true,
+      "ms": 12611
+    },
+    {
+      "check": "Normal Hinglish input",
+      "expected": "a store in the editor",
+      "got": "store",
+      "pass": true,
+      "ms": 2923
+    },
+    {
+      "check": "Publish",
+      "expected": "live screen with link",
+      "got": "published /s/scriptalertxssscriptpriy-69e7",
+      "pass": true
+    },
+    {
+      "check": "Script injection in name and bio",
+      "expected": "shown as plain text, nothing runs",
+      "got": "dialogs fired: 0; <img> tags in page: 0; name shown as text: true",
+      "pass": true
+    },
+    {
+      "check": "\"I want this\" with a bad number (12345)",
+      "expected": "friendly inline error, nothing saved",
+      "got": "inline error shown",
+      "pass": true,
+      "note": "re-checked: first run did not wait for the server"
+    },
+    {
+      "check": "Bad slug /s/nobody-zz99",
+      "expected": "404 with a friendly page",
+      "got": "404 friendly page",
+      "pass": true
+    },
+    {
+      "check": "Bad slug /s/BAD!!slug",
+      "expected": "404 with a friendly page",
+      "got": "404 friendly page",
+      "pass": true
+    },
+    {
+      "check": "Bad slug /s/a",
+      "expected": "404 with a friendly page",
+      "got": "404 friendly page",
+      "pass": true
+    },
+    {
+      "check": "Edit link with a wrong token",
+      "expected": "friendly 'link does not work', no data",
+      "got": "friendly message",
+      "pass": true,
+      "note": "re-checked: first run did not wait for the server"
+    },
+    {
+      "check": "Store API with a wrong token",
+      "expected": "404, no store data",
+      "got": "404",
+      "pass": true
+    },
+    {
+      "check": "Generate API with 5,000 characters",
+      "expected": "400 TOO_LONG, no AI call",
+      "got": "400 TOO_LONG",
+      "pass": true
+    }
+  ]
+}

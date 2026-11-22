@@ -1,5 +1,6 @@
 /**
- * Builds evals/results.md from evals/runs/v1.json and v2.json. No model calls.
+ * Builds evals/results.generated.md (the raw tables and stores) from the saved runs. No model calls.
+ * evals/results.md is the edited write-up built from it, so this script never overwrites it.
  * Run: node --import tsx evals/report.mts
  *
  * v1 and v2 numbers are frozen as published: v1 comes from runs/v1-rescored.json (v1 pages checked with the v2 rules),
@@ -233,5 +234,5 @@ ${RATE21.map((id, i) => renderStore(cases.find((c) => c.id === id)!, v21[id], i 
     : ""
 }`;
 
-writeFileSync("evals/results.md", md);
-console.log(`results.md written. v1 ${p1}/25 (original rules ${v1OriginalPass}/25), v2 ${p2}/25, v2.1 ${p21}/${v21Ids.length}. Stores to rate: ${RATE.length} + ${RATE21.length}`);
+writeFileSync("evals/results.generated.md", md);
+console.log(`results.generated.md written. v1 ${p1}/25 (original rules ${v1OriginalPass}/25), v2 ${p2}/25, v2.1 ${p21}/${v21Ids.length}. Stores to rate: ${RATE.length} + ${RATE21.length}`);
