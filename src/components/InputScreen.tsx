@@ -89,8 +89,8 @@ export function InputScreen(props: {
           <p className="mt-3 text-[17px] leading-6 text-stone-600 lg:text-[19px]">Your bio, 3 products and prices, in under a minute.</p>
 
           {props.hasStore && (
-            <button type="button" onClick={props.onBackToStore} className="mt-5 flex min-h-[48px] w-full items-center justify-between rounded-2xl bg-stone-900 px-4 text-left text-[15px] font-semibold text-white">
-              Back to my store <span aria-hidden="true">→</span>
+            <button type="button" onClick={props.onBackToStore} className="mt-3 min-h-[44px] text-[15px] font-semibold text-stone-900 underline underline-offset-4">
+              Back to my store →
             </button>
           )}
 

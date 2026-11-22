@@ -49,3 +49,6 @@ evals/ledger.json
 
 .vercel
 .env*
+
+# private writing samples, never committed
+voice-sample/

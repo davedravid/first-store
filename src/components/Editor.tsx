@@ -125,7 +125,7 @@ export function Editor(props: {
       {/* The store: full width on phones, a phone frame on desktop */}
       <div className="frame-lg">
         <div className="phone-scroll">
-          <p className="mx-4 mt-3 rounded-xl bg-white px-3 py-2 text-[14px] text-stone-600 shadow-sm lg:hidden">Tap any text to change it. Tap <b>New version</b> for a fresh take on a block.</p>
+          <p className="mx-4 my-3 rounded-xl border border-stone-200 bg-white px-3 py-2 text-[14px] text-stone-600 lg:hidden">Tap any text to change it. Tap <b>New version</b> for a fresh take on a block.</p>
           <Storefront store={sf} theme={theme} edit={hooks} wantCounts={props.wantCounts} />
         </div>
       </div>

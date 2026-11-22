@@ -38,9 +38,9 @@ export function GeneratingScreen(props: { theme: Theme; onCancel: () => void }) 
       </div>
 
       <div className="frame-lg">
-        <div className="phone-scroll bg-[#fbfaf8]">
+        <div className="phone-scroll bg-[#f6f7f9]">
           <div className="h-28" style={{ background: "linear-gradient(135deg, var(--accent), var(--deep))", opacity: 0.85 }} />
-          <div className="relative z-10 mx-auto -mt-12 h-24 w-24 rounded-full bg-store-tint ring-4 ring-[#fbfaf8]" />
+          <div className="relative z-10 mx-auto -mt-12 h-24 w-24 rounded-full bg-store opacity-30 ring-4 ring-[#f6f7f9]" />
           <div className="flex flex-col items-center px-5">
             <div className="mt-4 h-7 w-44 animate-pulse rounded-lg bg-store-tint" />
             <div className="skeleton mt-2 h-4 w-60" />

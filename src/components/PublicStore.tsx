@@ -45,7 +45,7 @@ export function PublicStore(props: { slug: string; store: Store }) {
   }
 
   return (
-    <main className="mx-auto min-h-dvh w-full max-w-[480px] bg-[#fbfaf8] lg:my-8 lg:min-h-0 lg:overflow-hidden lg:rounded-[32px] lg:shadow-xl">
+    <main className="mx-auto min-h-dvh w-full max-w-[480px] bg-[#f6f7f9] lg:my-8 lg:min-h-0 lg:overflow-hidden lg:rounded-[32px] lg:border lg:border-stone-200 lg:shadow-xl">
       <Storefront store={store} theme={theme} onWant={open} />
       <p className="pb-8 text-center text-xs text-stone-400">
         <Link href="/" className="underline underline-offset-2">

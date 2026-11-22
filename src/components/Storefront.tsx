@@ -43,11 +43,11 @@ export function Storefront(props: { store: Store; theme: Theme; edit?: EditHooks
     edit ? <Editable label={label} value={value} onChange={onChange} className={className} maxLength={max} singleLine={singleLine} /> : <p className={className}>{value}</p>;
 
   return (
-    <article style={themeVars(theme) as CSSProperties} className="min-h-full bg-[#fbfaf8] pb-8 text-stone-900">
+    <article style={themeVars(theme) as CSSProperties} className="min-h-full bg-[#f6f7f9] pb-8 text-stone-900">
       {/* Header band */}
       <div
         className="relative h-28 bg-store"
-        style={{ backgroundImage: "radial-gradient(circle at 20% 20%, rgb(255 255 255 / 0.18) 0 2px, transparent 3px), linear-gradient(135deg, var(--accent), var(--deep))", backgroundSize: "22px 22px, 100% 100%" }}
+        style={{ background: "linear-gradient(160deg, var(--accent) 0%, var(--deep) 100%)" }}
       >
         {edit && (
           <div className="absolute right-3 top-3">
@@ -58,7 +58,7 @@ export function Storefront(props: { store: Store; theme: Theme; edit?: EditHooks
 
       {/* Profile */}
       <section aria-label="About" className={`relative px-5 text-center ${edit?.busyBlock === "about" ? "opacity-50" : ""}`}>
-        <div className="mx-auto -mt-12 flex h-24 w-24 items-center justify-center rounded-full bg-store-tint font-[family-name:var(--font-display)] text-3xl font-extrabold text-store ring-4 ring-[#fbfaf8]" aria-hidden="true">
+        <div className="relative mx-auto -mt-12 flex h-24 w-24 items-center justify-center rounded-full bg-store font-[family-name:var(--font-display)] text-3xl font-extrabold text-white shadow-md ring-4 ring-[#f6f7f9]" aria-hidden="true">
           {initialsOf(c.display_name)}
         </div>
         <div className="mt-3">{text("name", c.display_name, (v) => edit?.onCreator({ display_name: v }), "text-center font-[family-name:var(--font-display)] text-[26px] font-extrabold leading-tight tracking-tight", 40, true)}</div>
@@ -97,10 +97,10 @@ function ProductCard(props: {
 
   return (
     <section aria-label={p.title} className={`rounded-3xl border border-stone-200/80 bg-white p-5 shadow-[0_1px_2px_rgb(0_0_0/0.04),0_8px_24px_-12px_rgb(0_0_0/0.12)] ${busy ? "opacity-50" : ""}`}>
-      <div className="flex items-start justify-between gap-2">
-        <div className="flex flex-wrap items-center gap-1.5 pt-1">
-          <span className="rounded-full bg-store-tint px-2.5 py-1 text-[12px] font-bold uppercase tracking-wide text-store">{TIER_LABEL[p.tier]}</span>
-          <span className="rounded-full bg-stone-100 px-2.5 py-1 text-[12px] font-medium text-stone-600">{FORMAT_LABEL[p.format]}</span>
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex min-w-0 items-center gap-1.5 overflow-hidden whitespace-nowrap">
+          <span className="shrink-0 rounded-full bg-store-tint px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-store">{TIER_LABEL[p.tier]}</span>
+          <span className="truncate rounded-full bg-stone-100 px-2 py-0.5 text-[11px] font-medium text-stone-600">{FORMAT_LABEL[p.format]}</span>
         </div>
         {edit && <RegenIcon label={`New version of ${p.title}`} onClick={() => edit.onRegen({ kind: "product", productId: p.id })} />}
       </div>
@@ -110,7 +110,7 @@ function ProductCard(props: {
       <ul className="mt-3 space-y-1.5">
         {p.whats_inside.map((w, j) => (
           <li key={j} className="flex items-start gap-2.5 text-[15px] leading-6 text-stone-700">
-            <svg className="mt-[5px] shrink-0 text-store" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <svg className="mt-[5px] shrink-0 text-store opacity-80" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M20 6 9 17l-5-5" />
             </svg>
             <div className="min-w-0 flex-1">{text(`point ${j + 1}`, w, (v) => edit?.onProduct(p.id, { whats_inside: p.whats_inside.map((x, k) => (k === j ? v : x)) }), "", 80, true)}</div>

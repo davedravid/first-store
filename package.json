@@ -10,7 +10,8 @@
     "test": "vitest run",
     "evals:v1": "node --env-file=.env.local --import tsx evals/run.mts v1",
     "evals:v2": "node --env-file=.env.local --import tsx evals/run.mts v2",
-    "evals:report": "node --import tsx evals/report.mts"
+    "evals:report": "node --import tsx evals/report.mts",
+    "reset-stats": "node --env-file=.env.local --import tsx scripts/reset-stats.mts"
   },
   "dependencies": {
     "@google/genai": "^3.6.1",

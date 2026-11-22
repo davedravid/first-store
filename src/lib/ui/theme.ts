@@ -10,14 +10,14 @@ export type ThemeName = "fitness" | "finance" | "cooking" | "design" | "exam" | 
 export type Theme = { name: ThemeName; accent: string; tint: string; deep: string };
 
 export const THEMES: Record<ThemeName, Theme> = {
-  fitness: { name: "fitness", accent: "#15803d", tint: "#dcfce7", deep: "#14532d" },
-  finance: { name: "finance", accent: "#1e3a8a", tint: "#dbeafe", deep: "#172554" },
-  cooking: { name: "cooking", accent: "#c2410c", tint: "#ffedd5", deep: "#7c2d12" },
-  design: { name: "design", accent: "#6d28d9", tint: "#ede9fe", deep: "#4c1d95" },
-  exam: { name: "exam", accent: "#1d4ed8", tint: "#dbeafe", deep: "#1e3a8a" },
-  astrology: { name: "astrology", accent: "#6b21a8", tint: "#f3e8ff", deep: "#3b0764" },
-  fashion: { name: "fashion", accent: "#be123c", tint: "#ffe4e6", deep: "#881337" },
-  default: { name: "default", accent: "#0f766e", tint: "#ccfbf1", deep: "#134e4a" },
+  fitness: { name: "fitness", accent: "#047857", tint: "#ecfdf5", deep: "#064e3b" },
+  finance: { name: "finance", accent: "#1e40af", tint: "#eff6ff", deep: "#1e2a6b" },
+  cooking: { name: "cooking", accent: "#c2410c", tint: "#fff7ed", deep: "#8a2c0a" },
+  design: { name: "design", accent: "#6d28d9", tint: "#f5f3ff", deep: "#4c1d95" },
+  exam: { name: "exam", accent: "#1d4ed8", tint: "#eff6ff", deep: "#1e3a8a" },
+  astrology: { name: "astrology", accent: "#6b21a8", tint: "#faf5ff", deep: "#3b0764" },
+  fashion: { name: "fashion", accent: "#be123c", tint: "#fff1f2", deep: "#881337" },
+  default: { name: "default", accent: "#0f766e", tint: "#f0fdfa", deep: "#134e4a" },
 };
 
 // Checked in this order; the first match wins.

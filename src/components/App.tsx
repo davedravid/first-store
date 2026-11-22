@@ -7,6 +7,7 @@ import { normalizeHandle } from "@/lib/ui/handle";
 import { buildRationale } from "@/lib/ai/validators";
 import { creatorRationale } from "@/lib/ui/pricing";
 import { themeFor } from "@/lib/ui/theme";
+import { publishWarnings } from "@/lib/ui/publish-check";
 import { track } from "@/lib/ui/track";
 import { clearSaved, emptyInput, loadSaved, save, type PriceOverride, type Saved, type Screen } from "@/lib/ui/storage";
 import { ClarifyScreen } from "./ClarifyScreen";
@@ -16,7 +17,7 @@ import { GeneratingScreen } from "./GeneratingScreen";
 import { InputScreen, MAX_CHARS } from "./InputScreen";
 import { PublishedScreen } from "./PublishedScreen";
 import Link from "next/link";
-import { ConfirmSheet, Toast } from "./ui";
+import { ConfirmSheet, PrimaryButton, SecondaryButton, Sheet, Toast } from "./ui";
 
 type Undo = { label: string; storefront: Storefront; prices: Record<string, PriceOverride>; edited: boolean };
 
@@ -40,6 +41,7 @@ export default function App(props: { editSlug?: string }) {
   const [state, setState] = useState<Saved>(initial);
   const [interest, setInterest] = useState<Interest | null>(null);
   const [publishing, setPublishing] = useState(false);
+  const [warnings, setWarnings] = useState<string[] | null>(null);
   const [justPublished, setJustPublished] = useState(false);
   // The edit token comes from the link (#k=...) or, on the creator's own phone, from the saved draft.
   const [editToken] = useState<string | null>(() => {
@@ -322,7 +324,12 @@ export default function App(props: { editSlug?: string }) {
           published={state.published ? { slug: state.published.slug, hasChanges: state.edited } : null}
           publishing={publishing}
           wantCounts={interest?.counts}
-          onPublish={doPublish}
+          onPublish={() => {
+            // Gentle, non-blocking: the creator's own edits are checked against the same rules, then they decide.
+            const w = state.storefront ? publishWarnings(state.input, state.storefront) : [];
+            if (w.length) setWarnings(w);
+            else void doPublish();
+          }}
           onShowLive={() => go("published")}
           onPrice={setPrice}
           onRegenerate={regen}
@@ -342,6 +349,28 @@ export default function App(props: { editSlug?: string }) {
           onRefresh={refreshInterest}
         />
       )}
+
+      <Sheet open={warnings !== null} title="A few things to check" onClose={() => setWarnings(null)}>
+        <p className="text-[15px] leading-6 text-stone-600">Some of your edits break the rules we use for the AI&apos;s writing. It is your page, so you decide.</p>
+        <ul className="mt-3 space-y-2">
+          {(warnings ?? []).map((w) => (
+            <li key={w} className="rounded-xl bg-amber-50 px-3 py-2 text-[14px] leading-5 text-amber-950">
+              {w}
+            </li>
+          ))}
+        </ul>
+        <div className="mt-5 flex flex-col gap-3">
+          <SecondaryButton onClick={() => setWarnings(null)}>Let me fix them</SecondaryButton>
+          <PrimaryButton
+            onClick={() => {
+              setWarnings(null);
+              void doPublish();
+            }}
+          >
+            Publish anyway
+          </PrimaryButton>
+        </div>
+      </Sheet>
 
       <ConfirmSheet
         open={confirm === "redo"}

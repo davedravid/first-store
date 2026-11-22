@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default function Page({ params }: Props) {
   return (
-    <Suspense fallback={<div className="mx-auto min-h-dvh max-w-[480px] bg-[#fbfaf8]" aria-busy="true" />}>
+    <Suspense fallback={<div className="mx-auto min-h-dvh max-w-[480px] bg-[#f6f7f9]" aria-busy="true" />}>
       <Store params={params} />
     </Suspense>
   );

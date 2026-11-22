@@ -170,11 +170,11 @@ export function RegenIcon(props: { onClick: () => void; label: string; onDark?: 
       type="button"
       onClick={props.onClick}
       aria-label={props.label}
-      className={`flex min-h-[36px] items-center gap-1.5 rounded-full px-3 text-[13px] font-semibold shadow-sm transition active:scale-95 ${
-        props.onDark ? "bg-white/90 text-store-deep" : "border border-stone-200 bg-white text-stone-700"
+      className={`flex min-h-[36px] shrink-0 items-center gap-1 whitespace-nowrap rounded-full px-2.5 text-[12px] font-semibold transition active:scale-95 ${
+        props.onDark ? "bg-white/90 text-store-deep shadow-sm" : "border border-stone-200 bg-white text-stone-700"
       }`}
     >
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M21 12a9 9 0 1 1-3-6.7" />
         <path d="M21 4v5h-5" />
       </svg>

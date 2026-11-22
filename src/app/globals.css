@@ -2,7 +2,7 @@
 
 /* One light theme. Warm paper background, ink text, one orange accent. */
 :root {
-  --background: #faf7f2;
+  --background: #ffffff;
   --foreground: #1c1917;
   color-scheme: light;
 }
@@ -66,7 +66,7 @@ textarea.autogrow {
   100% { background-position: 300px 0; }
 }
 .skeleton {
-  background: linear-gradient(90deg, #ece7df 0px, #f6f2ec 120px, #ece7df 240px);
+  background: linear-gradient(90deg, #eceef1 0px, #f6f7f9 120px, #eceef1 240px);
   background-size: 600px 100%;
   animation: shimmer 1.4s linear infinite;
   border-radius: 8px;
