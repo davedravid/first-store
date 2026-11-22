@@ -2,7 +2,7 @@
 
 First Store turns a creator's one-line description into a store they can share: a bio, three products with prices and a public page with an "I want this" button. I built it for India's long tail of creators, who sign up for SuperProfile, land on an empty store and stall.
 
-**Live:** https://first-store-nine.vercel.app · **Walkthrough:** [LOOM LINK]
+**Live:** https://first-store-nine.vercel.app · **Recording:** [watch the walkthrough](https://drive.google.com/file/d/1X4_KXiUGAYW_b4mlLybI8P2ByFM9dQyh/view?usp=sharing)
 
 ## The problem I am solving
 
