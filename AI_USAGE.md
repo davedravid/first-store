@@ -1,3 +1,52 @@
+# The AI in First Store
+
+## Basic idea: AI writes the content. Code checks and controls it.
+
+- AI chooses the product types and tiers.
+- Code sets the final prices using predefined price ranges. It also ensures Premium costs more than Core, and Core more than Starter.
+- AI writes the bio, tagline, product titles, descriptions and bullet points.
+- Code checks for exaggerated claims, unsafe words, unpromised extras and incorrect language.
+- AI identifies the creator's niche and safety category.
+- Code flags names or numbers the creator never provided.
+- AI asks a question if the creator's input is unclear.
+- Code sends inputs under 4 words directly to a clarification question without calling AI.
+- Code also generates price explanations and finance, health and astrology disclaimers.
+
+## How one store is generated
+
+1. Code checks the input. Empty and very long inputs are stopped. Emoji-only, handle-only and inputs under 4 words get one clarifying question, with no AI call.
+2. The creator's text is passed to AI as data, so hidden instructions inside it are ignored.
+3. Groq generates the store in a fixed JSON format.
+4. Code checks the output. If something is wrong, AI gets one chance to fix it.
+5. If Groq fails, takes over 10 seconds or is rate-limited, Gemini is used.
+6. If both fail, the creator sees a retry message. Their input is not lost.
+
+## How I tested the AI
+
+- I tested 25 inputs: 15 realistic creators from different niches and 10 difficult cases.
+- Difficult cases included gibberish, one-word inputs, stock tips, medical claims, prompt injection and Hindi text.
+
+| Version | What changed | Passed |
+|---|---|---|
+| v1 | First prompt, basic checks | 2/25 |
+| v2 | Better prompt, code checks and one retry | 22/25 |
+| v2.1 | Improvements after reviewing the stores | 12/13 |
+
+- In v2, AI got the price within the correct range for 16 of 21 pages. Code corrected the remaining prices.
+- My manual review caught issues the automated checks missed: invented names, generic price explanations, unsafe stock advice and incorrect wording in bios.
+- Word-based checks cannot catch every possible issue. Finance and health pages should have human review before a wider launch.
+
+## Speed and cost
+
+- Typical generation time: around 2.5 seconds (median). Live site: 2.9 seconds.
+- 5 out of 12 cases needed a second attempt.
+- Around 3,300 tokens per store, or 6,200 when a retry is needed (about 4,500 on average).
+- Current cost: ₹0 per store using free tiers.
+- Daily limit of 50 stores and a per-device limit help control usage.
+- p95 response time and Lighthouse scores are still pending from QA.
+
+---
+
 # How I used AI on this project
 
 I built First Store with Claude Code doing most of the engineering. My job was the product: I wrote the context and the spec, decided what to build and what to leave out, set the rules the AI had to follow and reviewed everything it produced before it shipped. Its job was to turn that into working code, run the tests and tell me plainly what broke.
